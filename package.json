@@ -11,6 +11,8 @@
     "test:watch": "vitest",
     "lint": "pnpm -r run lint",
     "seed": "pnpm --filter @nexus/api seed",
+    "agency:orchestrate": "node scripts/agency-orchestrator.mjs",
+    "agency:install": "powershell -ExecutionPolicy Bypass -File scripts/install-agency-agents.ps1",
     "clean": "pnpm -r run clean"
   },
   "devDependencies": {

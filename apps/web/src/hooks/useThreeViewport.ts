@@ -363,5 +363,44 @@ export function useThreeViewport({
       particlesRef.current = [];
     };
   }, [buildScene, selectedNodeId, highlightedNodeIds, highlightNodes, onNodeClick]);
+
+  const setCameraPreset = useCallback((preset: 'orbital' | 'top-down' | 'ingress') => {
+    if (preset === 'orbital') {
+      sphericalRef.current = { theta: 0.6, phi: 1.0, radius: 80 };
+    } else if (preset === 'top-down') {
+      sphericalRef.current = { theta: 0, phi: 0.1, radius: 100 };
+    } else if (preset === 'ingress') {
+      sphericalRef.current = { theta: 1.2, phi: 1.25, radius: 35 };
+    }
+    if (cameraRef.current) {
+      updateCameraFromSpherical(cameraRef.current);
+    }
+  }, []);
+
+  const zoomIn = useCallback(() => {
+    if (!cameraRef.current) return;
+    sphericalRef.current.radius = Math.max(25, sphericalRef.current.radius - 12);
+    updateCameraFromSpherical(cameraRef.current);
+  }, []);
+
+  const zoomOut = useCallback(() => {
+    if (!cameraRef.current) return;
+    sphericalRef.current.radius = Math.min(180, sphericalRef.current.radius + 12);
+    updateCameraFromSpherical(cameraRef.current);
+  }, []);
+
+  const resetCamera = useCallback(() => {
+    sphericalRef.current = { theta: 0.6, phi: 1.0, radius: 80 };
+    if (cameraRef.current) {
+      updateCameraFromSpherical(cameraRef.current);
+    }
+  }, []);
+
+  return {
+    setCameraPreset,
+    zoomIn,
+    zoomOut,
+    resetCamera
+  };
 }
 

@@ -106,7 +106,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
     []
   );
 
-  useThreeViewport({
+  const { setCameraPreset, zoomIn, zoomOut, resetCamera } = useThreeViewport({
     canvasRef,
     nodes: filteredNodes,
     edges: filteredEdges,
@@ -285,18 +285,44 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
             </div>
           ))}
 
-          {/* Floating Left: Infrastructure Layers Menu */}
-          <div className="absolute top-3 left-3 z-20 font-mono text-xs">
-            <button
-              onClick={() => setShowLayerMenu(!showLayerMenu)}
-              className="px-3 py-1.5 rounded-lg bg-slate-950/90 border border-neon-cyan/40 hover:border-neon-cyan text-slate-200 hover:text-white flex items-center space-x-1.5 transition-all shadow-lg backdrop-blur-md"
-            >
-              <Layers className="w-3.5 h-3.5 text-neon-cyan" />
-              <span>Layers ({activeTiers.size}/5)</span>
-            </button>
+          {/* Floating Left: Infrastructure Layers Menu & Camera Presets */}
+          <div className="absolute top-3 left-3 z-20 font-mono text-xs flex flex-col space-y-2">
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setShowLayerMenu(!showLayerMenu)}
+                className="px-3 py-1.5 rounded-lg bg-slate-950/90 border border-neon-cyan/40 hover:border-neon-cyan text-slate-200 hover:text-white flex items-center space-x-1.5 transition-all shadow-lg backdrop-blur-md"
+              >
+                <Layers className="w-3.5 h-3.5 text-neon-cyan" />
+                <span>Layers ({activeTiers.size}/5)</span>
+              </button>
+
+              <div className="flex items-center space-x-1 bg-slate-950/90 border border-slate-800 p-1 rounded-lg shadow-lg backdrop-blur-md">
+                <button
+                  onClick={() => setCameraPreset('orbital')}
+                  className="px-2 py-1 rounded text-[10px] text-slate-300 hover:text-neon-cyan hover:bg-slate-900 transition-colors"
+                  title="Orbital 3D Angle"
+                >
+                  Orbital
+                </button>
+                <button
+                  onClick={() => setCameraPreset('top-down')}
+                  className="px-2 py-1 rounded text-[10px] text-slate-300 hover:text-neon-cyan hover:bg-slate-900 transition-colors"
+                  title="Overhead Top-Down Map"
+                >
+                  Top-Down
+                </button>
+                <button
+                  onClick={() => setCameraPreset('ingress')}
+                  className="px-2 py-1 rounded text-[10px] text-slate-300 hover:text-neon-cyan hover:bg-slate-900 transition-colors"
+                  title="Close Node Ingress"
+                >
+                  Ingress
+                </button>
+              </div>
+            </div>
 
             {showLayerMenu && (
-              <div className="mt-2 w-64 p-3 rounded-xl bg-slate-950/95 border border-slate-700 shadow-2xl space-y-2 backdrop-blur-md">
+              <div className="w-64 p-3 rounded-xl bg-slate-950/95 border border-slate-700 shadow-2xl space-y-2 backdrop-blur-md">
                 <div className="text-[10px] uppercase text-slate-500 font-bold border-b border-slate-800 pb-1 flex justify-between items-center">
                   <span>Toggle Tiers</span>
                   <button
@@ -357,13 +383,25 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
             })}
 
             <div className="pt-1 border-t border-slate-800 flex flex-col space-y-1 items-center">
-              <button className="p-1 rounded text-slate-400 hover:text-white" title="Compass">
+              <button
+                onClick={resetCamera}
+                className="p-1 rounded text-slate-400 hover:text-neon-cyan transition-colors"
+                title="Reset Camera (Compass)"
+              >
                 <Compass className="w-4 h-4 text-neon-cyan" />
               </button>
-              <button className="p-1 rounded text-slate-400 hover:text-white" title="Zoom In">
+              <button
+                onClick={zoomIn}
+                className="p-1 rounded text-slate-400 hover:text-white transition-colors"
+                title="Zoom In"
+              >
                 <Plus className="w-3.5 h-3.5" />
               </button>
-              <button className="p-1 rounded text-slate-400 hover:text-white" title="Zoom Out">
+              <button
+                onClick={zoomOut}
+                className="p-1 rounded text-slate-400 hover:text-white transition-colors"
+                title="Zoom Out"
+              >
                 <Minus className="w-3.5 h-3.5" />
               </button>
             </div>

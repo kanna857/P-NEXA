@@ -1,0 +1,2859 @@
+﻿{
+    "catalog":  "Agency Agents",
+    "source":  "https://github.com/msitarzewski/agency-agents",
+    "totalAgents":  283,
+    "divisionsCount":  18,
+    "divisionCounts":  {
+                           "healthcare":  3,
+                           "testing":  9,
+                           "engineering":  66,
+                           "paid-media":  7,
+                           "game-development":  21,
+                           "marketing":  37,
+                           "security":  12,
+                           "academic":  6,
+                           "finance":  5,
+                           "spatial-computing":  6,
+                           "research":  1,
+                           "gis":  13,
+                           "project-management":  7,
+                           "product":  6,
+                           "specialized":  59,
+                           "sales":  9,
+                           "design":  10,
+                           "support":  6
+                       },
+    "generatedAt":  "2026-10-31T15:16:48Z",
+    "agents":  [
+                   {
+                       "name":  "Anthropologist",
+                       "slug":  "agency-anthropologist",
+                       "division":  "academic",
+                       "file":  "academic-anthropologist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-anthropologist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-anthropologist/SKILL.md"
+                   },
+                   {
+                       "name":  "Geographer",
+                       "slug":  "agency-geographer",
+                       "division":  "academic",
+                       "file":  "academic-geographer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-geographer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-geographer/SKILL.md"
+                   },
+                   {
+                       "name":  "Historian",
+                       "slug":  "agency-historian",
+                       "division":  "academic",
+                       "file":  "academic-historian.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-historian/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-historian/SKILL.md"
+                   },
+                   {
+                       "name":  "Narratologist",
+                       "slug":  "agency-narratologist",
+                       "division":  "academic",
+                       "file":  "academic-narratologist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-narratologist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-narratologist/SKILL.md"
+                   },
+                   {
+                       "name":  "Psychologist",
+                       "slug":  "agency-psychologist",
+                       "division":  "academic",
+                       "file":  "academic-psychologist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-psychologist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-psychologist/SKILL.md"
+                   },
+                   {
+                       "name":  "Statistician",
+                       "slug":  "agency-statistician",
+                       "division":  "academic",
+                       "file":  "academic-statistician.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-statistician/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-statistician/SKILL.md"
+                   },
+                   {
+                       "name":  "Brand Guardian",
+                       "slug":  "agency-brand-guardian",
+                       "division":  "design",
+                       "file":  "design-brand-guardian.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-brand-guardian/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-brand-guardian/SKILL.md"
+                   },
+                   {
+                       "name":  "Image Prompt Engineer",
+                       "slug":  "agency-image-prompt-engineer",
+                       "division":  "design",
+                       "file":  "design-image-prompt-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-image-prompt-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-image-prompt-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Inclusive Visuals Specialist",
+                       "slug":  "agency-inclusive-visuals-specialist",
+                       "division":  "design",
+                       "file":  "design-inclusive-visuals-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-inclusive-visuals-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-inclusive-visuals-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Persona Walkthrough Specialist",
+                       "slug":  "agency-persona-walkthrough-specialist",
+                       "division":  "design",
+                       "file":  "design-persona-walkthrough.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-persona-walkthrough-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-persona-walkthrough-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "UI Designer",
+                       "slug":  "agency-ui-designer",
+                       "division":  "design",
+                       "file":  "design-ui-designer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ui-designer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ui-designer/SKILL.md"
+                   },
+                   {
+                       "name":  "UI Finish-Gate Reviewer",
+                       "slug":  "agency-ui-finish-gate-reviewer",
+                       "division":  "design",
+                       "file":  "design-ui-finish-gate-reviewer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ui-finish-gate-reviewer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ui-finish-gate-reviewer/SKILL.md"
+                   },
+                   {
+                       "name":  "UX Architect",
+                       "slug":  "agency-ux-architect",
+                       "division":  "design",
+                       "file":  "design-ux-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ux-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ux-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "UX Researcher",
+                       "slug":  "agency-ux-researcher",
+                       "division":  "design",
+                       "file":  "design-ux-researcher.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ux-researcher/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ux-researcher/SKILL.md"
+                   },
+                   {
+                       "name":  "Visual Storyteller",
+                       "slug":  "agency-visual-storyteller",
+                       "division":  "design",
+                       "file":  "design-visual-storyteller.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-visual-storyteller/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-visual-storyteller/SKILL.md"
+                   },
+                   {
+                       "name":  "Whimsy Injector",
+                       "slug":  "agency-whimsy-injector",
+                       "division":  "design",
+                       "file":  "design-whimsy-injector.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-whimsy-injector/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-whimsy-injector/SKILL.md"
+                   },
+                   {
+                       "name":  "AI Data Remediation Engineer",
+                       "slug":  "agency-ai-data-remediation-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-ai-data-remediation-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ai-data-remediation-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ai-data-remediation-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "AI Engineer",
+                       "slug":  "agency-ai-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-ai-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ai-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ai-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "API Platform Engineer",
+                       "slug":  "agency-api-platform-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-api-platform-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-api-platform-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-api-platform-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "ATS Validator Architect",
+                       "slug":  "agency-ats-validator-architect",
+                       "division":  "engineering",
+                       "file":  "engineering-ats-validator-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ats-validator-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ats-validator-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Autonomous Optimization Architect",
+                       "slug":  "agency-autonomous-optimization-architect",
+                       "division":  "engineering",
+                       "file":  "engineering-autonomous-optimization-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-autonomous-optimization-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-autonomous-optimization-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Backend Architect",
+                       "slug":  "agency-backend-architect",
+                       "division":  "engineering",
+                       "file":  "engineering-backend-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-backend-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-backend-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "China Network Engineer",
+                       "slug":  "agency-china-network-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-china-network-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-china-network-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-china-network-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "CMS Developer",
+                       "slug":  "agency-cms-developer",
+                       "division":  "engineering",
+                       "file":  "engineering-cms-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-cms-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-cms-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "Code Reviewer",
+                       "slug":  "agency-code-reviewer",
+                       "division":  "engineering",
+                       "file":  "engineering-code-reviewer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-code-reviewer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-code-reviewer/SKILL.md"
+                   },
+                   {
+                       "name":  "Codebase Onboarding Engineer",
+                       "slug":  "agency-codebase-onboarding-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-codebase-onboarding-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-codebase-onboarding-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-codebase-onboarding-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Data Engineer",
+                       "slug":  "agency-data-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-data-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-data-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-data-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Data Visualization Engineer",
+                       "slug":  "agency-data-visualization-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-data-visualization-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-data-visualization-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-data-visualization-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Database Optimizer",
+                       "slug":  "agency-database-optimizer",
+                       "division":  "engineering",
+                       "file":  "engineering-database-optimizer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-database-optimizer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-database-optimizer/SKILL.md"
+                   },
+                   {
+                       "name":  "Database Reliability Engineer",
+                       "slug":  "agency-database-reliability-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-database-reliability-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-database-reliability-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-database-reliability-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Desktop App Engineer",
+                       "slug":  "agency-desktop-app-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-desktop-app-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-desktop-app-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-desktop-app-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Developer Tooling Engineer",
+                       "slug":  "agency-developer-tooling-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-developer-tooling-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-developer-tooling-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-developer-tooling-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "DevOps Automator",
+                       "slug":  "agency-devops-automator",
+                       "division":  "engineering",
+                       "file":  "engineering-devops-automator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-devops-automator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-devops-automator/SKILL.md"
+                   },
+                   {
+                       "name":  "Drupal Performance Engineer",
+                       "slug":  "agency-drupal-performance-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-drupal-performance.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-drupal-performance-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-drupal-performance-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Drupal Shopping Cart Engineer",
+                       "slug":  "agency-drupal-shopping-cart-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-drupal-shopping-cart.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-drupal-shopping-cart-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-drupal-shopping-cart-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Electrical Engineer",
+                       "slug":  "agency-electrical-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-electrical-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-electrical-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-electrical-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Email Intelligence Engineer",
+                       "slug":  "agency-email-intelligence-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-email-intelligence-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-email-intelligence-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-email-intelligence-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Embedded Firmware Engineer",
+                       "slug":  "agency-embedded-firmware-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-embedded-firmware-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-embedded-firmware-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-embedded-firmware-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Feishu Integration Developer",
+                       "slug":  "agency-feishu-integration-developer",
+                       "division":  "engineering",
+                       "file":  "engineering-feishu-integration-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-feishu-integration-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-feishu-integration-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "Filament Optimization Specialist",
+                       "slug":  "agency-filament-optimization-specialist",
+                       "division":  "engineering",
+                       "file":  "engineering-filament-optimization-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-filament-optimization-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-filament-optimization-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "FinOps Engineer",
+                       "slug":  "agency-finops-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-finops-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-finops-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-finops-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Frontend Developer",
+                       "slug":  "agency-frontend-developer",
+                       "division":  "engineering",
+                       "file":  "engineering-frontend-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-frontend-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-frontend-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "GaussDB Expert Engineer",
+                       "slug":  "agency-gaussdb-expert-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-gaussdb-expert.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-gaussdb-expert-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-gaussdb-expert-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Git Workflow Master",
+                       "slug":  "agency-git-workflow-master",
+                       "division":  "engineering",
+                       "file":  "engineering-git-workflow-master.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-git-workflow-master/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-git-workflow-master/SKILL.md"
+                   },
+                   {
+                       "name":  "Internationalization Engineer",
+                       "slug":  "agency-internationalization-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-i18n-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-internationalization-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-internationalization-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Identity \u0026 Access Engineer",
+                       "slug":  "agency-identity-access-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-identity-access-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-identity-access-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-identity-access-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Incident Response Commander",
+                       "slug":  "agency-incident-response-commander",
+                       "division":  "engineering",
+                       "file":  "engineering-incident-response-commander.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-incident-response-commander/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-incident-response-commander/SKILL.md"
+                   },
+                   {
+                       "name":  "IoT Fleet Engineer",
+                       "slug":  "agency-iot-fleet-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-iot-fleet-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-iot-fleet-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-iot-fleet-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "IT Service Manager",
+                       "slug":  "agency-it-service-manager",
+                       "division":  "engineering",
+                       "file":  "engineering-it-service-manager.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-it-service-manager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-it-service-manager/SKILL.md"
+                   },
+                   {
+                       "name":  "Knowledge Graph Engineer",
+                       "slug":  "agency-knowledge-graph-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-knowledge-graph-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-knowledge-graph-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-knowledge-graph-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "LLM Post-Training Engineer",
+                       "slug":  "agency-llm-post-training-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-llm-post-training-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-llm-post-training-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-llm-post-training-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Minimal Change Engineer",
+                       "slug":  "agency-minimal-change-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-minimal-change-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-minimal-change-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-minimal-change-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Mobile App Builder",
+                       "slug":  "agency-mobile-app-builder",
+                       "division":  "engineering",
+                       "file":  "engineering-mobile-app-builder.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-mobile-app-builder/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-mobile-app-builder/SKILL.md"
+                   },
+                   {
+                       "name":  "Mobile Release Engineer",
+                       "slug":  "agency-mobile-release-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-mobile-release-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-mobile-release-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-mobile-release-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Multi-Agent Systems Architect",
+                       "slug":  "agency-multi-agent-systems-architect",
+                       "division":  "engineering",
+                       "file":  "engineering-multi-agent-systems-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-multi-agent-systems-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-multi-agent-systems-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Network Engineer",
+                       "slug":  "agency-network-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-network-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-network-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-network-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "OrgScript Engineer",
+                       "slug":  "agency-orgscript-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-orgscript-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-orgscript-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-orgscript-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Payments \u0026 Billing Engineer",
+                       "slug":  "agency-payments-billing-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-payments-billing-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-payments-billing-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-payments-billing-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "PDF Engine Architect",
+                       "slug":  "agency-pdf-engine-architect",
+                       "division":  "engineering",
+                       "file":  "engineering-pdf-engine-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-pdf-engine-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-pdf-engine-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Platform Engineer",
+                       "slug":  "agency-platform-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-platform-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-platform-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-platform-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Privacy Engineer",
+                       "slug":  "agency-privacy-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-privacy-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-privacy-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-privacy-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Prompt Engineer",
+                       "slug":  "agency-prompt-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-prompt-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-prompt-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-prompt-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "RAG Pipeline Engineer",
+                       "slug":  "agency-rag-pipeline-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-rag-pipeline-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-rag-pipeline-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-rag-pipeline-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Rapid Prototyper",
+                       "slug":  "agency-rapid-prototyper",
+                       "division":  "engineering",
+                       "file":  "engineering-rapid-prototyper.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-rapid-prototyper/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-rapid-prototyper/SKILL.md"
+                   },
+                   {
+                       "name":  "Realtime Collaboration Engineer",
+                       "slug":  "agency-realtime-collaboration-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-realtime-collaboration-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-realtime-collaboration-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-realtime-collaboration-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Rust Refactoring Specialist",
+                       "slug":  "agency-rust-refactoring-specialist",
+                       "division":  "engineering",
+                       "file":  "engineering-rust-refactoring-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-rust-refactoring-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-rust-refactoring-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Search Relevance Engineer",
+                       "slug":  "agency-search-relevance-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-search-relevance-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-search-relevance-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-search-relevance-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Section 508 Accessibility Specialist",
+                       "slug":  "agency-section-508-accessibility-specialist",
+                       "division":  "engineering",
+                       "file":  "engineering-section-508-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-section-508-accessibility-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-section-508-accessibility-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Senior Developer",
+                       "slug":  "agency-senior-developer",
+                       "division":  "engineering",
+                       "file":  "engineering-senior-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-senior-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-senior-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "ServiceNow Developer \u0026 Mentor",
+                       "slug":  "agency-servicenow-developer-mentor",
+                       "division":  "engineering",
+                       "file":  "engineering-servicenow-developer-mentor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-servicenow-developer-mentor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-servicenow-developer-mentor/SKILL.md"
+                   },
+                   {
+                       "name":  "Software Architect",
+                       "slug":  "agency-software-architect",
+                       "division":  "engineering",
+                       "file":  "engineering-software-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-software-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-software-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Solidity Smart Contract Engineer",
+                       "slug":  "agency-solidity-smart-contract-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-solidity-smart-contract-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-solidity-smart-contract-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-solidity-smart-contract-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "SRE (Site Reliability Engineer)",
+                       "slug":  "agency-sre-site-reliability-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-sre.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-sre-site-reliability-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-sre-site-reliability-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Technical Writer",
+                       "slug":  "agency-technical-writer",
+                       "division":  "engineering",
+                       "file":  "engineering-technical-writer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-technical-writer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-technical-writer/SKILL.md"
+                   },
+                   {
+                       "name":  "Universal Document Compiler",
+                       "slug":  "agency-universal-document-compiler",
+                       "division":  "engineering",
+                       "file":  "engineering-universal-document-compiler.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-universal-document-compiler/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-universal-document-compiler/SKILL.md"
+                   },
+                   {
+                       "name":  "USWDS Developer",
+                       "slug":  "agency-uswds-developer",
+                       "division":  "engineering",
+                       "file":  "engineering-uswds-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-uswds-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-uswds-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "Video Streaming Engineer",
+                       "slug":  "agency-video-streaming-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-video-streaming-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-video-streaming-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-video-streaming-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Voice AI Integration Engineer",
+                       "slug":  "agency-voice-ai-integration-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-voice-ai-integration-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-voice-ai-integration-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-voice-ai-integration-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "WebAssembly Engineer",
+                       "slug":  "agency-webassembly-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-webassembly-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-webassembly-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-webassembly-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "WeChat Mini Program Developer",
+                       "slug":  "agency-wechat-mini-program-developer",
+                       "division":  "engineering",
+                       "file":  "engineering-wechat-mini-program-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-wechat-mini-program-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-wechat-mini-program-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "WordPress Performance Engineer",
+                       "slug":  "agency-wordpress-performance-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-wordpress-performance.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-wordpress-performance-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-wordpress-performance-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "WordPress Shopping Cart Engineer",
+                       "slug":  "agency-wordpress-shopping-cart-engineer",
+                       "division":  "engineering",
+                       "file":  "engineering-wordpress-shopping-cart.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-wordpress-shopping-cart-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-wordpress-shopping-cart-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Bookkeeper \u0026 Controller",
+                       "slug":  "agency-bookkeeper-controller",
+                       "division":  "finance",
+                       "file":  "finance-bookkeeper-controller.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-bookkeeper-controller/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-bookkeeper-controller/SKILL.md"
+                   },
+                   {
+                       "name":  "Financial Analyst",
+                       "slug":  "agency-financial-analyst",
+                       "division":  "finance",
+                       "file":  "finance-financial-analyst.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-financial-analyst/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-financial-analyst/SKILL.md"
+                   },
+                   {
+                       "name":  "FP\u0026A Analyst",
+                       "slug":  "agency-fp-a-analyst",
+                       "division":  "finance",
+                       "file":  "finance-fpa-analyst.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-fp-a-analyst/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-fp-a-analyst/SKILL.md"
+                   },
+                   {
+                       "name":  "Investment Researcher",
+                       "slug":  "agency-investment-researcher",
+                       "division":  "finance",
+                       "file":  "finance-investment-researcher.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-investment-researcher/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-investment-researcher/SKILL.md"
+                   },
+                   {
+                       "name":  "Tax Strategist",
+                       "slug":  "agency-tax-strategist",
+                       "division":  "finance",
+                       "file":  "finance-tax-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-tax-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-tax-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Economy Designer",
+                       "slug":  "agency-economy-designer",
+                       "division":  "game-development",
+                       "file":  "economy-designer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-economy-designer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-economy-designer/SKILL.md"
+                   },
+                   {
+                       "name":  "Game Audio Engineer",
+                       "slug":  "agency-game-audio-engineer",
+                       "division":  "game-development",
+                       "file":  "game-audio-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-game-audio-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-game-audio-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Game Designer",
+                       "slug":  "agency-game-designer",
+                       "division":  "game-development",
+                       "file":  "game-designer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-game-designer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-game-designer/SKILL.md"
+                   },
+                   {
+                       "name":  "Level Designer",
+                       "slug":  "agency-level-designer",
+                       "division":  "game-development",
+                       "file":  "level-designer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-level-designer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-level-designer/SKILL.md"
+                   },
+                   {
+                       "name":  "Narrative Designer",
+                       "slug":  "agency-narrative-designer",
+                       "division":  "game-development",
+                       "file":  "narrative-designer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-narrative-designer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-narrative-designer/SKILL.md"
+                   },
+                   {
+                       "name":  "Technical Artist",
+                       "slug":  "agency-technical-artist",
+                       "division":  "game-development",
+                       "file":  "technical-artist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-technical-artist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-technical-artist/SKILL.md"
+                   },
+                   {
+                       "name":  "Blender Add-on Engineer",
+                       "slug":  "agency-blender-add-on-engineer",
+                       "division":  "game-development",
+                       "file":  "blender-addon-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-blender-add-on-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-blender-add-on-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Godot Gameplay Scripter",
+                       "slug":  "agency-godot-gameplay-scripter",
+                       "division":  "game-development",
+                       "file":  "godot-gameplay-scripter.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-godot-gameplay-scripter/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-godot-gameplay-scripter/SKILL.md"
+                   },
+                   {
+                       "name":  "Godot Multiplayer Engineer",
+                       "slug":  "agency-godot-multiplayer-engineer",
+                       "division":  "game-development",
+                       "file":  "godot-multiplayer-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-godot-multiplayer-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-godot-multiplayer-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Godot Shader Developer",
+                       "slug":  "agency-godot-shader-developer",
+                       "division":  "game-development",
+                       "file":  "godot-shader-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-godot-shader-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-godot-shader-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "Roblox Avatar Creator",
+                       "slug":  "agency-roblox-avatar-creator",
+                       "division":  "game-development",
+                       "file":  "roblox-avatar-creator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-roblox-avatar-creator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-roblox-avatar-creator/SKILL.md"
+                   },
+                   {
+                       "name":  "Roblox Experience Designer",
+                       "slug":  "agency-roblox-experience-designer",
+                       "division":  "game-development",
+                       "file":  "roblox-experience-designer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-roblox-experience-designer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-roblox-experience-designer/SKILL.md"
+                   },
+                   {
+                       "name":  "Roblox Systems Scripter",
+                       "slug":  "agency-roblox-systems-scripter",
+                       "division":  "game-development",
+                       "file":  "roblox-systems-scripter.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-roblox-systems-scripter/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-roblox-systems-scripter/SKILL.md"
+                   },
+                   {
+                       "name":  "Unity Architect",
+                       "slug":  "agency-unity-architect",
+                       "division":  "game-development",
+                       "file":  "unity-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-unity-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-unity-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Unity Editor Tool Developer",
+                       "slug":  "agency-unity-editor-tool-developer",
+                       "division":  "game-development",
+                       "file":  "unity-editor-tool-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-unity-editor-tool-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-unity-editor-tool-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "Unity Multiplayer Engineer",
+                       "slug":  "agency-unity-multiplayer-engineer",
+                       "division":  "game-development",
+                       "file":  "unity-multiplayer-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-unity-multiplayer-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-unity-multiplayer-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Unity Shader Graph Artist",
+                       "slug":  "agency-unity-shader-graph-artist",
+                       "division":  "game-development",
+                       "file":  "unity-shader-graph-artist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-unity-shader-graph-artist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-unity-shader-graph-artist/SKILL.md"
+                   },
+                   {
+                       "name":  "Unreal Multiplayer Architect",
+                       "slug":  "agency-unreal-multiplayer-architect",
+                       "division":  "game-development",
+                       "file":  "unreal-multiplayer-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-unreal-multiplayer-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-unreal-multiplayer-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Unreal Systems Engineer",
+                       "slug":  "agency-unreal-systems-engineer",
+                       "division":  "game-development",
+                       "file":  "unreal-systems-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-unreal-systems-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-unreal-systems-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Unreal Technical Artist",
+                       "slug":  "agency-unreal-technical-artist",
+                       "division":  "game-development",
+                       "file":  "unreal-technical-artist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-unreal-technical-artist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-unreal-technical-artist/SKILL.md"
+                   },
+                   {
+                       "name":  "Unreal World Builder",
+                       "slug":  "agency-unreal-world-builder",
+                       "division":  "game-development",
+                       "file":  "unreal-world-builder.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-unreal-world-builder/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-unreal-world-builder/SKILL.md"
+                   },
+                   {
+                       "name":  "3D \u0026 Scene Developer",
+                       "slug":  "agency-3d-scene-developer",
+                       "division":  "gis",
+                       "file":  "gis-3d-scene-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-3d-scene-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-3d-scene-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "GIS Analyst",
+                       "slug":  "agency-gis-analyst",
+                       "division":  "gis",
+                       "file":  "gis-analyst.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-gis-analyst/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-gis-analyst/SKILL.md"
+                   },
+                   {
+                       "name":  "BIM/GIS Specialist",
+                       "slug":  "agency-bim-gis-specialist",
+                       "division":  "gis",
+                       "file":  "gis-bim-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-bim-gis-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-bim-gis-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Cartography Designer",
+                       "slug":  "agency-cartography-designer",
+                       "division":  "gis",
+                       "file":  "gis-cartography-designer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-cartography-designer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-cartography-designer/SKILL.md"
+                   },
+                   {
+                       "name":  "Drone/Reality Mapping Specialist",
+                       "slug":  "agency-drone-reality-mapping-specialist",
+                       "division":  "gis",
+                       "file":  "gis-drone-reality-mapping.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-drone-reality-mapping-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-drone-reality-mapping-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "GeoAI/ML Engineer",
+                       "slug":  "agency-geoai-ml-engineer",
+                       "division":  "gis",
+                       "file":  "gis-geoai-ml-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-geoai-ml-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-geoai-ml-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Geoprocessing Specialist",
+                       "slug":  "agency-geoprocessing-specialist",
+                       "division":  "gis",
+                       "file":  "gis-geoprocessing-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-geoprocessing-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-geoprocessing-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "GIS QA Engineer",
+                       "slug":  "agency-gis-qa-engineer",
+                       "division":  "gis",
+                       "file":  "gis-qa-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-gis-qa-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-gis-qa-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Solution Engineer",
+                       "slug":  "agency-solution-engineer",
+                       "division":  "gis",
+                       "file":  "gis-solution-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-solution-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-solution-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Spatial Data Engineer",
+                       "slug":  "agency-spatial-data-engineer",
+                       "division":  "gis",
+                       "file":  "gis-spatial-data-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-spatial-data-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-spatial-data-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Spatial Data Scientist",
+                       "slug":  "agency-spatial-data-scientist",
+                       "division":  "gis",
+                       "file":  "gis-spatial-data-scientist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-spatial-data-scientist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-spatial-data-scientist/SKILL.md"
+                   },
+                   {
+                       "name":  "Technical Consultant",
+                       "slug":  "agency-technical-consultant",
+                       "division":  "gis",
+                       "file":  "gis-technical-consultant.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-technical-consultant/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-technical-consultant/SKILL.md"
+                   },
+                   {
+                       "name":  "Web GIS Developer",
+                       "slug":  "agency-web-gis-developer",
+                       "division":  "gis",
+                       "file":  "gis-web-gis-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-web-gis-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-web-gis-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "Clinical Evidence Agent",
+                       "slug":  "agency-clinical-evidence-agent",
+                       "division":  "healthcare",
+                       "file":  "healthcare-clinical-evidence-agent.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-clinical-evidence-agent/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-clinical-evidence-agent/SKILL.md"
+                   },
+                   {
+                       "name":  "Healthcare Innovation Strategist",
+                       "slug":  "agency-healthcare-innovation-strategist",
+                       "division":  "healthcare",
+                       "file":  "healthcare-innovation-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-healthcare-innovation-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-healthcare-innovation-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Sovereign Health Systems Agent",
+                       "slug":  "agency-sovereign-health-systems-agent",
+                       "division":  "healthcare",
+                       "file":  "healthcare-sovereign-health-systems-agent.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-sovereign-health-systems-agent/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-sovereign-health-systems-agent/SKILL.md"
+                   },
+                   {
+                       "name":  "AEO Foundations Architect",
+                       "slug":  "agency-aeo-foundations-architect",
+                       "division":  "marketing",
+                       "file":  "marketing-aeo-foundations.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-aeo-foundations-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-aeo-foundations-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Agentic Search Optimizer",
+                       "slug":  "agency-agentic-search-optimizer",
+                       "division":  "marketing",
+                       "file":  "marketing-agentic-search-optimizer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-agentic-search-optimizer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-agentic-search-optimizer/SKILL.md"
+                   },
+                   {
+                       "name":  "AI Citation Strategist",
+                       "slug":  "agency-ai-citation-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-ai-citation-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ai-citation-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ai-citation-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "App Store Optimizer",
+                       "slug":  "agency-app-store-optimizer",
+                       "division":  "marketing",
+                       "file":  "marketing-app-store-optimizer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-app-store-optimizer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-app-store-optimizer/SKILL.md"
+                   },
+                   {
+                       "name":  "Baidu SEO Specialist",
+                       "slug":  "agency-baidu-seo-specialist",
+                       "division":  "marketing",
+                       "file":  "marketing-baidu-seo-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-baidu-seo-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-baidu-seo-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Bilibili Content Strategist",
+                       "slug":  "agency-bilibili-content-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-bilibili-content-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-bilibili-content-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-bilibili-content-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Book Co-Author",
+                       "slug":  "agency-book-co-author",
+                       "division":  "marketing",
+                       "file":  "marketing-book-co-author.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-book-co-author/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-book-co-author/SKILL.md"
+                   },
+                   {
+                       "name":  "Carousel Growth Engine",
+                       "slug":  "agency-carousel-growth-engine",
+                       "division":  "marketing",
+                       "file":  "marketing-carousel-growth-engine.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-carousel-growth-engine/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-carousel-growth-engine/SKILL.md"
+                   },
+                   {
+                       "name":  "China E-Commerce Operator",
+                       "slug":  "agency-china-e-commerce-operator",
+                       "division":  "marketing",
+                       "file":  "marketing-china-ecommerce-operator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-china-e-commerce-operator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-china-e-commerce-operator/SKILL.md"
+                   },
+                   {
+                       "name":  "China Market Localization Strategist",
+                       "slug":  "agency-china-market-localization-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-china-market-localization-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-china-market-localization-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-china-market-localization-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Content Creator",
+                       "slug":  "agency-content-creator",
+                       "division":  "marketing",
+                       "file":  "marketing-content-creator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-content-creator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-content-creator/SKILL.md"
+                   },
+                   {
+                       "name":  "Cross-Border E-Commerce Specialist",
+                       "slug":  "agency-cross-border-e-commerce-specialist",
+                       "division":  "marketing",
+                       "file":  "marketing-cross-border-ecommerce.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-cross-border-e-commerce-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-cross-border-e-commerce-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Developer Community Builder",
+                       "slug":  "agency-developer-community-builder",
+                       "division":  "marketing",
+                       "file":  "marketing-developer-community-builder.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-developer-community-builder/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-developer-community-builder/SKILL.md"
+                   },
+                   {
+                       "name":  "Douyin Strategist",
+                       "slug":  "agency-douyin-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-douyin-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-douyin-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-douyin-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Email Marketing Strategist",
+                       "slug":  "agency-email-marketing-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-email-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-email-marketing-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-email-marketing-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Global Podcast Strategist",
+                       "slug":  "agency-global-podcast-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-global-podcast-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-global-podcast-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-global-podcast-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Growth Hacker",
+                       "slug":  "agency-growth-hacker",
+                       "division":  "marketing",
+                       "file":  "marketing-growth-hacker.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-growth-hacker/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-growth-hacker/SKILL.md"
+                   },
+                   {
+                       "name":  "Instagram Curator",
+                       "slug":  "agency-instagram-curator",
+                       "division":  "marketing",
+                       "file":  "marketing-instagram-curator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-instagram-curator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-instagram-curator/SKILL.md"
+                   },
+                   {
+                       "name":  "Kuaishou Strategist",
+                       "slug":  "agency-kuaishou-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-kuaishou-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-kuaishou-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-kuaishou-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "LinkedIn Content Creator",
+                       "slug":  "agency-linkedin-content-creator",
+                       "division":  "marketing",
+                       "file":  "marketing-linkedin-content-creator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-linkedin-content-creator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-linkedin-content-creator/SKILL.md"
+                   },
+                   {
+                       "name":  "Livestream Commerce Coach",
+                       "slug":  "agency-livestream-commerce-coach",
+                       "division":  "marketing",
+                       "file":  "marketing-livestream-commerce-coach.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-livestream-commerce-coach/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-livestream-commerce-coach/SKILL.md"
+                   },
+                   {
+                       "name":  "Multi-Platform Publisher",
+                       "slug":  "agency-multi-platform-publisher",
+                       "division":  "marketing",
+                       "file":  "marketing-multi-platform-publisher.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-multi-platform-publisher/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-multi-platform-publisher/SKILL.md"
+                   },
+                   {
+                       "name":  "Podcast Strategist",
+                       "slug":  "agency-podcast-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-podcast-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-podcast-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-podcast-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "PR \u0026 Communications Manager",
+                       "slug":  "agency-pr-communications-manager",
+                       "division":  "marketing",
+                       "file":  "marketing-pr-communications-manager.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-pr-communications-manager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-pr-communications-manager/SKILL.md"
+                   },
+                   {
+                       "name":  "Private Domain Operator",
+                       "slug":  "agency-private-domain-operator",
+                       "division":  "marketing",
+                       "file":  "marketing-private-domain-operator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-private-domain-operator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-private-domain-operator/SKILL.md"
+                   },
+                   {
+                       "name":  "Reddit Community Builder",
+                       "slug":  "agency-reddit-community-builder",
+                       "division":  "marketing",
+                       "file":  "marketing-reddit-community-builder.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-reddit-community-builder/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-reddit-community-builder/SKILL.md"
+                   },
+                   {
+                       "name":  "SEO Specialist",
+                       "slug":  "agency-seo-specialist",
+                       "division":  "marketing",
+                       "file":  "marketing-seo-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-seo-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-seo-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Short-Video Editing Coach",
+                       "slug":  "agency-short-video-editing-coach",
+                       "division":  "marketing",
+                       "file":  "marketing-short-video-editing-coach.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-short-video-editing-coach/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-short-video-editing-coach/SKILL.md"
+                   },
+                   {
+                       "name":  "Social Media Strategist",
+                       "slug":  "agency-social-media-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-social-media-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-social-media-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-social-media-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "TikTok Strategist",
+                       "slug":  "agency-tiktok-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-tiktok-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-tiktok-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-tiktok-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Twitter Engager",
+                       "slug":  "agency-twitter-engager",
+                       "division":  "marketing",
+                       "file":  "marketing-twitter-engager.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-twitter-engager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-twitter-engager/SKILL.md"
+                   },
+                   {
+                       "name":  "Video Optimization Specialist",
+                       "slug":  "agency-video-optimization-specialist",
+                       "division":  "marketing",
+                       "file":  "marketing-video-optimization-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-video-optimization-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-video-optimization-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "WeChat Official Account Manager",
+                       "slug":  "agency-wechat-official-account-manager",
+                       "division":  "marketing",
+                       "file":  "marketing-wechat-official-account.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-wechat-official-account-manager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-wechat-official-account-manager/SKILL.md"
+                   },
+                   {
+                       "name":  "Weibo Strategist",
+                       "slug":  "agency-weibo-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-weibo-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-weibo-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-weibo-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "X/Twitter Intelligence Analyst",
+                       "slug":  "agency-x-twitter-intelligence-analyst",
+                       "division":  "marketing",
+                       "file":  "marketing-x-twitter-intelligence-analyst.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-x-twitter-intelligence-analyst/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-x-twitter-intelligence-analyst/SKILL.md"
+                   },
+                   {
+                       "name":  "Xiaohongshu Specialist",
+                       "slug":  "agency-xiaohongshu-specialist",
+                       "division":  "marketing",
+                       "file":  "marketing-xiaohongshu-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-xiaohongshu-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-xiaohongshu-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Zhihu Strategist",
+                       "slug":  "agency-zhihu-strategist",
+                       "division":  "marketing",
+                       "file":  "marketing-zhihu-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-zhihu-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-zhihu-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Paid Media Auditor",
+                       "slug":  "agency-paid-media-auditor",
+                       "division":  "paid-media",
+                       "file":  "paid-media-auditor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-paid-media-auditor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-paid-media-auditor/SKILL.md"
+                   },
+                   {
+                       "name":  "Ad Creative Strategist",
+                       "slug":  "agency-ad-creative-strategist",
+                       "division":  "paid-media",
+                       "file":  "paid-media-creative-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ad-creative-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ad-creative-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Paid Social Strategist",
+                       "slug":  "agency-paid-social-strategist",
+                       "division":  "paid-media",
+                       "file":  "paid-media-paid-social-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-paid-social-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-paid-social-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "PPC Campaign Strategist",
+                       "slug":  "agency-ppc-campaign-strategist",
+                       "division":  "paid-media",
+                       "file":  "paid-media-ppc-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ppc-campaign-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ppc-campaign-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Programmatic \u0026 Display Buyer",
+                       "slug":  "agency-programmatic-display-buyer",
+                       "division":  "paid-media",
+                       "file":  "paid-media-programmatic-buyer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-programmatic-display-buyer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-programmatic-display-buyer/SKILL.md"
+                   },
+                   {
+                       "name":  "Search Query Analyst",
+                       "slug":  "agency-search-query-analyst",
+                       "division":  "paid-media",
+                       "file":  "paid-media-search-query-analyst.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-search-query-analyst/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-search-query-analyst/SKILL.md"
+                   },
+                   {
+                       "name":  "Tracking \u0026 Measurement Specialist",
+                       "slug":  "agency-tracking-measurement-specialist",
+                       "division":  "paid-media",
+                       "file":  "paid-media-tracking-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-tracking-measurement-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-tracking-measurement-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Behavioral Nudge Engine",
+                       "slug":  "agency-behavioral-nudge-engine",
+                       "division":  "product",
+                       "file":  "product-behavioral-nudge-engine.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-behavioral-nudge-engine/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-behavioral-nudge-engine/SKILL.md"
+                   },
+                   {
+                       "name":  "DX Engineer",
+                       "slug":  "agency-dx-engineer",
+                       "division":  "product",
+                       "file":  "product-dx-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-dx-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-dx-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Feedback Synthesizer",
+                       "slug":  "agency-feedback-synthesizer",
+                       "division":  "product",
+                       "file":  "product-feedback-synthesizer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-feedback-synthesizer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-feedback-synthesizer/SKILL.md"
+                   },
+                   {
+                       "name":  "Product Manager",
+                       "slug":  "agency-product-manager",
+                       "division":  "product",
+                       "file":  "product-manager.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-product-manager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-product-manager/SKILL.md"
+                   },
+                   {
+                       "name":  "Sprint Prioritizer",
+                       "slug":  "agency-sprint-prioritizer",
+                       "division":  "product",
+                       "file":  "product-sprint-prioritizer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-sprint-prioritizer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-sprint-prioritizer/SKILL.md"
+                   },
+                   {
+                       "name":  "Trend Researcher",
+                       "slug":  "agency-trend-researcher",
+                       "division":  "product",
+                       "file":  "product-trend-researcher.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-trend-researcher/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-trend-researcher/SKILL.md"
+                   },
+                   {
+                       "name":  "Experiment Tracker",
+                       "slug":  "agency-experiment-tracker",
+                       "division":  "project-management",
+                       "file":  "project-management-experiment-tracker.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-experiment-tracker/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-experiment-tracker/SKILL.md"
+                   },
+                   {
+                       "name":  "Jira Workflow Steward",
+                       "slug":  "agency-jira-workflow-steward",
+                       "division":  "project-management",
+                       "file":  "project-management-jira-workflow-steward.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-jira-workflow-steward/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-jira-workflow-steward/SKILL.md"
+                   },
+                   {
+                       "name":  "Meeting Notes Specialist",
+                       "slug":  "agency-meeting-notes-specialist",
+                       "division":  "project-management",
+                       "file":  "project-management-meeting-notes-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-meeting-notes-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-meeting-notes-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Project Shepherd",
+                       "slug":  "agency-project-shepherd",
+                       "division":  "project-management",
+                       "file":  "project-management-project-shepherd.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-project-shepherd/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-project-shepherd/SKILL.md"
+                   },
+                   {
+                       "name":  "Studio Operations",
+                       "slug":  "agency-studio-operations",
+                       "division":  "project-management",
+                       "file":  "project-management-studio-operations.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-studio-operations/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-studio-operations/SKILL.md"
+                   },
+                   {
+                       "name":  "Studio Producer",
+                       "slug":  "agency-studio-producer",
+                       "division":  "project-management",
+                       "file":  "project-management-studio-producer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-studio-producer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-studio-producer/SKILL.md"
+                   },
+                   {
+                       "name":  "Senior Project Manager",
+                       "slug":  "agency-senior-project-manager",
+                       "division":  "project-management",
+                       "file":  "project-manager-senior.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-senior-project-manager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-senior-project-manager/SKILL.md"
+                   },
+                   {
+                       "name":  "Research Synthesist",
+                       "slug":  "agency-research-synthesist",
+                       "division":  "research",
+                       "file":  "research-synthesist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-research-synthesist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-research-synthesist/SKILL.md"
+                   },
+                   {
+                       "name":  "Account Strategist",
+                       "slug":  "agency-account-strategist",
+                       "division":  "sales",
+                       "file":  "sales-account-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-account-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-account-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Sales Coach",
+                       "slug":  "agency-sales-coach",
+                       "division":  "sales",
+                       "file":  "sales-coach.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-sales-coach/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-sales-coach/SKILL.md"
+                   },
+                   {
+                       "name":  "Deal Strategist",
+                       "slug":  "agency-deal-strategist",
+                       "division":  "sales",
+                       "file":  "sales-deal-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-deal-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-deal-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Discovery Coach",
+                       "slug":  "agency-discovery-coach",
+                       "division":  "sales",
+                       "file":  "sales-discovery-coach.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-discovery-coach/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-discovery-coach/SKILL.md"
+                   },
+                   {
+                       "name":  "Sales Engineer",
+                       "slug":  "agency-sales-engineer",
+                       "division":  "sales",
+                       "file":  "sales-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-sales-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-sales-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Offer \u0026 Lead Gen Strategist",
+                       "slug":  "agency-offer-lead-gen-strategist",
+                       "division":  "sales",
+                       "file":  "sales-offer-lead-gen-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-offer-lead-gen-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-offer-lead-gen-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Outbound Strategist",
+                       "slug":  "agency-outbound-strategist",
+                       "division":  "sales",
+                       "file":  "sales-outbound-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-outbound-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-outbound-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Pipeline Analyst",
+                       "slug":  "agency-pipeline-analyst",
+                       "division":  "sales",
+                       "file":  "sales-pipeline-analyst.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-pipeline-analyst/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-pipeline-analyst/SKILL.md"
+                   },
+                   {
+                       "name":  "Proposal Strategist",
+                       "slug":  "agency-proposal-strategist",
+                       "division":  "sales",
+                       "file":  "sales-proposal-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-proposal-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-proposal-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "AI-Generated Code Security Auditor",
+                       "slug":  "agency-ai-generated-code-security-auditor",
+                       "division":  "security",
+                       "file":  "security-ai-generated-code-auditor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-ai-generated-code-security-auditor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-ai-generated-code-security-auditor/SKILL.md"
+                   },
+                   {
+                       "name":  "Application Security Engineer",
+                       "slug":  "agency-application-security-engineer",
+                       "division":  "security",
+                       "file":  "security-appsec-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-application-security-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-application-security-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Security Architect",
+                       "slug":  "agency-security-architect",
+                       "division":  "security",
+                       "file":  "security-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-security-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-security-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Blockchain Security Auditor",
+                       "slug":  "agency-blockchain-security-auditor",
+                       "division":  "security",
+                       "file":  "security-blockchain-security-auditor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-blockchain-security-auditor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-blockchain-security-auditor/SKILL.md"
+                   },
+                   {
+                       "name":  "Cloud Security Architect",
+                       "slug":  "agency-cloud-security-architect",
+                       "division":  "security",
+                       "file":  "security-cloud-security-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-cloud-security-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-cloud-security-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Compliance Auditor",
+                       "slug":  "agency-compliance-auditor",
+                       "division":  "security",
+                       "file":  "security-compliance-auditor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-compliance-auditor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-compliance-auditor/SKILL.md"
+                   },
+                   {
+                       "name":  "Incident Responder",
+                       "slug":  "agency-incident-responder",
+                       "division":  "security",
+                       "file":  "security-incident-responder.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-incident-responder/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-incident-responder/SKILL.md"
+                   },
+                   {
+                       "name":  "Penetration Tester",
+                       "slug":  "agency-penetration-tester",
+                       "division":  "security",
+                       "file":  "security-penetration-tester.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-penetration-tester/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-penetration-tester/SKILL.md"
+                   },
+                   {
+                       "name":  "Secrets \u0026 Credential Hygiene Engineer",
+                       "slug":  "agency-secrets-credential-hygiene-engineer",
+                       "division":  "security",
+                       "file":  "security-secrets-credential-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-secrets-credential-hygiene-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-secrets-credential-hygiene-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Senior SecOps Engineer",
+                       "slug":  "agency-senior-secops-engineer",
+                       "division":  "security",
+                       "file":  "security-senior-secops.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-senior-secops-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-senior-secops-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Threat Detection Engineer",
+                       "slug":  "agency-threat-detection-engineer",
+                       "division":  "security",
+                       "file":  "security-threat-detection-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-threat-detection-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-threat-detection-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Threat Intelligence Analyst",
+                       "slug":  "agency-threat-intelligence-analyst",
+                       "division":  "security",
+                       "file":  "security-threat-intelligence-analyst.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-threat-intelligence-analyst/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-threat-intelligence-analyst/SKILL.md"
+                   },
+                   {
+                       "name":  "macOS Spatial/Metal Engineer",
+                       "slug":  "agency-macos-spatial-metal-engineer",
+                       "division":  "spatial-computing",
+                       "file":  "macos-spatial-metal-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-macos-spatial-metal-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-macos-spatial-metal-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Terminal Integration Specialist",
+                       "slug":  "agency-terminal-integration-specialist",
+                       "division":  "spatial-computing",
+                       "file":  "terminal-integration-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-terminal-integration-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-terminal-integration-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "visionOS Spatial Engineer",
+                       "slug":  "agency-visionos-spatial-engineer",
+                       "division":  "spatial-computing",
+                       "file":  "visionos-spatial-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-visionos-spatial-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-visionos-spatial-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "XR Cockpit Interaction Specialist",
+                       "slug":  "agency-xr-cockpit-interaction-specialist",
+                       "division":  "spatial-computing",
+                       "file":  "xr-cockpit-interaction-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-xr-cockpit-interaction-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-xr-cockpit-interaction-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "XR Immersive Developer",
+                       "slug":  "agency-xr-immersive-developer",
+                       "division":  "spatial-computing",
+                       "file":  "xr-immersive-developer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-xr-immersive-developer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-xr-immersive-developer/SKILL.md"
+                   },
+                   {
+                       "name":  "XR Interface Architect",
+                       "slug":  "agency-xr-interface-architect",
+                       "division":  "spatial-computing",
+                       "file":  "xr-interface-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-xr-interface-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-xr-interface-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Accounts Payable Agent",
+                       "slug":  "agency-accounts-payable-agent",
+                       "division":  "specialized",
+                       "file":  "accounts-payable-agent.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-accounts-payable-agent/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-accounts-payable-agent/SKILL.md"
+                   },
+                   {
+                       "name":  "Agentic Identity \u0026 Trust Architect",
+                       "slug":  "agency-agentic-identity-trust-architect",
+                       "division":  "specialized",
+                       "file":  "agentic-identity-trust.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-agentic-identity-trust-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-agentic-identity-trust-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Agents Orchestrator",
+                       "slug":  "agency-agents-orchestrator",
+                       "division":  "specialized",
+                       "file":  "agents-orchestrator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-agents-orchestrator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-agents-orchestrator/SKILL.md"
+                   },
+                   {
+                       "name":  "Automation Governance Architect",
+                       "slug":  "agency-automation-governance-architect",
+                       "division":  "specialized",
+                       "file":  "automation-governance-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-automation-governance-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-automation-governance-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Business Strategist",
+                       "slug":  "agency-business-strategist",
+                       "division":  "specialized",
+                       "file":  "business-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-business-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-business-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Change Management Consultant",
+                       "slug":  "agency-change-management-consultant",
+                       "division":  "specialized",
+                       "file":  "change-management-consultant.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-change-management-consultant/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-change-management-consultant/SKILL.md"
+                   },
+                   {
+                       "name":  "Chief Financial Officer",
+                       "slug":  "agency-chief-financial-officer",
+                       "division":  "specialized",
+                       "file":  "chief-financial-officer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-chief-financial-officer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-chief-financial-officer/SKILL.md"
+                   },
+                   {
+                       "name":  "Corporate Training Designer",
+                       "slug":  "agency-corporate-training-designer",
+                       "division":  "specialized",
+                       "file":  "corporate-training-designer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-corporate-training-designer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-corporate-training-designer/SKILL.md"
+                   },
+                   {
+                       "name":  "Customer Service",
+                       "slug":  "agency-customer-service",
+                       "division":  "specialized",
+                       "file":  "customer-service.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-customer-service/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-customer-service/SKILL.md"
+                   },
+                   {
+                       "name":  "Customer Success Manager",
+                       "slug":  "agency-customer-success-manager",
+                       "division":  "specialized",
+                       "file":  "customer-success-manager.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-customer-success-manager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-customer-success-manager/SKILL.md"
+                   },
+                   {
+                       "name":  "Data Consolidation Agent",
+                       "slug":  "agency-data-consolidation-agent",
+                       "division":  "specialized",
+                       "file":  "data-consolidation-agent.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-data-consolidation-agent/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-data-consolidation-agent/SKILL.md"
+                   },
+                   {
+                       "name":  "Data Privacy Officer",
+                       "slug":  "agency-data-privacy-officer",
+                       "division":  "specialized",
+                       "file":  "data-privacy-officer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-data-privacy-officer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-data-privacy-officer/SKILL.md"
+                   },
+                   {
+                       "name":  "ESG \u0026 Sustainability Officer",
+                       "slug":  "agency-esg-sustainability-officer",
+                       "division":  "specialized",
+                       "file":  "esg-sustainability-officer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-esg-sustainability-officer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-esg-sustainability-officer/SKILL.md"
+                   },
+                   {
+                       "name":  "Government Digital Presales Consultant",
+                       "slug":  "agency-government-digital-presales-consultant",
+                       "division":  "specialized",
+                       "file":  "government-digital-presales-consultant.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-government-digital-presales-consultant/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-government-digital-presales-consultant/SKILL.md"
+                   },
+                   {
+                       "name":  "Grant Writer",
+                       "slug":  "agency-grant-writer",
+                       "division":  "specialized",
+                       "file":  "grant-writer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-grant-writer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-grant-writer/SKILL.md"
+                   },
+                   {
+                       "name":  "Aging Parent Care Companion",
+                       "slug":  "agency-aging-parent-care-companion",
+                       "division":  "specialized",
+                       "file":  "healthcare-aging-parent-care-companion.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-aging-parent-care-companion/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-aging-parent-care-companion/SKILL.md"
+                   },
+                   {
+                       "name":  "Healthcare Customer Service",
+                       "slug":  "agency-healthcare-customer-service",
+                       "division":  "specialized",
+                       "file":  "healthcare-customer-service.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-healthcare-customer-service/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-healthcare-customer-service/SKILL.md"
+                   },
+                   {
+                       "name":  "Healthcare Marketing Compliance Specialist",
+                       "slug":  "agency-healthcare-marketing-compliance-specialist",
+                       "division":  "specialized",
+                       "file":  "healthcare-marketing-compliance.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-healthcare-marketing-compliance-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-healthcare-marketing-compliance-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Hospitality Guest Services",
+                       "slug":  "agency-hospitality-guest-services",
+                       "division":  "specialized",
+                       "file":  "hospitality-guest-services.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-hospitality-guest-services/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-hospitality-guest-services/SKILL.md"
+                   },
+                   {
+                       "name":  "HR Onboarding",
+                       "slug":  "agency-hr-onboarding",
+                       "division":  "specialized",
+                       "file":  "hr-onboarding.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-hr-onboarding/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-hr-onboarding/SKILL.md"
+                   },
+                   {
+                       "name":  "Identity Graph Operator",
+                       "slug":  "agency-identity-graph-operator",
+                       "division":  "specialized",
+                       "file":  "identity-graph-operator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-identity-graph-operator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-identity-graph-operator/SKILL.md"
+                   },
+                   {
+                       "name":  "Language Translator",
+                       "slug":  "agency-language-translator",
+                       "division":  "specialized",
+                       "file":  "language-translator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-language-translator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-language-translator/SKILL.md"
+                   },
+                   {
+                       "name":  "Legal Billing \u0026 Time Tracking",
+                       "slug":  "agency-legal-billing-time-tracking",
+                       "division":  "specialized",
+                       "file":  "legal-billing-time-tracking.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-legal-billing-time-tracking/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-legal-billing-time-tracking/SKILL.md"
+                   },
+                   {
+                       "name":  "Legal Client Intake",
+                       "slug":  "agency-legal-client-intake",
+                       "division":  "specialized",
+                       "file":  "legal-client-intake.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-legal-client-intake/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-legal-client-intake/SKILL.md"
+                   },
+                   {
+                       "name":  "Legal Document Review",
+                       "slug":  "agency-legal-document-review",
+                       "division":  "specialized",
+                       "file":  "legal-document-review.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-legal-document-review/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-legal-document-review/SKILL.md"
+                   },
+                   {
+                       "name":  "Loan Officer Assistant",
+                       "slug":  "agency-loan-officer-assistant",
+                       "division":  "specialized",
+                       "file":  "loan-officer-assistant.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-loan-officer-assistant/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-loan-officer-assistant/SKILL.md"
+                   },
+                   {
+                       "name":  "LSP/Index Engineer",
+                       "slug":  "agency-lsp-index-engineer",
+                       "division":  "specialized",
+                       "file":  "lsp-index-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-lsp-index-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-lsp-index-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "M\u0026A Integration Manager",
+                       "slug":  "agency-m-a-integration-manager",
+                       "division":  "specialized",
+                       "file":  "ma-integration-manager.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-m-a-integration-manager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-m-a-integration-manager/SKILL.md"
+                   },
+                   {
+                       "name":  "Medical Billing \u0026 Coding Specialist",
+                       "slug":  "agency-medical-billing-coding-specialist",
+                       "division":  "specialized",
+                       "file":  "medical-billing-coding-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-medical-billing-coding-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-medical-billing-coding-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Operations Manager",
+                       "slug":  "agency-operations-manager",
+                       "division":  "specialized",
+                       "file":  "operations-manager.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-operations-manager/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-operations-manager/SKILL.md"
+                   },
+                   {
+                       "name":  "Organizational Psychologist",
+                       "slug":  "agency-organizational-psychologist",
+                       "division":  "specialized",
+                       "file":  "organizational-psychologist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-organizational-psychologist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-organizational-psychologist/SKILL.md"
+                   },
+                   {
+                       "name":  "Personal Growth Mentor",
+                       "slug":  "agency-personal-growth-mentor",
+                       "division":  "specialized",
+                       "file":  "personal-growth-mentor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-personal-growth-mentor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-personal-growth-mentor/SKILL.md"
+                   },
+                   {
+                       "name":  "Real Estate Buyer \u0026 Seller",
+                       "slug":  "agency-real-estate-buyer-seller",
+                       "division":  "specialized",
+                       "file":  "real-estate-buyer-seller.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-real-estate-buyer-seller/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-real-estate-buyer-seller/SKILL.md"
+                   },
+                   {
+                       "name":  "Recruitment Specialist",
+                       "slug":  "agency-recruitment-specialist",
+                       "division":  "specialized",
+                       "file":  "recruitment-specialist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-recruitment-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-recruitment-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Report Distribution Agent",
+                       "slug":  "agency-report-distribution-agent",
+                       "division":  "specialized",
+                       "file":  "report-distribution-agent.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-report-distribution-agent/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-report-distribution-agent/SKILL.md"
+                   },
+                   {
+                       "name":  "Resume Tailor",
+                       "slug":  "agency-resume-tailor",
+                       "division":  "specialized",
+                       "file":  "resume-tailor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-resume-tailor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-resume-tailor/SKILL.md"
+                   },
+                   {
+                       "name":  "Retail Customer Returns",
+                       "slug":  "agency-retail-customer-returns",
+                       "division":  "specialized",
+                       "file":  "retail-customer-returns.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-retail-customer-returns/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-retail-customer-returns/SKILL.md"
+                   },
+                   {
+                       "name":  "Sales Data Extraction Agent",
+                       "slug":  "agency-sales-data-extraction-agent",
+                       "division":  "specialized",
+                       "file":  "sales-data-extraction-agent.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-sales-data-extraction-agent/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-sales-data-extraction-agent/SKILL.md"
+                   },
+                   {
+                       "name":  "Sales Outreach",
+                       "slug":  "agency-sales-outreach",
+                       "division":  "specialized",
+                       "file":  "sales-outreach.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-sales-outreach/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-sales-outreach/SKILL.md"
+                   },
+                   {
+                       "name":  "Chief of Staff",
+                       "slug":  "agency-chief-of-staff",
+                       "division":  "specialized",
+                       "file":  "specialized-chief-of-staff.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-chief-of-staff/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-chief-of-staff/SKILL.md"
+                   },
+                   {
+                       "name":  "Civil Engineer",
+                       "slug":  "agency-civil-engineer",
+                       "division":  "specialized",
+                       "file":  "specialized-civil-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-civil-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-civil-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Codebase Archaeologist",
+                       "slug":  "agency-codebase-archaeologist",
+                       "division":  "specialized",
+                       "file":  "specialized-codebase-archaeologist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-codebase-archaeologist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-codebase-archaeologist/SKILL.md"
+                   },
+                   {
+                       "name":  "Cultural Intelligence Strategist",
+                       "slug":  "agency-cultural-intelligence-strategist",
+                       "division":  "specialized",
+                       "file":  "specialized-cultural-intelligence-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-cultural-intelligence-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-cultural-intelligence-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "Developer Advocate",
+                       "slug":  "agency-developer-advocate",
+                       "division":  "specialized",
+                       "file":  "specialized-developer-advocate.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-developer-advocate/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-developer-advocate/SKILL.md"
+                   },
+                   {
+                       "name":  "Document Generator",
+                       "slug":  "agency-document-generator",
+                       "division":  "specialized",
+                       "file":  "specialized-document-generator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-document-generator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-document-generator/SKILL.md"
+                   },
+                   {
+                       "name":  "FedRAMP \u0026 RMF Compliance Engineer",
+                       "slug":  "agency-fedramp-rmf-compliance-engineer",
+                       "division":  "specialized",
+                       "file":  "specialized-fedramp-rmf-compliance.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-fedramp-rmf-compliance-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-fedramp-rmf-compliance-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Focus Music Architect",
+                       "slug":  "agency-focus-music-architect",
+                       "division":  "specialized",
+                       "file":  "specialized-focus-music-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-focus-music-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-focus-music-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "French Consulting Market Navigator",
+                       "slug":  "agency-french-consulting-market-navigator",
+                       "division":  "specialized",
+                       "file":  "specialized-french-consulting-market.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-french-consulting-market-navigator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-french-consulting-market-navigator/SKILL.md"
+                   },
+                   {
+                       "name":  "Korean Business Navigator",
+                       "slug":  "agency-korean-business-navigator",
+                       "division":  "specialized",
+                       "file":  "specialized-korean-business-navigator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-korean-business-navigator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-korean-business-navigator/SKILL.md"
+                   },
+                   {
+                       "name":  "Master Plan Architect",
+                       "slug":  "agency-master-plan-architect",
+                       "division":  "specialized",
+                       "file":  "specialized-master-plan-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-master-plan-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-master-plan-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "MCP Builder",
+                       "slug":  "agency-mcp-builder",
+                       "division":  "specialized",
+                       "file":  "specialized-mcp-builder.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-mcp-builder/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-mcp-builder/SKILL.md"
+                   },
+                   {
+                       "name":  "Model QA Specialist",
+                       "slug":  "agency-model-qa-specialist",
+                       "division":  "specialized",
+                       "file":  "specialized-model-qa.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-model-qa-specialist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-model-qa-specialist/SKILL.md"
+                   },
+                   {
+                       "name":  "Pricing Analyst",
+                       "slug":  "agency-pricing-analyst",
+                       "division":  "specialized",
+                       "file":  "specialized-pricing-analyst.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-pricing-analyst/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-pricing-analyst/SKILL.md"
+                   },
+                   {
+                       "name":  "Salesforce Architect",
+                       "slug":  "agency-salesforce-architect",
+                       "division":  "specialized",
+                       "file":  "specialized-salesforce-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-salesforce-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-salesforce-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Strategy Duel Agent",
+                       "slug":  "agency-strategy-duel-agent",
+                       "division":  "specialized",
+                       "file":  "specialized-strategy-duel-agent.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-strategy-duel-agent/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-strategy-duel-agent/SKILL.md"
+                   },
+                   {
+                       "name":  "Workflow Architect",
+                       "slug":  "agency-workflow-architect",
+                       "division":  "specialized",
+                       "file":  "specialized-workflow-architect.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-workflow-architect/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-workflow-architect/SKILL.md"
+                   },
+                   {
+                       "name":  "Study Abroad Advisor",
+                       "slug":  "agency-study-abroad-advisor",
+                       "division":  "specialized",
+                       "file":  "study-abroad-advisor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-study-abroad-advisor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-study-abroad-advisor/SKILL.md"
+                   },
+                   {
+                       "name":  "Supply Chain Strategist",
+                       "slug":  "agency-supply-chain-strategist",
+                       "division":  "specialized",
+                       "file":  "supply-chain-strategist.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-supply-chain-strategist/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-supply-chain-strategist/SKILL.md"
+                   },
+                   {
+                       "name":  "ZK Steward",
+                       "slug":  "agency-zk-steward",
+                       "division":  "specialized",
+                       "file":  "zk-steward.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-zk-steward/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-zk-steward/SKILL.md"
+                   },
+                   {
+                       "name":  "Analytics Reporter",
+                       "slug":  "agency-analytics-reporter",
+                       "division":  "support",
+                       "file":  "support-analytics-reporter.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-analytics-reporter/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-analytics-reporter/SKILL.md"
+                   },
+                   {
+                       "name":  "Executive Summary Generator",
+                       "slug":  "agency-executive-summary-generator",
+                       "division":  "support",
+                       "file":  "support-executive-summary-generator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-executive-summary-generator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-executive-summary-generator/SKILL.md"
+                   },
+                   {
+                       "name":  "Finance Tracker",
+                       "slug":  "agency-finance-tracker",
+                       "division":  "support",
+                       "file":  "support-finance-tracker.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-finance-tracker/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-finance-tracker/SKILL.md"
+                   },
+                   {
+                       "name":  "Infrastructure Maintainer",
+                       "slug":  "agency-infrastructure-maintainer",
+                       "division":  "support",
+                       "file":  "support-infrastructure-maintainer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-infrastructure-maintainer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-infrastructure-maintainer/SKILL.md"
+                   },
+                   {
+                       "name":  "Legal Compliance Checker",
+                       "slug":  "agency-legal-compliance-checker",
+                       "division":  "support",
+                       "file":  "support-legal-compliance-checker.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-legal-compliance-checker/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-legal-compliance-checker/SKILL.md"
+                   },
+                   {
+                       "name":  "Support Responder",
+                       "slug":  "agency-support-responder",
+                       "division":  "support",
+                       "file":  "support-support-responder.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-support-responder/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-support-responder/SKILL.md"
+                   },
+                   {
+                       "name":  "Accessibility Auditor",
+                       "slug":  "agency-accessibility-auditor",
+                       "division":  "testing",
+                       "file":  "testing-accessibility-auditor.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-accessibility-auditor/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-accessibility-auditor/SKILL.md"
+                   },
+                   {
+                       "name":  "API Tester",
+                       "slug":  "agency-api-tester",
+                       "division":  "testing",
+                       "file":  "testing-api-tester.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-api-tester/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-api-tester/SKILL.md"
+                   },
+                   {
+                       "name":  "Evidence Collector",
+                       "slug":  "agency-evidence-collector",
+                       "division":  "testing",
+                       "file":  "testing-evidence-collector.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-evidence-collector/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-evidence-collector/SKILL.md"
+                   },
+                   {
+                       "name":  "Performance Benchmarker",
+                       "slug":  "agency-performance-benchmarker",
+                       "division":  "testing",
+                       "file":  "testing-performance-benchmarker.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-performance-benchmarker/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-performance-benchmarker/SKILL.md"
+                   },
+                   {
+                       "name":  "Reality Checker",
+                       "slug":  "agency-reality-checker",
+                       "division":  "testing",
+                       "file":  "testing-reality-checker.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-reality-checker/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-reality-checker/SKILL.md"
+                   },
+                   {
+                       "name":  "Test Automation Engineer",
+                       "slug":  "agency-test-automation-engineer",
+                       "division":  "testing",
+                       "file":  "testing-test-automation-engineer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-test-automation-engineer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-test-automation-engineer/SKILL.md"
+                   },
+                   {
+                       "name":  "Test Results Analyzer",
+                       "slug":  "agency-test-results-analyzer",
+                       "division":  "testing",
+                       "file":  "testing-test-results-analyzer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-test-results-analyzer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-test-results-analyzer/SKILL.md"
+                   },
+                   {
+                       "name":  "Tool Evaluator",
+                       "slug":  "agency-tool-evaluator",
+                       "division":  "testing",
+                       "file":  "testing-tool-evaluator.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-tool-evaluator/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-tool-evaluator/SKILL.md"
+                   },
+                   {
+                       "name":  "Workflow Optimizer",
+                       "slug":  "agency-workflow-optimizer",
+                       "division":  "testing",
+                       "file":  "testing-workflow-optimizer.md",
+                       "description":  "",
+                       "status":  "INSTALLED",
+                       "workspaceSkillPath":  ".agents/skills/agency-workflow-optimizer/SKILL.md",
+                       "globalSkillPath":  "~/.gemini/config/skills/agency-workflow-optimizer/SKILL.md"
+                   }
+               ]
+}
