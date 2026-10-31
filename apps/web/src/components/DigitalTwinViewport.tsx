@@ -7,8 +7,26 @@ import {
   AlertTriangle,
   Scissors,
   RotateCcw,
-  Box,
-  Layers
+  PlaySquare,
+  Layers,
+  MousePointer,
+  Ruler,
+  PlusCircle,
+  Pencil,
+  Play,
+  Pause,
+  Compass,
+  Plus,
+  Minus,
+  Maximize2,
+  Users,
+  GraduationCap,
+  Building,
+  Server,
+  Bus,
+  Cpu,
+  Sun,
+  ShieldAlert
 } from 'lucide-react';
 
 const STATUS_BADGE: Record<string, { label: string; color: string }> = {
@@ -38,22 +56,27 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   nodes,
   edges,
   onNodeStatusChange,
-  onEdgeStatusChange
+  onEdgeStatusChange: _onEdgeStatusChange
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>('srv-auth');
   const [blastRadiusResult, setBlastRadiusResult] = useState<ReturnType<typeof computeBlastRadius> | null>(null);
   const [showBlastRadius, setShowBlastRadius] = useState(false);
 
-  // Digital Twin Earth Visualization Patterns: Tier Layer Filtering
+  // Digital Twin Earth Tier Layer Filtering
   const [activeTiers, setActiveTiers] = useState<Set<number>>(new Set([0, 1, 2, 3, 4]));
   const [showLayerMenu, setShowLayerMenu] = useState(false);
+
+  // Interactive Tools & Timeline state
+  const [selectedTool, setSelectedTool] = useState<string>('select');
+  const [isPlayingTimeline, setIsPlayingTimeline] = useState<boolean>(true);
+  const [timelineTime, setTimelineTime] = useState<string>('10:24');
 
   const toggleTier = (tier: number) => {
     setActiveTiers((prev) => {
       const next = new Set(prev);
       if (next.has(tier)) {
-        if (next.size > 1) next.delete(tier); // keep at least 1 tier visible
+        if (next.size > 1) next.delete(tier);
       } else {
         next.add(tier);
       }
@@ -61,7 +84,6 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
     });
   };
 
-  // Filter nodes and edges by active tiers
   const filteredNodes = useMemo(() => {
     return nodes.filter((n) => activeTiers.has(n.tier ?? 0));
   }, [nodes, activeTiers]);
@@ -115,63 +137,162 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
     onNodeStatusChange(selectedNodeId, 'healthy');
   };
 
-  const healthyCounts = {
-    total: nodes.length,
-    healthy: nodes.filter((n) => n.status === 'healthy').length,
-    warning: nodes.filter((n) => n.status === 'warning').length,
-    compromised: nodes.filter((n) => n.status === 'compromised').length,
-    isolated: nodes.filter((n) => n.status === 'isolated').length
-  };
+  // Holographic Callout Beacons mapped from reference image
+  const calloutBeacons = [
+    {
+      id: 'beacon-hostel',
+      title: 'Hostel Block A',
+      status: '2,400 students · 96% capacity',
+      top: '32%',
+      left: '26%',
+      color: 'border-neon-cyan/80 bg-slate-950/90 text-cyan-300'
+    },
+    {
+      id: 'beacon-academic',
+      title: 'Academic Block',
+      status: '18 buildings · Normal',
+      top: '20%',
+      left: '42%',
+      color: 'border-neon-matrix/80 bg-slate-950/90 text-emerald-300'
+    },
+    {
+      id: 'beacon-server',
+      title: 'Main Server (srv-auth)',
+      status: 'Issues detected · High Severity',
+      top: '28%',
+      left: '58%',
+      color: 'border-neon-crimson bg-rose-950/90 text-rose-300 animate-pulse'
+    },
+    {
+      id: 'beacon-library',
+      title: 'Central Library',
+      status: '350k resources · Online',
+      top: '34%',
+      left: '72%',
+      color: 'border-blue-500/80 bg-slate-950/90 text-blue-300'
+    },
+    {
+      id: 'beacon-sports',
+      title: 'Sports Complex',
+      status: 'Normal Activity',
+      top: '46%',
+      left: '22%',
+      color: 'border-neon-cyan/80 bg-slate-950/90 text-cyan-300'
+    },
+    {
+      id: 'beacon-buses',
+      title: 'Campus Transit Buses',
+      status: '32 active / 3 delayed',
+      top: '44%',
+      left: '38%',
+      color: 'border-amber-500/80 bg-amber-950/90 text-amber-300'
+    }
+  ];
 
   return (
-    <div className="relative w-full h-full flex flex-col space-y-3">
-      {/* Viewport Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 glass-panel p-4 rounded-xl">
-        <div>
-          <div className="flex items-center space-x-2 text-neon-cyan text-xs font-mono mb-1">
-            <Box className="w-4 h-4" />
-            <span>LIVING 3D DIGITAL TWIN WORLD (EARTH / CAMPUS VISUALIZATION PATTERNS)</span>
-          </div>
-          <h2 className="text-lg font-bold font-mono text-white">Cyber Topology Viewport</h2>
-          <p className="text-xs text-slate-400">
-            Drag to orbit · Scroll to zoom · Click nodes to inspect · Filter infrastructure tiers
-          </p>
+    <div className="relative w-full h-full flex flex-col space-y-2 select-none font-mono">
+      {/* KPI Summary Bar (Matching reference header metrics) */}
+      <div className="glass-panel p-2.5 rounded-xl border border-surface-border flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex items-center space-x-2">
+          <div className="text-white font-bold text-sm tracking-wide">VIT University</div>
+          <span className="px-2 py-0.5 rounded text-[10px] bg-neon-matrix/20 text-neon-matrix border border-neon-matrix/40 font-bold flex items-center space-x-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-neon-matrix animate-ping" />
+            <span>Live</span>
+          </span>
+          <span className="text-[10px] text-slate-400 hidden sm:inline">
+            Digital Twin · Real-time AI Simulation
+          </span>
         </div>
 
-        {/* Node Health Stats */}
-        <div className="flex items-center space-x-3 font-mono text-xs">
-          {[
-            { label: 'Healthy', count: healthyCounts.healthy, color: 'text-neon-matrix' },
-            { label: 'Warning', count: healthyCounts.warning, color: 'text-neon-amber' },
-            { label: 'Compromised', count: healthyCounts.compromised, color: 'text-neon-alert' },
-            { label: 'Isolated', count: healthyCounts.isolated, color: 'text-neon-psionic' }
-          ].map((s) => (
-            <div key={s.label} className="text-center px-2 py-1 rounded bg-slate-900 border border-slate-800">
-              <div className={`text-lg font-bold ${s.color}`}>{s.count}</div>
-              <div className="text-[10px] text-slate-500">{s.label}</div>
-            </div>
-          ))}
+        {/* Dynamic KPI Badges */}
+        <div className="flex flex-wrap items-center gap-3 text-[11px]">
+          <div className="flex items-center space-x-1 text-slate-300">
+            <GraduationCap className="w-3.5 h-3.5 text-neon-cyan" />
+            <span className="text-slate-500">Students:</span>
+            <span className="text-white font-bold">10,524</span>
+          </div>
+
+          <div className="flex items-center space-x-1 text-slate-300">
+            <Users className="w-3.5 h-3.5 text-blue-400" />
+            <span className="text-slate-500">Faculty:</span>
+            <span className="text-white font-bold">742</span>
+          </div>
+
+          <div className="flex items-center space-x-1 text-slate-300">
+            <Building className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-slate-500">Buildings:</span>
+            <span className="text-white font-bold">28</span>
+          </div>
+
+          <div className="flex items-center space-x-1">
+            <Server className="w-3.5 h-3.5 text-neon-crimson" />
+            <span className="text-slate-500">Servers:</span>
+            <span className="text-white font-bold">46</span>
+            <span className="text-[10px] text-neon-crimson font-bold">(2 down)</span>
+          </div>
+
+          <div className="flex items-center space-x-1">
+            <Bus className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-slate-500">Buses:</span>
+            <span className="text-white font-bold">32</span>
+            <span className="text-[10px] text-amber-400 font-bold">(3 delayed)</span>
+          </div>
+
+          <div className="flex items-center space-x-1 text-slate-300">
+            <Cpu className="w-3.5 h-3.5 text-neon-matrix" />
+            <span className="text-slate-500">IoT:</span>
+            <span className="text-white font-bold">1,284</span>
+          </div>
+
+          <div className="flex items-center space-x-1">
+            <ShieldAlert className="w-3.5 h-3.5 text-neon-crimson animate-pulse" />
+            <span className="text-slate-500">Incidents:</span>
+            <span className="text-neon-crimson font-bold">5</span>
+          </div>
+
+          <div className="flex items-center space-x-1 text-amber-300">
+            <Sun className="w-3.5 h-3.5" />
+            <span>28°C</span>
+          </div>
         </div>
       </div>
 
-      {/* Main 3D + Side Panel */}
-      <div className="flex gap-3 flex-1 min-h-0" style={{ height: '560px' }}>
-        {/* Three.js Canvas Container */}
-        <div className="flex-1 relative rounded-xl overflow-hidden border border-neon-cyan/20 glass-panel">
+      {/* Main 3D Viewport Canvas Container */}
+      <div className="flex gap-3 flex-1 min-h-0" style={{ height: '520px' }}>
+        <div className="flex-1 relative rounded-xl overflow-hidden border border-neon-cyan/20 glass-panel bg-void-darker">
           <canvas
             ref={canvasRef}
             className="w-full h-full"
             style={{ display: 'block', cursor: 'crosshair' }}
           />
 
-          {/* Tier Layer Filter Controls Overlay */}
-          <div className="absolute top-3 left-3 z-10 font-mono text-xs">
+          {/* Floating Callout Holographic Beacons */}
+          {calloutBeacons.map((b) => (
+            <div
+              key={b.id}
+              onClick={() => {
+                const targetNode = nodes.find((n) => n.id.includes('srv-auth') || n.name.includes(b.title.split(' ')[0]!));
+                if (targetNode) setSelectedNodeId(targetNode.id);
+              }}
+              style={{ top: b.top, left: b.left }}
+              className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 p-2 rounded-xl border shadow-xl backdrop-blur-md cursor-pointer transition-all hover:scale-105 ${b.color}`}
+            >
+              <div className="flex items-center space-x-1.5 font-bold text-[11px] truncate">
+                <span className="w-2 h-2 rounded-full bg-current animate-ping" />
+                <span>{b.title}</span>
+              </div>
+              <div className="text-[9px] text-slate-300 mt-0.5 truncate">{b.status}</div>
+            </div>
+          ))}
+
+          {/* Floating Left: Infrastructure Layers Menu */}
+          <div className="absolute top-3 left-3 z-20 font-mono text-xs">
             <button
               onClick={() => setShowLayerMenu(!showLayerMenu)}
               className="px-3 py-1.5 rounded-lg bg-slate-950/90 border border-neon-cyan/40 hover:border-neon-cyan text-slate-200 hover:text-white flex items-center space-x-1.5 transition-all shadow-lg backdrop-blur-md"
             >
               <Layers className="w-3.5 h-3.5 text-neon-cyan" />
-              <span>Infrastructure Layers ({activeTiers.size}/5)</span>
+              <span>Layers ({activeTiers.size}/5)</span>
             </button>
 
             {showLayerMenu && (
@@ -207,27 +328,90 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
             )}
           </div>
 
-          {/* Legend overlay */}
-          <div className="absolute bottom-3 left-3 flex flex-col space-y-1.5 font-mono text-[10px] z-10">
-            {Object.entries(STATUS_BADGE).map(([status, meta]) => (
-              <div key={status} className={`px-2 py-0.5 rounded border backdrop-blur-sm ${meta.color}`}>
-                {meta.label}
-              </div>
-            ))}
+          {/* Floating Right: Tool Palette (Select, Measure, Add Entity, Draw Zone, Zoom, Compass) */}
+          <div className="absolute top-3 right-3 z-20 flex flex-col space-y-1.5 bg-slate-950/90 border border-slate-800 p-1.5 rounded-xl shadow-xl backdrop-blur-md">
+            {[
+              { id: 'select', label: 'Select', icon: MousePointer },
+              { id: 'measure', label: 'Measure', icon: Ruler },
+              { id: 'add', label: 'Add Entity', icon: PlusCircle },
+              { id: 'zone', label: 'Draw Zone', icon: Pencil },
+              { id: 'simulate', label: 'Simulate Event', icon: PlaySquare }
+            ].map((tool) => {
+              const Icon = tool.icon;
+              const isSelected = selectedTool === tool.id;
+              return (
+                <button
+                  key={tool.id}
+                  onClick={() => setSelectedTool(tool.id)}
+                  className={`p-1.5 rounded-lg flex items-center space-x-1.5 text-[10px] transition-all ${
+                    isSelected
+                      ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40 font-bold'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                  }`}
+                  title={tool.label}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span className="hidden xl:inline">{tool.label}</span>
+                </button>
+              );
+            })}
+
+            <div className="pt-1 border-t border-slate-800 flex flex-col space-y-1 items-center">
+              <button className="p-1 rounded text-slate-400 hover:text-white" title="Compass">
+                <Compass className="w-4 h-4 text-neon-cyan" />
+              </button>
+              <button className="p-1 rounded text-slate-400 hover:text-white" title="Zoom In">
+                <Plus className="w-3.5 h-3.5" />
+              </button>
+              <button className="p-1 rounded text-slate-400 hover:text-white" title="Zoom Out">
+                <Minus className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
-          {/* Scan lines aesthetic overlay */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,240,255,0.012) 3px, rgba(0,240,255,0.012) 4px)'
-            }}
-          />
+          {/* Floating Bottom: Timeline Scrub Bar */}
+          <div className="absolute bottom-3 left-3 right-3 z-20 p-2.5 rounded-xl bg-slate-950/90 border border-slate-800 flex items-center justify-between space-x-4 shadow-2xl backdrop-blur-md">
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setIsPlayingTimeline(!isPlayingTimeline)}
+                className="p-1.5 rounded-lg bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40 hover:bg-neon-cyan/30 transition-all"
+              >
+                {isPlayingTimeline ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+              </button>
+              <span className="px-2 py-0.5 rounded text-[10px] bg-neon-matrix/10 text-neon-matrix border border-neon-matrix/30 font-bold">
+                Live
+              </span>
+              <span className="text-white font-bold text-xs">{timelineTime}</span>
+            </div>
+
+            {/* Timeline hour ticks */}
+            <div className="flex-1 flex items-center justify-between px-3 text-[10px] text-slate-500 relative">
+              <div className="absolute inset-x-3 h-0.5 bg-slate-800 top-1/2 -translate-y-1/2" />
+              <div className="absolute left-[38%] w-3 h-3 rounded-full bg-neon-purple border-2 border-white top-1/2 -translate-y-1/2 shadow-lg shadow-purple-500/50" />
+              {['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'].map((hr) => (
+                <span
+                  key={hr}
+                  onClick={() => setTimelineTime(hr)}
+                  className={`z-10 bg-slate-950 px-1 cursor-pointer transition-colors ${
+                    hr === '10:00' ? 'text-neon-purple font-bold' : 'hover:text-slate-300'
+                  }`}
+                >
+                  {hr}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex items-center space-x-2 text-[10px] text-slate-400">
+              <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-white">1x</span>
+              <button className="p-1 text-slate-400 hover:text-white">
+                <Maximize2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Node Inspector Panel */}
         <div className="w-72 flex flex-col space-y-3">
-          {/* Selected Node Details */}
           {selectedNode ? (
             <div className="glass-panel p-4 rounded-xl font-mono text-xs space-y-3 flex-shrink-0">
               <div className="flex items-center justify-between border-b border-surface-border pb-2">
@@ -239,7 +423,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
                 </span>
               </div>
 
-              <div className="space-y-1.5 text-slate-400">
+              <div className="space-y-1.5 text-slate-400 text-[11px]">
                 <div className="flex justify-between">
                   <span>Type:</span>
                   <span className="text-neon-cyan">{selectedNode.type.toUpperCase()}</span>
@@ -336,76 +520,20 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
                 <div className="flex justify-between items-center">
                   <span>Risk Score:</span>
                   <span
-                    className={`font-bold text-lg ${blastRadiusResult.riskScore > 70
+                    className={`font-bold text-lg ${
+                      blastRadiusResult.riskScore > 70
                         ? 'text-neon-alert'
                         : blastRadiusResult.riskScore > 40
-                          ? 'text-neon-amber'
-                          : 'text-neon-matrix'
-                      }`}
+                        ? 'text-neon-amber'
+                        : 'text-neon-matrix'
+                    }`}
                   >
                     {blastRadiusResult.riskScore}/100
                   </span>
                 </div>
               </div>
-
-              <div className="pt-2 border-t border-neon-amber/20">
-                <div className="text-[10px] text-slate-500 mb-1">Impacted Systems (highlighted):</div>
-                <div className="flex flex-wrap gap-1">
-                  {blastRadiusResult.impactedNodeIds.map((id) => (
-                    <span key={id} className="px-1.5 py-0.5 rounded bg-neon-amber/10 text-neon-amber border border-neon-amber/20 text-[10px]">
-                      {id}
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
           )}
-
-          {/* Edge Status List */}
-          <div className="glass-panel p-3 rounded-xl font-mono text-xs flex-shrink-0">
-            <div className="text-slate-400 text-[10px] uppercase tracking-wider mb-2">
-              Network Links ({filteredEdges.length})
-            </div>
-            <div className="space-y-1.5 max-h-40 overflow-y-auto">
-              {filteredEdges.map((edge) => (
-                <div key={edge.id} className="flex items-center justify-between">
-                  <div className="text-[10px] text-slate-500 truncate flex-1 mr-2">
-                    {edge.source} → {edge.target}
-                  </div>
-                  <div className="flex items-center space-x-1.5">
-                    <span
-                      className={`text-[9px] px-1 py-0.5 rounded border ${edge.status === 'severed'
-                          ? 'text-slate-500 border-slate-700'
-                          : edge.status === 'anomalous'
-                            ? 'text-neon-amber border-neon-amber/30'
-                            : 'text-neon-cyan border-neon-cyan/20'
-                        }`}
-                    >
-                      {edge.status.toUpperCase()}
-                    </span>
-                    {onEdgeStatusChange && edge.status !== 'severed' && (
-                      <button
-                        onClick={() => onEdgeStatusChange(edge.id, 'severed')}
-                        className="text-neon-alert opacity-50 hover:opacity-100 transition-opacity"
-                        title="Sever link"
-                      >
-                        <Scissors className="w-2.5 h-2.5" />
-                      </button>
-                    )}
-                    {onEdgeStatusChange && edge.status === 'severed' && (
-                      <button
-                        onClick={() => onEdgeStatusChange(edge.id, 'normal')}
-                        className="text-neon-matrix opacity-50 hover:opacity-100 transition-opacity"
-                        title="Restore link"
-                      >
-                        <RotateCcw className="w-2.5 h-2.5" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>

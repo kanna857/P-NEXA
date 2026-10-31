@@ -3,13 +3,19 @@ import {
   LayoutDashboard,
   Box,
   Bot,
-  Flame,
   PlaySquare,
-  TrendingUp,
+  Flame,
   Workflow,
-  FileCheck2,
-  Users,
-  Layers
+  TrendingUp,
+  Clock,
+  BookOpen,
+  Share2,
+  Settings,
+  Plus,
+  Play,
+  Database,
+  FilePlus2,
+  CheckCircle2
 } from 'lucide-react';
 
 export type ActiveTab =
@@ -30,66 +36,123 @@ interface SidebarProps {
   userRole: string;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, userRole: _userRole }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab }) => {
   const navItems: Array<{
     id: ActiveTab;
     label: string;
     icon: React.ComponentType<{ className?: string }>;
-    phase: string;
   }> = [
-    { id: 'overview', label: 'Universe Cockpit', icon: LayoutDashboard, phase: 'Phase 1' },
-    { id: 'digital-twin', label: '3D Living Worlds', icon: Box, phase: 'Phase 2' },
-    { id: 'agents', label: 'Multi-Agent Society', icon: Bot, phase: 'Phase 3' },
-    { id: 'incidents', label: 'Cyber Incidents', icon: Flame, phase: 'Phase 4' },
-    { id: 'simulations', label: 'Scenario Simulator', icon: PlaySquare, phase: 'Phase 5' },
-    { id: 'learning', label: 'Strategy Evaluation', icon: TrendingUp, phase: 'Phase 6' },
-    { id: 'workflows', label: 'HITL Workflows', icon: Workflow, phase: 'Phase 7' },
-    { id: 'audit-vault', label: 'Tamper Audit Vault', icon: FileCheck2, phase: 'Phase 8' },
-    { id: 'tenants', label: 'Tenants & RBAC', icon: Users, phase: 'Admin' },
-    { id: 'roadmap', label: 'Phased Checklist', icon: Layers, phase: '134 Tests' }
+    { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'digital-twin', label: 'Digital Twin', icon: Box },
+    { id: 'agents', label: 'AI Agents', icon: Bot },
+    { id: 'simulations', label: 'Simulations', icon: PlaySquare },
+    { id: 'incidents', label: 'Cyber Security', icon: Flame },
+    { id: 'workflows', label: 'Workflow Studio', icon: Workflow },
+    { id: 'learning', label: 'Analytics', icon: TrendingUp },
+    { id: 'incidents', label: 'Events & Timeline', icon: Clock },
+    { id: 'roadmap', label: 'Knowledge Base', icon: BookOpen },
+    { id: 'audit-vault', label: 'Integrations', icon: Share2 },
+    { id: 'tenants', label: 'Settings', icon: Settings }
   ];
 
   return (
-    <aside className="w-64 border-r border-surface-border bg-void-darker/60 backdrop-blur-md flex flex-col justify-between p-4">
-      <div className="space-y-1">
-        <div className="px-3 py-2 text-[10px] uppercase tracking-wider text-slate-500 font-mono">
-          System Modules
-        </div>
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
+    <aside className="w-60 border-r border-surface-border bg-slate-950/90 backdrop-blur-md flex flex-col justify-between p-3 select-none overflow-y-auto">
+      <div className="space-y-4">
+        {/* Navigation Menu */}
+        <div className="space-y-0.5">
+          {navItems.map((item, idx) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id && idx !== 7;
 
-          return (
-            <button
-              key={item.id}
-              onClick={() => onSelectTab(item.id)}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-mono transition-all duration-150 ${
-                isActive
-                  ? 'bg-neon-cyan/15 text-neon-cyan border border-neon-cyan/30 glow-cyan font-bold'
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/60'
-              }`}
-            >
-              <div className="flex items-center space-x-2.5">
-                <Icon className={`w-4 h-4 ${isActive ? 'text-neon-cyan' : 'text-slate-400'}`} />
+            return (
+              <button
+                key={`${item.id}-${idx}`}
+                onClick={() => onSelectTab(item.id)}
+                className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-mono transition-all ${
+                  isActive
+                    ? 'bg-purple-900/40 text-purple-300 border border-purple-500/40 font-bold shadow-lg shadow-purple-500/10'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                }`}
+              >
+                <Icon className={`w-4 h-4 ${isActive ? 'text-neon-purple' : 'text-slate-400'}`} />
                 <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Current World Box */}
+        <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+          <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Current World</div>
+          <div className="flex items-center space-x-2.5">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyan-900 to-indigo-900 border border-cyan-500/30 flex items-center justify-center overflow-hidden">
+              <Box className="w-5 h-5 text-neon-cyan animate-pulse" />
+            </div>
+            <div>
+              <div className="text-xs font-bold text-white font-mono leading-tight">VIT University</div>
+              <div className="text-[10px] text-neon-matrix font-mono flex items-center space-x-1 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-neon-matrix animate-ping" />
+                <span>Live Simulation</span>
               </div>
-              <span className="text-[9px] px-1.5 py-0.5 rounded bg-neon-matrix/10 text-neon-matrix border border-neon-matrix/30">
-                {item.phase}
-              </span>
+            </div>
+          </div>
+          <button
+            onClick={() => onSelectTab('digital-twin')}
+            className="w-full py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-800 text-[11px] font-mono text-slate-300 hover:text-white transition-all text-center"
+          >
+            Switch World
+          </button>
+        </div>
+
+        {/* Quick Create Menu */}
+        <div className="space-y-1.5">
+          <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wider px-2 flex items-center space-x-1">
+            <Plus className="w-3 h-3" />
+            <span>Quick Create</span>
+          </div>
+          <div className="space-y-1">
+            <button
+              onClick={() => onSelectTab('simulations')}
+              className="w-full flex items-center space-x-2 px-2.5 py-1.5 rounded-lg bg-slate-900/50 hover:bg-slate-900 text-[11px] font-mono text-slate-400 hover:text-slate-200 transition-all text-left"
+            >
+              <Play className="w-3 h-3 text-neon-cyan" />
+              <span>New Simulation</span>
             </button>
-          );
-        })}
+            <button
+              onClick={() => onSelectTab('workflows')}
+              className="w-full flex items-center space-x-2 px-2.5 py-1.5 rounded-lg bg-slate-900/50 hover:bg-slate-900 text-[11px] font-mono text-slate-400 hover:text-slate-200 transition-all text-left"
+            >
+              <Workflow className="w-3 h-3 text-neon-purple" />
+              <span>Create Workflow</span>
+            </button>
+            <button
+              onClick={() => onSelectTab('digital-twin')}
+              className="w-full flex items-center space-x-2 px-2.5 py-1.5 rounded-lg bg-slate-900/50 hover:bg-slate-900 text-[11px] font-mono text-slate-400 hover:text-slate-200 transition-all text-left"
+            >
+              <Database className="w-3 h-3 text-neon-matrix" />
+              <span>Add Entities</span>
+            </button>
+            <button
+              onClick={() => onSelectTab('audit-vault')}
+              className="w-full flex items-center space-x-2 px-2.5 py-1.5 rounded-lg bg-slate-900/50 hover:bg-slate-900 text-[11px] font-mono text-slate-400 hover:text-slate-200 transition-all text-left"
+            >
+              <FilePlus2 className="w-3 h-3 text-neon-amber" />
+              <span>Import Data</span>
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Security Status Box */}
-      <div className="p-3 rounded-lg bg-surface-card/60 border border-slate-800 text-xs font-mono">
-        <div className="flex items-center justify-between text-[11px] mb-1">
-          <span className="text-slate-400">Security Guard:</span>
-          <span className="text-neon-matrix">ACTIVE</span>
+      {/* System Status Footer */}
+      <div className="pt-3 border-t border-slate-900 space-y-1">
+        <div className="flex items-center justify-between text-[11px] font-mono">
+          <div className="flex items-center space-x-1.5 text-neon-matrix">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>All Systems Operational</span>
+          </div>
         </div>
-        <div className="text-[10px] text-slate-500 leading-tight">
-          Arbitrary Code: <span className="text-neon-alert">BLOCKED</span><br />
-          Tool Allowlists: <span className="text-neon-matrix">ENFORCED</span>
+        <div className="text-[10px] text-slate-600 font-mono">
+          NEXUS Core v1.0.0-PROD
         </div>
       </div>
     </aside>
