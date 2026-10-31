@@ -125,6 +125,11 @@ $registryData = [PSCustomObject]@{
 $registryData | ConvertTo-Json -Depth 5 | Set-Content -Path $registryPath -Encoding utf8
 Write-Host "Saved agent registry to $registryPath" -ForegroundColor Cyan
 
+# Automatically regenerate Markdown documentation
+if (Test-Path "$workspaceRoot\scripts\generate-registry-docs.mjs") {
+    node "$workspaceRoot\scripts\generate-registry-docs.mjs"
+}
+
 # Output Summary Table
 $divisionCounts.GetEnumerator() | Sort-Object Value -Descending | Format-Table -AutoSize
 Write-Host "TOTAL VERIFIED AGENTS: $($allAgents.Count)" -ForegroundColor Yellow
