@@ -92,7 +92,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
     resetCamera,
     focusNode,
     hoveredNodeId,
-    compassAngle
+    compassAngle,
+    fpsTelemetry
   } = useThreeViewport({
     canvasRef,
     worldMode,
@@ -129,7 +130,33 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   // Keyboard navigation & accessibility shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName)) {
+      const target = (e.target as HTMLElement) || (document.activeElement as HTMLElement);
+
+      // Escape key handler: ALWAYS dismiss drawers/inspectors/modals, even from within dialogs
+      if (e.key === 'Escape') {
+        if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+          (target as HTMLInputElement).blur();
+        }
+        setIsInspectorOpen(false);
+        setShowEntitySelector(false);
+        setShowLayersDropdown(false);
+        return;
+      }
+
+      // Guard: Completely suppress letter/number shortcuts whenever user is typing in inputs, search boxes, forms, or text areas
+      const isTypingContext =
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable ||
+          target.getAttribute('role') === 'textbox' ||
+          target.getAttribute('role') === 'searchbox' ||
+          Boolean(
+            target.closest('input, textarea, select, [contenteditable="true"], [role="searchbox"], form')
+          ));
+
+      if (isTypingContext) {
         return;
       }
 
@@ -149,11 +176,6 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         e.preventDefault();
         zoomOut();
         setScreenReaderAnnouncement('Camera zoomed out.');
-      } else if (e.key === 'Escape') {
-        if (isInspectorOpen) {
-          setIsInspectorOpen(false);
-        }
-        setShowEntitySelector(false);
       } else if (e.key === '1') {
         setActivePreset('orbital');
         setCameraPreset('orbital');
@@ -671,8 +693,10 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
     <div
       ref={containerRef}
       role="region"
+      tabIndex={0}
+      data-testid="digital-twin-viewport"
       aria-label="3D Digital Twin World Viewport"
-      className="relative w-full h-[620px] rounded-2xl overflow-hidden border border-blue-500/25 bg-[#060814] select-none font-mono shadow-2xl"
+      className="relative w-full h-[620px] rounded-2xl overflow-hidden border border-blue-500/25 bg-[#060814] select-none font-mono shadow-2xl focus:outline-none focus:ring-1 focus:ring-purple-500/50"
     >
       {/* Screen Reader Live Region for Accessibility Announcements */}
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
@@ -697,7 +721,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         return (
           <div
             key={b.id}
-            data-testid={`beacon-${b.nodeId}`}
+            data-testid={b.id === 'beacon-server' ? 'beacon-server' : `beacon-${b.nodeId}`}
             role="button"
             tabIndex={0}
             aria-label={`Select and focus ${b.title}, status: ${b.status}`}
@@ -826,6 +850,30 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
             </div>
           )}
         </div>
+
+        {/* Real-time Hardware FPS & Performance Telemetry */}
+        <div
+          data-testid="fps-telemetry-pill"
+          aria-label={`Hardware render telemetry: ${fpsTelemetry.fps} frames per second, ${fpsTelemetry.frameTimeMs} milliseconds frame time`}
+          className="px-2.5 py-1.5 rounded-xl bg-slate-950/85 border border-slate-800 text-[11px] font-mono flex items-center space-x-2 shadow-xl backdrop-blur-md"
+        >
+          <span
+            className={`w-2 h-2 rounded-full ${
+              fpsTelemetry.fps >= 50
+                ? 'bg-emerald-400 animate-pulse'
+                : fpsTelemetry.fps >= 30
+                ? 'bg-amber-400'
+                : 'bg-rose-500 animate-ping'
+            }`}
+          />
+          <span className="text-white font-bold">{fpsTelemetry.fps} FPS</span>
+          <span className="text-slate-500 text-[10px] hidden lg:inline">({fpsTelemetry.frameTimeMs}ms)</span>
+          {fpsTelemetry.isLowPowered && (
+            <span className="text-[9px] px-1 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
+              Low-Power LOD
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Floating Top-Right: "Tools" Palette */}
@@ -866,7 +914,11 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-xl bg-slate-950/90 border border-neon-cyan/40 text-neon-cyan text-xs font-bold shadow-2xl backdrop-blur-md flex items-center space-x-2 animate-pulse">
           <Radio className="w-4 h-4 text-neon-cyan" />
           <span>{hudMessage}</span>
-          <button onClick={() => setHudMessage(null)} className="ml-2 text-slate-400 hover:text-white">
+          <button
+            onClick={() => setHudMessage(null)}
+            aria-label="Dismiss tool announcement"
+            className="ml-2 text-slate-400 hover:text-white p-1 rounded-md w-6 h-6 flex items-center justify-center focus:outline-none focus:ring-1 focus:ring-neon-cyan"
+          >
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -879,7 +931,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
           {(['orbital', 'top-down', 'ingress', 'stadium'] as const).map((preset, idx) => (
             <button
               key={preset}
-              data-testid={`preset-${preset}`}
+              data-testid={`camera-preset-${preset}`}
               aria-label={`Switch camera to ${preset} preset (${idx + 1})`}
               onClick={() => {
                 setActivePreset(preset);
@@ -962,7 +1014,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
             }}
             data-testid="zoom-in-btn"
             aria-label="Zoom In (+)"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors focus:outline-none focus:ring-1 focus:ring-neon-cyan"
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors focus:outline-none focus:ring-1 focus:ring-neon-cyan"
             title="Zoom In (+)"
           >
             <Plus className="w-4 h-4 text-neon-cyan" />
@@ -974,7 +1026,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
             }}
             data-testid="zoom-out-btn"
             aria-label="Zoom Out (-)"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors focus:outline-none focus:ring-1 focus:ring-neon-cyan"
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors focus:outline-none focus:ring-1 focus:ring-neon-cyan"
             title="Zoom Out (-)"
           >
             <Minus className="w-4 h-4 text-neon-cyan" />
@@ -988,7 +1040,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         <div className="flex items-center space-x-3 flex-shrink-0">
           <button
             onClick={() => setIsPlayingTimeline(!isPlayingTimeline)}
-            className="p-1.5 rounded-lg bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40 hover:bg-neon-cyan/30 transition-all"
+            aria-label={isPlayingTimeline ? 'Pause timeline simulation' : 'Play timeline simulation'}
+            className="p-1.5 rounded-lg bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40 hover:bg-neon-cyan/30 transition-all min-w-[28px] min-h-[28px] flex items-center justify-center"
           >
             {isPlayingTimeline ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
           </button>
@@ -1029,7 +1082,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
             onClick={() =>
               setSpeedMultiplier((prev) => (prev === '1x' ? '2x' : prev === '2x' ? '5x' : '1x'))
             }
-            className="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-white font-bold hover:border-neon-cyan transition-colors"
+            aria-label={`Toggle simulation speed multiplier, currently ${speedMultiplier}`}
+            className="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-white font-bold hover:border-neon-cyan transition-colors min-h-[26px] min-w-[28px]"
           >
             {speedMultiplier}
           </button>
@@ -1048,7 +1102,12 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
 
       {/* Contextual Node / Entity Inspector Drawer */}
       {isInspectorOpen && selectedNode && (
-        <div className="absolute top-4 right-16 bottom-20 w-80 z-30 p-4 rounded-2xl bg-slate-950/95 border border-blue-500/40 shadow-2xl backdrop-blur-xl flex flex-col justify-between overflow-y-auto font-mono text-xs animate-in slide-in-from-right duration-200">
+        <div
+          data-testid="entity-inspector"
+          role="dialog"
+          aria-label="Entity Inspector"
+          className="absolute top-4 right-16 bottom-20 w-80 z-30 p-4 rounded-2xl bg-slate-950/95 border border-blue-500/40 shadow-2xl backdrop-blur-xl flex flex-col justify-between overflow-y-auto font-mono text-xs animate-in slide-in-from-right duration-200"
+        >
           <div className="space-y-3">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
@@ -1058,6 +1117,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
               </div>
               <button
                 onClick={() => setIsInspectorOpen(false)}
+                aria-label="Close Inspector"
+                data-testid="close-inspector-btn"
                 className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
               >
                 <X className="w-4 h-4" />

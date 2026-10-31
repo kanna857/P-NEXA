@@ -28,6 +28,12 @@ interface UseThreeViewportOptions {
   isSimulating?: boolean;
 }
 
+export interface FpsTelemetry {
+  fps: number;
+  frameTimeMs: number;
+  isLowPowered: boolean;
+}
+
 export function useThreeViewport({
   canvasRef,
   worldMode = 'school',
@@ -62,6 +68,16 @@ export function useThreeViewport({
   const [compassAngle, setCompassAngle] = useState(0.55);
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
   const hoveredNodeIdRef = useRef<string | null>(null);
+
+  // Real-time hardware performance & FPS telemetry
+  const [fpsTelemetry, setFpsTelemetry] = useState<FpsTelemetry>({
+    fps: 60,
+    frameTimeMs: 16.6,
+    isLowPowered: false
+  });
+  const lastFrameTimeRef = useRef<number>(performance.now());
+  const frameTimesRef = useRef<number[]>([]);
+  const lastFpsUpdateRef = useRef<number>(performance.now());
 
   // Layer Groups
   const groupsRef = useRef<{
@@ -920,7 +936,46 @@ export function useThreeViewport({
     let clock = 0;
     const animate = () => {
       frameIdRef.current = requestAnimationFrame(animate);
-      clock += 0.016;
+
+      // Measure real hardware frame interval
+      const now = performance.now();
+      const deltaMs = now - lastFrameTimeRef.current;
+      lastFrameTimeRef.current = now;
+
+      if (deltaMs > 0 && deltaMs < 250) {
+        frameTimesRef.current.push(deltaMs);
+        if (frameTimesRef.current.length > 30) {
+          frameTimesRef.current.shift();
+        }
+      }
+
+      // Smooth FPS update every 500ms
+      if (now - lastFpsUpdateRef.current > 500 && frameTimesRef.current.length >= 5) {
+        const sum = frameTimesRef.current.reduce((a, b) => a + b, 0);
+        const avgDelta = sum / frameTimesRef.current.length;
+        const computedFps = Math.min(120, Math.max(1, Math.round(1000 / avgDelta)));
+        const roundedDelta = Math.round(avgDelta * 10) / 10;
+        const lowPower = avgDelta > 28.5; // < 35 FPS signals constrained GPU/CPU
+
+        setFpsTelemetry({
+          fps: computedFps,
+          frameTimeMs: roundedDelta,
+          isLowPowered: lowPower
+        });
+
+        // Dynamic hardware adaptation: scale pixel ratio down if hardware is throttled/low-power
+        if (rendererRef.current) {
+          const currentPR = rendererRef.current.getPixelRatio();
+          if (lowPower && currentPR > 1.0) {
+            rendererRef.current.setPixelRatio(1.0);
+          } else if (!lowPower && currentPR < Math.min(window.devicePixelRatio, 2)) {
+            rendererRef.current.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          }
+        }
+        lastFpsUpdateRef.current = now;
+      }
+
+      clock += Math.min(0.05, deltaMs / 1000);
 
       if (!rendererRef.current || !sceneRef.current || !cameraRef.current) return;
 
@@ -1083,6 +1138,7 @@ export function useThreeViewport({
     resetCamera,
     focusNode,
     hoveredNodeId,
-    compassAngle
+    compassAngle,
+    fpsTelemetry
   };
 }

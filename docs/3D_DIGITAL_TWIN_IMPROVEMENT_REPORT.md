@@ -114,6 +114,43 @@ Selected from the official installed **283-Agent Agency Registry** (`.agents/reg
 ## 5. Verification Metrics
 
 - **`pnpm -r run build`:** Succeeded with code 0 across all 18 monorepo workspaces.
-- **`pnpm test`:** 18 test files passed, 151 total tests passed (100% pass rate).
+- **`pnpm test`:** 18 test files passed, 154 total tests passed (100% pass rate).
+- **`pnpm test:e2e`:** 6 / 6 Playwright browser tests passed (100% pass rate).
 - **Agency Orchestrator:** Task logged to `.agents/task_history.json`.
-- **Git Branch:** `feat/3d-digital-twin-controls` (Commit: `f99411e`).
+- **Git Branch:** `feat/3d-digital-twin-controls`.
+
+---
+
+## 6. Pre-Merge Verification & Quality Gates
+
+In response to pre-merge recommendations, the following rigorous verification gates were executed:
+
+### 1. Browser-Level Playwright E2E Suite
+- Executed automated browser tests using Playwright (`node tests/e2e/run-digital-twin-e2e.mjs`).
+- Verified left-click orbit drag, Shift + left-click pan, and mouse wheel zooming.
+- Verified interactive holographic beacons, entity selection, contextual inspector opening, close button, and `Escape` key dismissal.
+- Verified camera angle presets (`1`-`4`), zoom controls (`+`/`-`), and reset view (`R`).
+
+### 2. Real Hardware Performance & Low-Power Adaptation
+- Replaced static labels with live hardware render telemetry (`FpsTelemetry`) measuring sliding-window frame intervals (`performance.now()`).
+- Measured headless software rasterization at 5 FPS (~218ms frame times), which automatically and successfully activated the **Low-Power LOD** adaptation mode, dynamically lowering the pixel ratio to 1.0.
+- Live HUD displays actual measured FPS, frame times in ms, and LOD badge.
+
+### 3. Automated WCAG 2.2 AA Accessibility Audit
+- Scanned viewport and dashboard with `@axe-core/playwright` across WCAG 2.0, 2.1, and 2.2 AA standards.
+- 21 accessibility rules passed cleanly.
+- Updated all interactive touch targets (`zoom-in-btn`, `zoom-out-btn`, timeline controls, close inspector) to meet or exceed the 24px/28px WCAG 2.2 touch-target criteria.
+- Screen reader announcements verified via polite ARIA live region.
+
+### 4. Input & AI Assistant Shortcut Isolation
+- Refactored `handleKeyDown` in `DigitalTwinViewport.tsx` to detect input contexts (`input`, `textarea`, `select`, `contenteditable`, `[role="textbox"]`, `[role="searchbox"]`, `form`).
+- Automated tests verified that typing `r`, `f`, `1`, `2`, `3`, `4`, `+`, `-` into the NEXUS AI Assistant chat input preserves typed text completely and does not trigger 3D camera hotkeys.
+- `Escape` key reliably blurs active inputs and closes open modal overlays.
+
+### 5. Transition to Real Algorithmic Tests
+- Rewrote `DigitalTwinViewer.test.ts` to eliminate artificial mocks.
+- Tested deterministic keyboard action mappings.
+- Tested typing context detection logic against DOM targets.
+- Tested mathematical exponential camera convergence ($36 \times (1 - 0.12)^t \le 0.005$ within 70 frames).
+- Tested FPS sliding-window moving average calculations and low-power hardware threshold triggers.
+

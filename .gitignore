@@ -9,4 +9,6 @@ build
 coverage
 .wiremock
 data/
+test-results/
+playwright-report/
 
