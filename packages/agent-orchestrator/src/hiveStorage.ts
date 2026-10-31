@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { findWorkspaceRoot, getAllMunderHires } from '@nexus/agent-registry';
-import { DevelopmentTask, TaskExecutionLog, BlackboardMemoryEntry } from './types.js';
+import { DevelopmentTask, TaskExecutionLog, BlackboardMemoryEntry, TimelineEvent } from './types.js';
 
 /**
  * Returns the canonical path to the Munder Difflin Hive directory.
@@ -100,7 +100,11 @@ export function loadHiveTasks(): DevelopmentTask[] {
   const tasksFile = join(getHivePath(), 'tasks.json');
   try {
     const raw = readFileSync(tasksFile, 'utf8').replace(/^\uFEFF/, '');
-    return JSON.parse(raw) as DevelopmentTask[];
+    const tasks = JSON.parse(raw) as DevelopmentTask[];
+    return tasks.map((t) => ({
+      ...t,
+      timeline: t.timeline || []
+    }));
   } catch {
     return [];
   }
@@ -131,6 +135,20 @@ export function appendHiveLog(log: TaskExecutionLog & { taskId?: string }): void
   const logFile = join(getHivePath(), 'log.jsonl');
   const line = JSON.stringify({
     ...log,
+    recordedAt: new Date().toISOString()
+  }) + '\n';
+  appendFileSync(logFile, line, 'utf8');
+}
+
+/**
+ * Appends a structured timeline event to `log.jsonl`.
+ */
+export function appendTimelineLog(event: TimelineEvent): void {
+  ensureHiveStructure();
+  const logFile = join(getHivePath(), 'log.jsonl');
+  const line = JSON.stringify({
+    type: 'TIMELINE_EVENT',
+    ...event,
     recordedAt: new Date().toISOString()
   }) + '\n';
   appendFileSync(logFile, line, 'utf8');
@@ -205,4 +223,3 @@ export function loadBlackboardEntries(): BlackboardMemoryEntry[] {
   }
   return entries;
 }
-

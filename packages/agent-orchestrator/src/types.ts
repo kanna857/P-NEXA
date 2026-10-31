@@ -11,7 +11,8 @@ export type TaskStatus =
   | 'APPROVED'
   | 'REJECTED'
   | 'COMPLETED'
-  | 'FAILED';
+  | 'FAILED'
+  | 'CANCELLED';
 
 export type TaskPriority = 'LOW' | 'NORMAL' | 'HIGH' | 'CRITICAL';
 
@@ -44,6 +45,9 @@ export interface TaskPlanStep {
   stage: 'PLANNING' | 'IMPLEMENTATION' | 'CODE_REVIEW' | 'SECURITY_REVIEW' | 'TESTING';
   dependencies: string[];
   status: 'pending' | 'running' | 'completed' | 'failed';
+  retryCount?: number;
+  maxRetries?: number;
+  error?: string;
   notes?: string;
 }
 
@@ -53,6 +57,29 @@ export interface TaskExecutionLog {
   agentName: string;
   level: 'info' | 'warn' | 'error' | 'success';
   message: string;
+}
+
+export interface TimelineEventError {
+  message: string;
+  retryCount: number;
+  maxRetries: number;
+  code?: string;
+}
+
+export interface TimelineEvent {
+  id: string;
+  taskId: string;
+  taskTitle: string;
+  agentId: string;
+  agentName: string;
+  provider: SupportedProvider;
+  stage: OrchestrationStage;
+  status: 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'RETRYING' | 'CANCELLED';
+  worktreeBranch: string;
+  timestamp: string;
+  durationMs: number;
+  message: string;
+  errorDetails?: TimelineEventError;
 }
 
 export interface TaskWorktree {
@@ -103,6 +130,7 @@ export interface DevelopmentTask {
   plan: TaskPlanStep[];
   worktree: TaskWorktree;
   executionLogs: TaskExecutionLog[];
+  timeline: TimelineEvent[];
   codeReview?: SpecialistReviewReport;
   securityReview?: SpecialistReviewReport;
   testResults?: TestExecutionSummary;
@@ -129,4 +157,3 @@ export interface BlackboardMemoryEntry {
   timestamp: string;
   content: string;
 }
-

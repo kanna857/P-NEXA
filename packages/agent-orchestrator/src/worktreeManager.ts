@@ -1,15 +1,49 @@
-import { execSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { getHivePath } from './hiveStorage.js';
 import { TaskWorktree } from './types.js';
 
+const PROTECTED_BRANCHES = ['main', 'master', 'release/'];
+
+/**
+ * Safely executes a git command via spawnSync with an argument array (shell: false).
+ */
+function safeGit(args: string[]): { success: boolean; stdout: string; stderr: string } {
+  try {
+    const result = spawnSync('git', args, {
+      shell: false,
+      encoding: 'utf8',
+      stdio: 'pipe'
+    });
+    return {
+      success: result.status === 0,
+      stdout: result.stdout || '',
+      stderr: result.stderr || ''
+    };
+  } catch (err: unknown) {
+    return {
+      success: false,
+      stdout: '',
+      stderr: String(err)
+    };
+  }
+}
+
 /**
  * Creates an isolated Git worktree for parallel agent execution.
  */
 export function createIsolatedWorktree(taskId: string, branchPrefix = 'feat/agent-task'): TaskWorktree {
+  // Strict sanitization of taskId and branchPrefix
   const sanitizedTaskId = taskId.replace(/[^a-z0-9_-]/gi, '-');
-  const branchName = `${branchPrefix}-${sanitizedTaskId}`;
+  const sanitizedPrefix = branchPrefix.replace(/[^a-z0-9_\-\/]/gi, '');
+  const branchName = `${sanitizedPrefix}-${sanitizedTaskId}`;
+
+  // Enforce branch protection invariants
+  if (PROTECTED_BRANCHES.some((b) => branchName === b || branchName.startsWith(b))) {
+    throw new Error(`Refusing to allocate worktree on protected branch: ${branchName}`);
+  }
+
   const hivePath = getHivePath();
   const worktreesDir = join(hivePath, 'worktrees');
   const targetWorktreePath = join(worktreesDir, sanitizedTaskId);
@@ -18,33 +52,20 @@ export function createIsolatedWorktree(taskId: string, branchPrefix = 'feat/agen
     mkdirSync(worktreesDir, { recursive: true });
   }
 
-  // If a stale worktree directory exists, remove it first
+  // If a stale worktree directory exists, remove it safely
   if (existsSync(targetWorktreePath)) {
-    try {
-      execSync(`git worktree remove --force "${targetWorktreePath}"`, { stdio: 'ignore' });
-    } catch {
+    safeGit(['worktree', 'remove', '--force', targetWorktreePath]);
+    if (existsSync(targetWorktreePath)) {
       rmSync(targetWorktreePath, { recursive: true, force: true });
     }
   }
 
-  // Attempt real git worktree allocation
-  try {
-    // Delete branch if exists from a prior test run
-    try {
-      execSync(`git branch -D "${branchName}"`, { stdio: 'ignore' });
-    } catch {
-      // Ignore if branch doesn't exist
-    }
+  // Attempt real git worktree allocation using parameterized invocation
+  safeGit(['branch', '-D', branchName]);
+  const addResult = safeGit(['worktree', 'add', '-b', branchName, targetWorktreePath, 'HEAD']);
 
-    execSync(`git worktree add -b "${branchName}" "${targetWorktreePath}" HEAD`, {
-      stdio: 'pipe',
-      encoding: 'utf8'
-    });
-  } catch (err: unknown) {
-    // Fallback if worktree command is restricted in environment
-    if (!existsSync(targetWorktreePath)) {
-      mkdirSync(targetWorktreePath, { recursive: true });
-    }
+  if (!addResult.success && !existsSync(targetWorktreePath)) {
+    mkdirSync(targetWorktreePath, { recursive: true });
   }
 
   return {
@@ -63,25 +84,21 @@ export function cleanupWorktree(worktree: TaskWorktree, deleteBranch = false): b
 
   try {
     if (existsSync(worktree.worktreePath)) {
-      try {
-        execSync(`git worktree remove --force "${worktree.worktreePath}"`, { stdio: 'ignore' });
-      } catch {
+      safeGit(['worktree', 'remove', '--force', worktree.worktreePath]);
+      if (existsSync(worktree.worktreePath)) {
         rmSync(worktree.worktreePath, { recursive: true, force: true });
       }
     }
 
-    try {
-      execSync('git worktree prune', { stdio: 'ignore' });
-    } catch {
-      // Ignore
-    }
+    safeGit(['worktree', 'prune']);
 
-    if (deleteBranch && worktree.branchName) {
-      try {
-        execSync(`git branch -D "${worktree.branchName}"`, { stdio: 'ignore' });
-      } catch {
-        // Ignore
-      }
+    // Guard: never delete protected branches
+    if (
+      deleteBranch &&
+      worktree.branchName &&
+      !PROTECTED_BRANCHES.some((b) => worktree.branchName === b || worktree.branchName.startsWith(b))
+    ) {
+      safeGit(['branch', '-D', worktree.branchName]);
     }
 
     worktree.isCleanedUp = true;
@@ -90,4 +107,3 @@ export function cleanupWorktree(worktree: TaskWorktree, deleteBranch = false): b
     return false;
   }
 }
-

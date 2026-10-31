@@ -1,0 +1,10 @@
+{
+  "id": "msg-1793464431622-td49",
+  "timestamp": "2026-10-31T16:33:51.622Z",
+  "recipient": "agency-frontend-developer",
+  "from": "Michael (Branch Manager)",
+  "taskId": "MD-TASK-MVWMEWOH",
+  "type": "TASK_ASSIGNMENT",
+  "subject": "New Lead Assignment: Live Agent Execution Timeline",
+  "body": "You are assigned as LEAD SPECIALIST. Execute implementation on isolated branch 'feat/agent-task-MD-TASK-MVWMEWOH'."
+}

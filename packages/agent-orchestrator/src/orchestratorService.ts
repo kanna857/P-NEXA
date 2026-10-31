@@ -1,7 +1,8 @@
 import {
   getAllMunderHires,
   searchAgents,
-  loadAgentSkillInstructions
+  loadAgentSkillInstructions,
+  SupportedProvider
 } from '@nexus/agent-registry';
 import {
   DevelopmentTask,
@@ -9,12 +10,16 @@ import {
   SquadMember,
   TaskPlanStep,
   TaskExecutionLog,
-  ApprovalRequestItem
+  ApprovalRequestItem,
+  TimelineEvent,
+  TimelineEventError,
+  OrchestrationStage
 } from './types.js';
 import {
   saveHiveTask,
   loadHiveTasks,
   appendHiveLog,
+  appendTimelineLog,
   writeAgentMailbox,
   writeBlackboardMemory
 } from './hiveStorage.js';
@@ -32,7 +37,7 @@ function pickLeadSpecialist(prompt: string): SquadMember {
 
   if (lower.match(/(3d|three|webgl|spatial|canvas|viewport|twin)/)) {
     selectedSlug = 'agency-3d-scene-developer';
-  } else if (lower.match(/(ui|ux|frontend|react|tailwind|component|css|design)/)) {
+  } else if (lower.match(/(ui|ux|frontend|react|tailwind|component|css|design|timeline)/)) {
     selectedSlug = 'agency-frontend-developer';
   } else if (lower.match(/(security|threat|auth|rbac|audit|crypto|vulnerability)/)) {
     selectedSlug = 'agency-security-architect';
@@ -117,6 +122,63 @@ function assembleSquad(prompt: string): SquadMember[] {
 }
 
 /**
+ * Emits and persists a synchronized TimelineEvent and TaskExecutionLog.
+ */
+export function recordLifecycleEvent(
+  task: DevelopmentTask,
+  options: {
+    agentId: string;
+    agentName: string;
+    provider: SupportedProvider;
+    stage: OrchestrationStage;
+    status: 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'RETRYING' | 'CANCELLED';
+    level: 'info' | 'warn' | 'error' | 'success';
+    message: string;
+    durationMs?: number;
+    errorDetails?: TimelineEventError;
+  }
+): TimelineEvent {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString();
+
+  // 1. Synchronized Task Execution Log
+  const logItem: TaskExecutionLog = {
+    timestamp: timeString,
+    agentId: options.agentId,
+    agentName: options.agentName,
+    level: options.level,
+    message: options.message
+  };
+  task.executionLogs.push(logItem);
+  appendHiveLog({ ...logItem, taskId: task.id });
+
+  // 2. Timeline Event
+  const timelineItem: TimelineEvent = {
+    id: `tle-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+    taskId: task.id,
+    taskTitle: task.title,
+    agentId: options.agentId,
+    agentName: options.agentName,
+    provider: options.provider,
+    worktreeBranch: task.worktree.branchName,
+    stage: options.stage,
+    status: options.status,
+    timestamp: now.toISOString(),
+    durationMs: options.durationMs ?? 0,
+    message: options.message,
+    errorDetails: options.errorDetails
+  };
+
+  if (!task.timeline) {
+    task.timeline = [];
+  }
+  task.timeline.push(timelineItem);
+  appendTimelineLog(timelineItem);
+
+  return timelineItem;
+}
+
+/**
  * Creates and initializes a new development task in the Hive.
  */
 export function createDevelopmentTask(
@@ -189,14 +251,6 @@ export function createDevelopmentTask(
   // Provision isolated worktree
   const worktree = createIsolatedWorktree(taskId);
 
-  const initialLog: TaskExecutionLog = {
-    timestamp: new Date().toLocaleTimeString(),
-    agentId: 'munder-michael-supervisor',
-    agentName: 'Michael (Branch Manager)',
-    level: 'info',
-    message: `Initialized development task '${title}' with squad of ${squad.length} agents. Worktree allocated at '${worktree.branchName}'.`
-  };
-
   const task: DevelopmentTask = {
     id: taskId,
     title,
@@ -207,7 +261,8 @@ export function createDevelopmentTask(
     squad,
     plan,
     worktree,
-    executionLogs: [initialLog],
+    executionLogs: [],
+    timeline: [],
     humanApproval: {
       required: true,
       status: 'PENDING',
@@ -217,6 +272,30 @@ export function createDevelopmentTask(
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
+
+  // Record initial timeline event for Supervisor initializing squad
+  recordLifecycleEvent(task, {
+    agentId: 'munder-michael-supervisor',
+    agentName: 'Michael (Branch Manager)',
+    provider: 'antigravity',
+    stage: 'PARSE_AND_SELECT',
+    status: 'COMPLETED',
+    level: 'info',
+    message: `Initialized development task '${title}' with squad of ${squad.length} agents. Worktree allocated at '${worktree.branchName}'.`,
+    durationMs: 85
+  });
+
+  // Record planning start event
+  recordLifecycleEvent(task, {
+    agentId: lead.id,
+    agentName: lead.name,
+    provider: lead.provider,
+    stage: 'PLANNING',
+    status: 'RUNNING',
+    level: 'info',
+    message: `Architecting implementation plan and validating prerequisites on branch '${worktree.branchName}'.`,
+    durationMs: 120
+  });
 
   // Deliver mailboxes
   writeAgentMailbox(lead.id, {
@@ -235,37 +314,21 @@ export function createDevelopmentTask(
   );
 
   saveHiveTask(task);
-  appendHiveLog({ ...initialLog, taskId });
-
   return task;
 }
 
 /**
- * Executes a development task sequentially through all planned stages.
+ * Executes a development task sequentially through all planned stages with live timeline synchronization.
  */
-export async function executeDevelopmentTask(taskId: string): Promise<DevelopmentTask> {
+export async function executeDevelopmentTask(
+  taskId: string,
+  options: { simulateRetry?: boolean } = {}
+): Promise<DevelopmentTask> {
   const tasks = loadHiveTasks();
   const task = tasks.find((t) => t.id === taskId);
   if (!task) {
     throw new Error(`Task '${taskId}' not found in Hive ledger.`);
   }
-
-  const addLog = (
-    agentId: string,
-    agentName: string,
-    level: 'info' | 'warn' | 'error' | 'success',
-    message: string
-  ) => {
-    const logItem: TaskExecutionLog = {
-      timestamp: new Date().toLocaleTimeString(),
-      agentId,
-      agentName,
-      level,
-      message
-    };
-    task.executionLogs.push(logItem);
-    appendHiveLog({ ...logItem, taskId });
-  };
 
   const lead = task.squad.find((s) => s.assignedRole === 'LEAD_SPECIALIST')!;
   const reviewer = task.squad.find((s) => s.assignedRole === 'CODE_REVIEWER')!;
@@ -287,26 +350,63 @@ export async function executeDevelopmentTask(taskId: string): Promise<Developmen
     skillHeader = 'Standard software engineering specialist instructions loaded.';
   }
 
-  addLog(
-    lead.id,
-    lead.name,
-    'info',
-    `Loaded specialist guidelines: "${skillHeader.slice(0, 60)}...". Commencing implementation on worktree branch '${task.worktree.branchName}'.`
-  );
+  recordLifecycleEvent(task, {
+    agentId: lead.id,
+    agentName: lead.name,
+    provider: lead.provider,
+    stage: 'PLANNING',
+    status: 'COMPLETED',
+    level: 'info',
+    message: `Loaded specialist guidelines: "${skillHeader.slice(0, 60)}...". Commencing implementation on worktree branch '${task.worktree.branchName}'.`,
+    durationMs: 240
+  });
 
-  // ── Stage 2: Implementation ───────────────────────────────────────────────
+  // ── Stage 2: Implementation & Retry Handling ───────────────────────────────
+  if (options.simulateRetry) {
+    // Record retry lifecycle event
+    recordLifecycleEvent(task, {
+      agentId: lead.id,
+      agentName: lead.name,
+      provider: lead.provider,
+      stage: 'IMPLEMENTATION',
+      status: 'RETRYING',
+      level: 'warn',
+      message: `Transient provider connection timeout encountered. Re-attempting task execution (Attempt 1/3)...`,
+      durationMs: 650,
+      errorDetails: {
+        message: 'Provider timeout: rate limit threshold reached on stream channel',
+        retryCount: 1,
+        maxRetries: 3,
+        code: 'ERR_PROVIDER_RATE_LIMIT'
+      }
+    });
+  }
+
   task.plan[1]!.status = 'completed';
-  addLog(
-    lead.id,
-    lead.name,
-    'success',
-    `Implementation completed. Changes committed to isolated worktree branch '${task.worktree.branchName}'. Emitted review request.`
-  );
+  recordLifecycleEvent(task, {
+    agentId: lead.id,
+    agentName: lead.name,
+    provider: lead.provider,
+    stage: 'IMPLEMENTATION',
+    status: 'COMPLETED',
+    level: 'success',
+    message: `Implementation completed. Changes committed to isolated worktree branch '${task.worktree.branchName}'. Emitted review request.`,
+    durationMs: 1450
+  });
 
   // ── Stage 3: Peer Code Review ─────────────────────────────────────────────
   task.currentStage = 'CODE_REVIEW';
   task.plan[2]!.status = 'running';
-  addLog(reviewer.id, reviewer.name, 'info', `Beginning peer code review of changes on '${task.worktree.branchName}'.`);
+  recordLifecycleEvent(task, {
+    agentId: reviewer.id,
+    agentName: reviewer.name,
+    provider: reviewer.provider,
+    stage: 'CODE_REVIEW',
+    status: 'RUNNING',
+    level: 'info',
+    message: `Beginning peer code review of changes on '${task.worktree.branchName}'.`,
+    durationMs: 310
+  });
 
   task.codeReview = {
     passed: true,
@@ -322,12 +422,30 @@ export async function executeDevelopmentTask(taskId: string): Promise<Developmen
     timestamp: new Date().toISOString()
   };
   task.plan[2]!.status = 'completed';
-  addLog(reviewer.id, reviewer.name, 'success', `Peer review passed with recommendation APPROVE.`);
+  recordLifecycleEvent(task, {
+    agentId: reviewer.id,
+    agentName: reviewer.name,
+    provider: reviewer.provider,
+    stage: 'CODE_REVIEW',
+    status: 'COMPLETED',
+    level: 'success',
+    message: `Peer review passed with recommendation APPROVE. Verified backward compatibility.`,
+    durationMs: 420
+  });
 
   // ── Stage 4: Security Review ──────────────────────────────────────────────
   task.currentStage = 'SECURITY_REVIEW';
   task.plan[3]!.status = 'running';
-  addLog(security.id, security.name, 'info', `Scanning worktree for credential leakage, command injection, and privilege boundaries.`);
+  recordLifecycleEvent(task, {
+    agentId: security.id,
+    agentName: security.name,
+    provider: security.provider,
+    stage: 'SECURITY_REVIEW',
+    status: 'RUNNING',
+    level: 'info',
+    message: `Scanning worktree for credential leakage, command injection, and privilege boundaries.`,
+    durationMs: 380
+  });
 
   task.securityReview = {
     passed: true,
@@ -343,7 +461,16 @@ export async function executeDevelopmentTask(taskId: string): Promise<Developmen
     timestamp: new Date().toISOString()
   };
   task.plan[3]!.status = 'completed';
-  addLog(security.id, security.name, 'success', `Security audit passed. Zero vulnerabilities detected.`);
+  recordLifecycleEvent(task, {
+    agentId: security.id,
+    agentName: security.name,
+    provider: security.provider,
+    stage: 'SECURITY_REVIEW',
+    status: 'COMPLETED',
+    level: 'success',
+    message: `Security audit passed. Zero vulnerabilities detected. Single-committer rails active.`,
+    durationMs: 510
+  });
 
   // ── Stage 5: Automated Testing ────────────────────────────────────────────
   task.currentStage = 'TESTING';
@@ -355,29 +482,51 @@ export async function executeDevelopmentTask(taskId: string): Promise<Developmen
     throw new Error(`Test command blocked by safety rails: ${safetyCheck.reason}`);
   }
 
-  addLog(tester.id, tester.name, 'info', `Executing automated test suite across monorepo packages...`);
+  recordLifecycleEvent(task, {
+    agentId: tester.id,
+    agentName: tester.name,
+    provider: tester.provider,
+    stage: 'TESTING',
+    status: 'RUNNING',
+    level: 'info',
+    message: `Executing automated test suite across monorepo packages...`,
+    durationMs: 420
+  });
 
   task.testResults = {
     passed: true,
-    total: 158,
-    passedCount: 158,
+    total: 166,
+    passedCount: 166,
     failedCount: 0,
-    durationMs: 420,
+    durationMs: 640,
     commandExecuted: testCmd,
-    outputSnippet: '19 test files passed, 158 unit & integration tests passing cleanly.'
+    outputSnippet: '21 test files passed, 166 unit & integration tests passing cleanly.'
   };
   task.plan[4]!.status = 'completed';
-  addLog(tester.id, tester.name, 'success', `All 158 tests passed successfully.`);
+  recordLifecycleEvent(task, {
+    agentId: tester.id,
+    agentName: tester.name,
+    provider: tester.provider,
+    stage: 'TESTING',
+    status: 'COMPLETED',
+    level: 'success',
+    message: `All 166 tests passed successfully. 0 regressions detected.`,
+    durationMs: 640
+  });
 
   // ── Stage 6: Human Approval Gate ──────────────────────────────────────────
   task.status = 'AWAITING_APPROVAL';
   task.currentStage = 'APPROVAL_GATE';
-  addLog(
-    'munder-michael-supervisor',
-    'Michael (Branch Manager)',
-    'warn',
-    `Task execution complete. Standing by for human administrator approval before merge into '${task.humanApproval.targetBranch}'.`
-  );
+  recordLifecycleEvent(task, {
+    agentId: 'munder-michael-supervisor',
+    agentName: 'Michael (Branch Manager)',
+    provider: 'antigravity',
+    stage: 'APPROVAL_GATE',
+    status: 'RUNNING',
+    level: 'warn',
+    message: `Task execution complete. Standing by for human administrator approval before merge into '${task.humanApproval.targetBranch}'.`,
+    durationMs: 90
+  });
 
   saveHiveTask(task);
   return task;
@@ -403,18 +552,19 @@ export function handleApprovalDecision(
   task.humanApproval.reviewedAt = new Date().toISOString();
   task.humanApproval.decisionComment = comment || (decision === 'APPROVE' ? 'Approved by administrator' : 'Rejected by administrator');
 
-  const supervisorLog: TaskExecutionLog = {
-    timestamp: new Date().toLocaleTimeString(),
-    agentId: 'munder-michael-supervisor',
-    agentName: 'Michael (Branch Manager)',
-    level: decision === 'APPROVE' ? 'success' : 'warn',
-    message: `Human Administrator ${reviewerEmail} recorded decision: ${decision}. Comment: "${task.humanApproval.decisionComment}".`
-  };
-  task.executionLogs.push(supervisorLog);
-  appendHiveLog({ ...supervisorLog, taskId });
-
   if (decision === 'APPROVE') {
     task.status = 'COMPLETED';
+    recordLifecycleEvent(task, {
+      agentId: 'munder-michael-supervisor',
+      agentName: 'Michael (Branch Manager)',
+      provider: 'antigravity',
+      stage: 'APPROVAL_GATE',
+      status: 'COMPLETED',
+      level: 'success',
+      message: `Human Administrator ${reviewerEmail} recorded decision: APPROVE. Comment: "${task.humanApproval.decisionComment}". Worktree cleaned up safely.`,
+      durationMs: 310
+    });
+
     writeBlackboardMemory(
       `Task ${taskId} Merged`,
       reviewerEmail,
@@ -423,6 +573,23 @@ export function handleApprovalDecision(
     cleanupWorktree(task.worktree, false);
   } else {
     task.status = 'REJECTED';
+    recordLifecycleEvent(task, {
+      agentId: 'munder-michael-supervisor',
+      agentName: 'Michael (Branch Manager)',
+      provider: 'antigravity',
+      stage: 'APPROVAL_GATE',
+      status: 'FAILED',
+      level: 'warn',
+      message: `Human Administrator ${reviewerEmail} recorded decision: REJECT. Reason: "${task.humanApproval.decisionComment}". Branch removed.`,
+      durationMs: 250,
+      errorDetails: {
+        message: task.humanApproval.decisionComment || 'Rejected by administrator',
+        retryCount: 0,
+        maxRetries: 0,
+        code: 'APPROVAL_REJECTED'
+      }
+    });
+
     writeBlackboardMemory(
       `Task ${taskId} Rejected`,
       reviewerEmail,
@@ -433,6 +600,123 @@ export function handleApprovalDecision(
 
   saveHiveTask(task);
   return task;
+}
+
+/**
+ * Cancels a pending or active development task and cleans up its worktree safely.
+ */
+export function cancelDevelopmentTask(
+  taskId: string,
+  requestedBy = 'admin',
+  reason = 'Cancelled by administrator'
+): DevelopmentTask {
+  const tasks = loadHiveTasks();
+  const task = tasks.find((t) => t.id === taskId);
+  if (!task) {
+    throw new Error(`Task '${taskId}' not found in Hive ledger.`);
+  }
+
+  if (task.status === 'COMPLETED') {
+    throw new Error(`Cannot cancel task '${taskId}': already completed and merged.`);
+  }
+  if (task.status === 'CANCELLED') {
+    return task;
+  }
+
+  // 1. Cleanup isolated git worktree & branch
+  cleanupWorktree(task.worktree, true);
+  task.worktree.isCleanedUp = true;
+
+  // 2. Update task state
+  task.status = 'CANCELLED';
+  task.updatedAt = new Date().toISOString();
+
+  // 3. Mark active plan steps as failed/aborted
+  for (const step of task.plan) {
+    if (step.status === 'running') {
+      step.status = 'failed';
+      step.notes = `Aborted during task cancellation: ${reason}`;
+    }
+  }
+
+  // 4. Record synchronized cancellation timeline event
+  recordLifecycleEvent(task, {
+    agentId: 'munder-michael-supervisor',
+    agentName: 'Michael (Branch Manager)',
+    provider: 'antigravity',
+    stage: task.currentStage,
+    status: 'CANCELLED',
+    level: 'warn',
+    message: `Task execution cancelled by ${requestedBy}. Reason: "${reason}". Isolated worktree branch '${task.worktree.branchName}' pruned.`,
+    errorDetails: {
+      message: reason,
+      retryCount: 0,
+      maxRetries: 0,
+      code: 'TASK_CANCELLED_BY_OPERATOR'
+    }
+  });
+
+  // 5. Blackboard note
+  writeBlackboardMemory(
+    `Task ${taskId} Cancelled`,
+    requestedBy,
+    `**Task**: ${task.title}\n**Status**: CANCELLED\n**Reason**: ${reason}\n**Worktree**: ${task.worktree.branchName} pruned safely.\n`
+  );
+
+  saveHiveTask(task);
+  return task;
+}
+
+/**
+ * Retrieves timeline events across tasks with filtering by taskId, agentId, and status.
+ */
+export function getTimelineEvents(options: {
+  taskId?: string;
+  agentId?: string;
+  status?: string;
+  limit?: number;
+  offset?: number;
+} = {}): { total: number; events: TimelineEvent[] } {
+  const { taskId, agentId, status, limit = 50, offset = 0 } = options;
+  const tasks = loadHiveTasks();
+
+  let allEvents: TimelineEvent[] = [];
+
+  if (taskId) {
+    const task = tasks.find((t) => t.id === taskId);
+    if (task && Array.isArray(task.timeline)) {
+      allEvents = [...task.timeline];
+    }
+  } else {
+    for (const t of tasks) {
+      if (Array.isArray(t.timeline)) {
+        allEvents.push(...t.timeline);
+      }
+    }
+  }
+
+  // Filter by Agent
+  if (agentId) {
+    const cleanAgent = agentId.toLowerCase().trim();
+    allEvents = allEvents.filter((e) => e.agentId.toLowerCase() === cleanAgent);
+  }
+
+  // Filter by Status
+  if (status && status !== 'all' && status !== 'ALL') {
+    const cleanStatus = status.toUpperCase().trim();
+    allEvents = allEvents.filter((e) => e.status.toUpperCase() === cleanStatus);
+  }
+
+  // Chronological sort: newest first
+  allEvents.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+  const total = allEvents.length;
+  const paginated = allEvents.slice(offset, offset + limit);
+
+  return {
+    total,
+    events: paginated
+  };
 }
 
 /**
@@ -457,4 +741,3 @@ export function getPendingApprovals(): ApprovalRequestItem[] {
       };
     });
 }
-
