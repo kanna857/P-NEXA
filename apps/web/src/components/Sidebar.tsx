@@ -15,7 +15,10 @@ import {
   Play,
   Database,
   FilePlus2,
-  CheckCircle2
+  CheckCircle2,
+  GraduationCap,
+  Building2,
+  ShieldAlert
 } from 'lucide-react';
 
 export type ActiveTab =
@@ -34,9 +37,10 @@ interface SidebarProps {
   activeTab: ActiveTab;
   onSelectTab: (tab: ActiveTab) => void;
   userRole: string;
+  currentTenant?: { id: string; name: string; mode?: 'school' | 'office' | 'defense'; slug?: string };
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, currentTenant }) => {
   const navItems: Array<{
     id: ActiveTab;
     label: string;
@@ -85,11 +89,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab }) => {
         <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
           <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Current World</div>
           <div className="flex items-center space-x-2.5">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyan-900 to-indigo-900 border border-cyan-500/30 flex items-center justify-center overflow-hidden">
-              <Box className="w-5 h-5 text-neon-cyan animate-pulse" />
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyan-900 to-indigo-900 border border-cyan-500/30 flex items-center justify-center overflow-hidden flex-shrink-0">
+              {currentTenant?.mode === 'office' ? (
+                <Building2 className="w-5 h-5 text-neon-cyan animate-pulse" />
+              ) : currentTenant?.mode === 'defense' ? (
+                <ShieldAlert className="w-5 h-5 text-neon-crimson animate-pulse" />
+              ) : (
+                <GraduationCap className="w-5 h-5 text-neon-cyan animate-pulse" />
+              )}
             </div>
-            <div>
-              <div className="text-xs font-bold text-white font-mono leading-tight">VIT University</div>
+            <div className="min-w-0 flex-1">
+              <div className="text-xs font-bold text-white font-mono leading-tight truncate">
+                {currentTenant?.name || 'NEXUS Quantum Academy'}
+              </div>
               <div className="text-[10px] text-neon-matrix font-mono flex items-center space-x-1 mt-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-neon-matrix animate-ping" />
                 <span>Live Simulation</span>

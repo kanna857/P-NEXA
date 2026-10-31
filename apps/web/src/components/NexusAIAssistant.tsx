@@ -234,7 +234,7 @@ export const NexusAIAssistant: React.FC = () => {
             type="text"
             value={inputPrompt}
             onChange={(e) => setInputPrompt(e.target.value)}
-            placeholder="Ask anything about your university..."
+            placeholder="Ask anything about your digital twin, agents, or simulation..."
             className="w-full px-3 py-2 pr-14 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs placeholder:text-slate-500 focus:outline-none focus:border-neon-purple transition-all"
           />
           <div className="absolute right-2 flex items-center space-x-1">

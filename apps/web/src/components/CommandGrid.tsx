@@ -10,9 +10,10 @@ import {
 
 interface CommandGridProps {
   onNavigateTab?: (tab: string) => void;
+  worldMode?: 'school' | 'office' | 'defense';
 }
 
-export const CommandGrid: React.FC<CommandGridProps> = ({ onNavigateTab }) => {
+export const CommandGrid: React.FC<CommandGridProps> = ({ onNavigateTab, worldMode = 'school' }) => {
   const [incidentTimer, setIncidentTimer] = useState('00:12:45');
   const [approvalRequested, setApprovalRequested] = useState(false);
 
@@ -193,9 +194,15 @@ export const CommandGrid: React.FC<CommandGridProps> = ({ onNavigateTab }) => {
               <Server className="w-6 h-6 text-neon-crimson animate-pulse" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-xs font-bold text-white truncate">Main Authentication Server Down</div>
+              <div className="text-xs font-bold text-white truncate">
+                {worldMode === 'school' && 'Main Authentication Server Down'}
+                {worldMode === 'office' && 'Enterprise SSO & Okta Identity Node Outage'}
+                {worldMode === 'defense' && 'Cryptographic Key Vault Desynchronization'}
+              </div>
               <p className="text-[10px] text-slate-400 mt-0.5 leading-snug">
-                Students and faculty are unable to access the university portal.
+                {worldMode === 'school' && 'Students and faculty are unable to access the academy portal.'}
+                {worldMode === 'office' && 'Corporate staff and trading clients cannot authenticate to enterprise SSO.'}
+                {worldMode === 'defense' && 'Tactical units and operators cannot decrypt mission control telemetry.'}
               </p>
             </div>
           </div>

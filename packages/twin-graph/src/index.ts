@@ -13,6 +13,7 @@ export interface TwinNode {
     cpuUsage?: number;
     memoryUsage?: number;
     trafficRateKbps?: number;
+    [key: string]: unknown;
   };
 }
 

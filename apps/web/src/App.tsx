@@ -41,13 +41,13 @@ export default function App() {
   }, []);
 
   // Preloaded mock data matching the seeded state
-  const [availableTenants] = useState([
-    { id: 'tenant_cyberdyne', name: 'VIT University', slug: 'vit-university' },
-    { id: 'tenant_aegis', name: 'CyberDyne Orbital', slug: 'cyberdyne-orbital' },
-    { id: 'tenant_synthetix', name: 'Synthetix Labs', slug: 'synthetix-labs' }
+  const [availableTenants] = useState<Array<{ id: string; name: string; slug: string; mode: 'school' | 'office' | 'defense' }>>([
+    { id: 'tenant_school', name: 'NEXUS Quantum Academy', slug: 'nexus-academy', mode: 'school' },
+    { id: 'tenant_office', name: 'CyberDyne Enterprise HQ', slug: 'cyberdyne-hq', mode: 'office' },
+    { id: 'tenant_defense', name: 'Aegis Cyber Defense Complex', slug: 'aegis-defense', mode: 'defense' }
   ]);
 
-  const [currentTenantId, setCurrentTenantId] = useState('tenant_cyberdyne');
+  const [currentTenantId, setCurrentTenantId] = useState('tenant_school');
   const currentTenant = availableTenants.find((t) => t.id === currentTenantId) || availableTenants[0]!;
 
   const [currentUser, setCurrentUser] = useState({
@@ -72,7 +72,7 @@ export default function App() {
       currentHash: 'b4a83f12a9e223910f5438da1cf4d88e0ab326c7104b2811467cb484cfbc5832',
       action: 'TENANT_INITIALIZED',
       actor: { systemService: 'seed-engine' },
-      payload: { name: 'VIT University', plan: 'autonomous_grid' },
+      payload: { name: 'NEXUS Quantum Academy', plan: 'autonomous_grid' },
       timestamp: new Date(Date.now() - 3600000 * 3).toISOString()
     },
     {
@@ -126,6 +126,7 @@ export default function App() {
           activeTab={activeTab}
           onSelectTab={(tab) => setActiveTab(tab)}
           userRole={currentUser.role}
+          currentTenant={currentTenant}
         />
 
         {/* Center Main Stage */}
@@ -133,13 +134,32 @@ export default function App() {
           {/* Dashboard: Centerpiece 3D Digital Twin + Contextual Intelligence Grid */}
           {activeTab === 'overview' && (
             <div className="space-y-4">
-              <DigitalTwinWorldView />
-              <CommandGrid onNavigateTab={(tab) => setActiveTab(tab as ActiveTab)} />
+              <DigitalTwinWorldView
+                worldMode={currentTenant.mode}
+                worldName={currentTenant.name}
+                onWorldChange={(mode) => {
+                  const match = availableTenants.find((t) => t.mode === mode);
+                  if (match) setCurrentTenantId(match.id);
+                }}
+              />
+              <CommandGrid
+                onNavigateTab={(tab) => setActiveTab(tab as ActiveTab)}
+                worldMode={currentTenant.mode}
+              />
             </div>
           )}
 
           {/* Living 3D Digital Twin Dedicated View */}
-          {activeTab === 'digital-twin' && <DigitalTwinWorldView />}
+          {activeTab === 'digital-twin' && (
+            <DigitalTwinWorldView
+              worldMode={currentTenant.mode}
+              worldName={currentTenant.name}
+              onWorldChange={(mode) => {
+                const match = availableTenants.find((t) => t.mode === mode);
+                if (match) setCurrentTenantId(match.id);
+              }}
+            />
+          )}
 
           {/* Multi-Agent AI Society with Vector Memory */}
           {activeTab === 'agents' && <AgentsSocietyView />}

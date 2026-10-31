@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { useThreeViewport, ActiveLayers } from '../hooks/useThreeViewport.js';
+import { useThreeViewport, ActiveLayers, WorldMode } from '../hooks/useThreeViewport.js';
 import { TwinNode, TwinEdge, computeBlastRadius } from '@nexus/twin-graph';
 import {
   Activity,
@@ -32,6 +32,8 @@ import {
 interface DigitalTwinViewportProps {
   nodes: TwinNode[];
   edges: TwinEdge[];
+  worldMode?: WorldMode;
+  simulationPlan?: string;
   onNodeStatusChange?: (nodeId: string, status: TwinNode['status']) => void;
   onEdgeStatusChange?: (edgeId: string, status: TwinEdge['status']) => void;
 }
@@ -39,6 +41,8 @@ interface DigitalTwinViewportProps {
 export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   nodes,
   edges,
+  worldMode = 'school',
+  simulationPlan = 'standard',
   onNodeStatusChange
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -77,6 +81,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   // Three.js Viewport Hook
   const { setCameraPreset, zoomIn, zoomOut, resetCamera, compassAngle } = useThreeViewport({
     canvasRef,
+    worldMode,
+    simulationPlan,
     nodes,
     edges,
     selectedNodeId,
@@ -144,14 +150,219 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
     }
   };
 
-  // 7 Holographic Beacons mapped with precision to match the reference image
-  const beacons = useMemo(
-    () => [
+  // 7 Holographic Beacons dynamically configured per simulation world
+  const beacons = useMemo(() => {
+    if (worldMode === 'office') {
+      return [
+        {
+          id: 'beacon-hostel',
+          nodeId: 'b-hostel-a',
+          title: 'Global Trading Floor',
+          status: '450 desks · High Volume',
+          icon: Building2,
+          top: '28%',
+          left: '26%',
+          glowBorder: 'border-cyan-400/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-cyan-300',
+          dotColor: 'bg-cyan-400',
+          stemColor: 'bg-cyan-400/60'
+        },
+        {
+          id: 'beacon-academic',
+          nodeId: 'b-acad-1',
+          title: 'Executive Tower Alpha',
+          status: '72 floors · 98% occupied',
+          icon: Building2,
+          top: '18%',
+          left: '46%',
+          glowBorder: 'border-emerald-400/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-emerald-300',
+          dotColor: 'bg-emerald-400',
+          stemColor: 'bg-emerald-400/60'
+        },
+        {
+          id: 'beacon-server',
+          nodeId: 'srv-auth',
+          title: 'Primary Datacenter',
+          status: 'Cooling Anomaly · High Severity',
+          icon: Server,
+          top: '24%',
+          left: '62%',
+          glowBorder: 'border-rose-500',
+          bg: 'bg-rose-950/90',
+          text: 'text-rose-300',
+          dotColor: 'bg-rose-500 animate-ping',
+          stemColor: 'bg-rose-500/80 animate-pulse'
+        },
+        {
+          id: 'beacon-library',
+          nodeId: 'b-library',
+          title: 'Global Operations Hub',
+          status: '24/7 Operations · Online',
+          icon: BookOpen,
+          top: '32%',
+          left: '71%',
+          glowBorder: 'border-blue-500/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-blue-300',
+          dotColor: 'bg-blue-400',
+          stemColor: 'bg-blue-400/60'
+        },
+        {
+          id: 'beacon-sports',
+          nodeId: 'b-sports',
+          title: 'Rooftop Helipad',
+          status: 'VIP Transport Active',
+          icon: Activity,
+          top: '46%',
+          left: '25%',
+          glowBorder: 'border-amber-400/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-amber-300',
+          dotColor: 'bg-amber-400',
+          stemColor: 'bg-amber-400/60'
+        },
+        {
+          id: 'beacon-buses',
+          nodeId: 'b-buses',
+          title: 'Corporate EV Shuttles',
+          status: '24 active · Zero delays',
+          icon: Car,
+          top: '44%',
+          left: '38%',
+          glowBorder: 'border-emerald-400/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-emerald-300',
+          dotColor: 'bg-emerald-400',
+          stemColor: 'bg-emerald-400/60'
+        },
+        {
+          id: 'beacon-gate',
+          nodeId: 'b-maingate',
+          title: 'Biometric Portal',
+          status: 'Access Level 5 Enforced',
+          icon: Shield,
+          top: '50%',
+          left: '56%',
+          glowBorder: 'border-blue-400/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-blue-300',
+          dotColor: 'bg-blue-400',
+          stemColor: 'bg-blue-400/60'
+        }
+      ];
+    } else if (worldMode === 'defense') {
+      return [
+        {
+          id: 'beacon-hostel',
+          nodeId: 'b-hostel-a',
+          title: 'Operator Ready Barracks',
+          status: 'Tactical Squads on Standby',
+          icon: Building2,
+          top: '28%',
+          left: '26%',
+          glowBorder: 'border-cyan-400/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-cyan-300',
+          dotColor: 'bg-cyan-400',
+          stemColor: 'bg-cyan-400/60'
+        },
+        {
+          id: 'beacon-academic',
+          nodeId: 'b-acad-1',
+          title: 'SOC Command Fortress',
+          status: 'Level 4 Cyber Threat Alert',
+          icon: Building2,
+          top: '18%',
+          left: '46%',
+          glowBorder: 'border-emerald-400/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-emerald-300',
+          dotColor: 'bg-emerald-400',
+          stemColor: 'bg-emerald-400/60'
+        },
+        {
+          id: 'beacon-server',
+          nodeId: 'srv-auth',
+          title: 'Crypto Core Vault',
+          status: 'Air-Gap Breach Contained',
+          icon: Server,
+          top: '24%',
+          left: '62%',
+          glowBorder: 'border-rose-500',
+          bg: 'bg-rose-950/90',
+          text: 'text-rose-300',
+          dotColor: 'bg-rose-500 animate-ping',
+          stemColor: 'bg-rose-500/80 animate-pulse'
+        },
+        {
+          id: 'beacon-library',
+          nodeId: 'b-library',
+          title: 'Threat Intel Radome',
+          status: 'Orbital Telemetry Linked',
+          icon: BookOpen,
+          top: '32%',
+          left: '71%',
+          glowBorder: 'border-blue-500/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-blue-300',
+          dotColor: 'bg-blue-400',
+          stemColor: 'bg-blue-400/60'
+        },
+        {
+          id: 'beacon-sports',
+          nodeId: 'b-sports',
+          title: 'Tactical Drone Pad',
+          status: '16 UAVs Armed / 2 Scrambled',
+          icon: Activity,
+          top: '46%',
+          left: '25%',
+          glowBorder: 'border-teal-400/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-teal-300',
+          dotColor: 'bg-teal-400',
+          stemColor: 'bg-teal-400/60'
+        },
+        {
+          id: 'beacon-buses',
+          nodeId: 'b-buses',
+          title: 'Rapid Response Fleet',
+          status: 'Armored Units Dispatched',
+          icon: Car,
+          top: '44%',
+          left: '38%',
+          glowBorder: 'border-amber-400/80',
+          bg: 'bg-amber-950/90',
+          text: 'text-amber-300',
+          dotColor: 'bg-amber-400',
+          stemColor: 'bg-amber-400/60'
+        },
+        {
+          id: 'beacon-gate',
+          nodeId: 'b-maingate',
+          title: 'Perimeter Barrier',
+          status: 'Hardened Lockdown Active',
+          icon: Shield,
+          top: '50%',
+          left: '56%',
+          glowBorder: 'border-rose-500/80',
+          bg: 'bg-slate-950/90',
+          text: 'text-rose-300',
+          dotColor: 'bg-rose-500',
+          stemColor: 'bg-rose-500/60'
+        }
+      ];
+    }
+
+    // Default: School Mode
+    return [
       {
         id: 'beacon-hostel',
         nodeId: 'b-hostel-a',
-        title: 'Hostel Block A',
-        status: '2,400 students · 96% capacity',
+        title: 'Student Dorm Hall A',
+        status: '2,400 residents · 96% occupancy',
         icon: Building2,
         top: '28%',
         left: '26%',
@@ -164,8 +375,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
       {
         id: 'beacon-academic',
         nodeId: 'b-acad-1',
-        title: 'Academic Block',
-        status: '18 buildings · Normal',
+        title: 'STEM Lecture Block',
+        status: '18 lecture halls · Normal',
         icon: Building2,
         top: '18%',
         left: '46%',
@@ -178,7 +389,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
       {
         id: 'beacon-server',
         nodeId: 'srv-auth',
-        title: 'Main Server',
+        title: 'Campus Auth Server',
         status: 'Issues detected · High Severity',
         icon: Server,
         top: '24%',
@@ -192,8 +403,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
       {
         id: 'beacon-library',
         nodeId: 'b-library',
-        title: 'Library',
-        status: '350k resources · Online',
+        title: 'Digital Media Library',
+        status: '350k educational resources · Online',
         icon: BookOpen,
         top: '32%',
         left: '71%',
@@ -206,8 +417,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
       {
         id: 'beacon-sports',
         nodeId: 'b-sports',
-        title: 'Sports Complex',
-        status: 'Normal',
+        title: 'Athletic Sports Complex',
+        status: 'Football tournament underway',
         icon: Activity,
         top: '46%',
         left: '25%',
@@ -220,7 +431,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
       {
         id: 'beacon-buses',
         nodeId: 'b-buses',
-        title: 'Campus Buses',
+        title: 'Campus Transit Buses',
         status: '32 active / 3 delayed',
         icon: Car,
         top: '44%',
@@ -234,8 +445,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
       {
         id: 'beacon-gate',
         nodeId: 'b-maingate',
-        title: 'Main Gate',
-        status: 'Secure',
+        title: 'North Campus Gate',
+        status: 'Secure · Automated Turnstiles',
         icon: Shield,
         top: '50%',
         left: '56%',
@@ -245,37 +456,115 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         dotColor: 'bg-blue-400',
         stemColor: 'bg-blue-400/60'
       }
-    ],
-    []
-  );
+    ];
+  }, [worldMode]);
 
-  const selectedNode = nodes.find((n) => n.id === selectedNodeId) || {
-    id: selectedNodeId || 'srv-auth',
-    name:
-      selectedNodeId === 'srv-auth'
-        ? 'Main Authentication Server (srv-auth)'
-        : selectedNodeId === 'b-hostel-a'
-        ? 'Hostel Block A Complex'
-        : selectedNodeId === 'b-acad-1'
-        ? 'Central Academic Research Block'
-        : selectedNodeId === 'b-library'
-        ? 'Central Digital Library'
-        : selectedNodeId === 'b-maingate'
-        ? 'Main Campus Perimeter Gate'
-        : selectedNodeId === 'b-buses'
-        ? 'Campus Transit Fleet Hub'
-        : 'Campus Entity',
-    type: 'server',
-    tier: 2,
-    status: selectedNodeId === 'srv-auth' ? 'compromised' : 'healthy',
-    metadata: {
-      ipAddress: '10.2.0.10',
-      os: 'Ubuntu 24.04 LTS',
-      cpuUsage: 89,
-      memoryUsage: 94
-    },
-    position: { x: 28, y: 16, z: -18 }
-  };
+  const selectedNode = useMemo(() => {
+    const raw = nodes.find((n) => n.id === selectedNodeId);
+    const id = selectedNodeId || 'srv-auth';
+
+    let dynamicName = raw?.name || 'Facility Entity';
+    let dynamicType: TwinNode['type'] = raw?.type || 'server';
+    let dynamicOS = raw?.metadata?.os || 'Linux Core';
+    let dynamicCpu = raw?.metadata?.cpuUsage ?? 45;
+    let dynamicMem = raw?.metadata?.memoryUsage ?? 60;
+
+    if (worldMode === 'office') {
+      if (id === 'srv-auth') {
+        dynamicName = 'Tier-4 Financial Datacenter Vault';
+        dynamicType = 'server';
+        dynamicOS = 'RHEL 9.4 Enterprise';
+        dynamicCpu = 92;
+        dynamicMem = 96;
+      } else if (id === 'b-acad-1') {
+        dynamicName = 'Executive Tower Alpha (72 Floors)';
+        dynamicType = 'server';
+      } else if (id === 'b-hostel-a') {
+        dynamicName = 'Global Operations Trading Floor';
+        dynamicType = 'server';
+      } else if (id === 'b-library') {
+        dynamicName = 'Corporate Legal & Archives Center';
+        dynamicType = 'server';
+      } else if (id === 'b-sports') {
+        dynamicName = 'Executive Helipad & Sky Lounge';
+        dynamicType = 'iot_sensor';
+      } else if (id === 'b-maingate') {
+        dynamicName = 'Biometric Access Control Portal';
+        dynamicType = 'iot_sensor';
+      } else if (id === 'b-buses') {
+        dynamicName = 'Autonomous Corporate EV Shuttles';
+        dynamicType = 'iot_sensor';
+      }
+    } else if (worldMode === 'defense') {
+      if (id === 'srv-auth') {
+        dynamicName = 'Air-Gapped Cryptographic Core';
+        dynamicType = 'server';
+        dynamicOS = 'Hardened seL4 Microkernel';
+        dynamicCpu = 96;
+        dynamicMem = 98;
+      } else if (id === 'b-acad-1') {
+        dynamicName = 'SOC Command Citadel Fortress';
+        dynamicType = 'server';
+      } else if (id === 'b-hostel-a') {
+        dynamicName = 'Cyber Defense Ready Barracks';
+        dynamicType = 'server';
+      } else if (id === 'b-library') {
+        dynamicName = 'Threat Intelligence Radome Array';
+        dynamicType = 'server';
+      } else if (id === 'b-sports') {
+        dynamicName = 'Tactical Drone UAV Launch Pad';
+        dynamicType = 'iot_sensor';
+      } else if (id === 'b-maingate') {
+        dynamicName = 'Hardened Ingress Defense Barrier';
+        dynamicType = 'iot_sensor';
+      } else if (id === 'b-buses') {
+        dynamicName = 'Armored Rapid Response Fleet';
+        dynamicType = 'iot_sensor';
+      }
+    } else {
+      // School mode
+      if (id === 'srv-auth') {
+        dynamicName = 'Campus Core Authentication Server';
+        dynamicType = 'server';
+        dynamicOS = 'Ubuntu 24.04 LTS';
+        dynamicCpu = 89;
+        dynamicMem = 94;
+      } else if (id === 'b-acad-1') {
+        dynamicName = 'STEM Academic Lecture Wing';
+        dynamicType = 'server';
+      } else if (id === 'b-hostel-a') {
+        dynamicName = 'Student Dormitory Hall A Complex';
+        dynamicType = 'server';
+      } else if (id === 'b-library') {
+        dynamicName = 'Central Digital Media Library';
+        dynamicType = 'server';
+      } else if (id === 'b-sports') {
+        dynamicName = 'Athletic Arena & Soccer Stadium';
+        dynamicType = 'iot_sensor';
+      } else if (id === 'b-maingate') {
+        dynamicName = 'North Campus Automated Entry Gate';
+        dynamicType = 'iot_sensor';
+      } else if (id === 'b-buses') {
+        dynamicName = 'Campus Transit Fleet Shuttles';
+        dynamicType = 'iot_sensor';
+      }
+    }
+
+    return {
+      id,
+      name: dynamicName,
+      type: dynamicType,
+      tier: raw?.tier ?? 2,
+      status: id === 'srv-auth' ? 'compromised' : (raw?.status ?? 'healthy'),
+      metadata: {
+        ipAddress: raw?.metadata?.ipAddress || '10.2.0.10',
+        os: dynamicOS,
+        cpuUsage: dynamicCpu,
+        memoryUsage: dynamicMem
+      },
+      position: raw?.position || { x: 28, y: 16, z: -18 }
+    };
+  }, [nodes, selectedNodeId, worldMode]);
 
   return (
     <div
