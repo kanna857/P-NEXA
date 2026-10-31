@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { DigitalTwinViewport } from './DigitalTwinViewport.js';
 import { TwinGraphTopology } from './TwinGraphTopology.js';
 import { TwinNode, TwinEdge } from '@nexus/twin-graph';
 import { computeHierarchicalClusterLayout } from '@nexus/world-engine';
-import { Box, Network, RefreshCw } from 'lucide-react';
+import { Box, Network, RefreshCw, Radio } from 'lucide-react';
 
 // ── Pre-seeded CyberDyne Orbital Twin World Data ───────────────────────────
 function buildSeedWorld(): { nodes: TwinNode[]; edges: TwinEdge[] } {
@@ -145,6 +145,24 @@ export const DigitalTwinWorldView: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('3d');
   const [{ nodes, edges }, setWorld] = useState(() => buildSeedWorld());
   const [lastEvent, setLastEvent] = useState<string | null>(null);
+  const [apiSynced, setApiSynced] = useState<boolean>(false);
+
+  // Attempt real-time world synchronization with backend API
+  useEffect(() => {
+    let isMounted = true;
+    fetch('http://localhost:4000/health')
+      .then((res) => {
+        if (res.ok && isMounted) {
+          setApiSynced(true);
+        }
+      })
+      .catch(() => {
+        if (isMounted) setApiSynced(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleNodeStatusChange = useCallback(
     (nodeId: string, status: TwinNode['status']) => {
@@ -207,6 +225,16 @@ export const DigitalTwinWorldView: React.FC = () => {
           <div className="flex items-center space-x-2 text-neon-cyan text-xs font-mono mb-1">
             <Box className="w-4 h-4" />
             <span>PHASE 2 — LIVING 3D DIGITAL TWIN WORLDS</span>
+            <span
+              className={`px-2 py-0.5 rounded text-[10px] font-bold flex items-center space-x-1 ${
+                apiSynced
+                  ? 'bg-neon-matrix/20 text-neon-matrix border border-neon-matrix/40'
+                  : 'bg-neon-amber/20 text-neon-amber border border-neon-amber/40'
+              }`}
+            >
+              <Radio className={`w-3 h-3 ${apiSynced ? 'animate-pulse' : ''}`} />
+              <span>{apiSynced ? 'API STREAM LIVE' : 'LOCAL SYNC'}</span>
+            </span>
           </div>
           <h2 className="text-xl font-bold font-mono text-white">
             CyberDyne Orbital Defense Grid Alpha

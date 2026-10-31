@@ -8,10 +8,7 @@ import {
   Scissors,
   RotateCcw,
   Box,
-  Layers,
-  Compass,
-  Filter,
-  Eye
+  Layers
 } from 'lucide-react';
 
 const STATUS_BADGE: Record<string, { label: string; color: string }> = {

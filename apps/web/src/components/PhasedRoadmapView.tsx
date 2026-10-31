@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Layers, Award } from 'lucide-react';
+import { CheckCircle2, Award } from 'lucide-react';
 
 export const PhasedRoadmapView: React.FC = () => {
   const phases = [

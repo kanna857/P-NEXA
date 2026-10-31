@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flame, ShieldAlert, Activity, CheckCircle, ArrowRight, Play, Database } from 'lucide-react';
+import { Flame, Play } from 'lucide-react';
 
 interface IncidentItem {
   id: string;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, ShieldCheck, CheckCircle2, AlertTriangle, ArrowUpRight, Zap } from 'lucide-react';
+import { TrendingUp, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export const PolicyEvaluationView: React.FC = () => {
   const [policies, setPolicies] = useState([
@@ -25,7 +25,6 @@ export const PolicyEvaluationView: React.FC = () => {
     }
   ]);
 
-  const [benchmarking, setBenchmarking] = useState(false);
   const [promotionResult, setPromotionResult] = useState<string | null>(null);
 
   const handlePromoteCandidate = () => {

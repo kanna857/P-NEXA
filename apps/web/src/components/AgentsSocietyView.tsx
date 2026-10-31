@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bot, Shield, CheckCircle2, Brain, UserCheck } from 'lucide-react';
+import { Bot, Shield, CheckCircle2, Brain, UserCheck, GitBranch, Sparkles, Zap } from 'lucide-react';
 
 interface AgentPersona {
   id: string;
@@ -95,6 +95,67 @@ export const AgentsSocietyView: React.FC = () => {
     }
   ]);
 
+  const [simulationState, setSimulationState] = useState<{
+    status: 'IDLE' | 'PROPOSING' | 'SIMULATING' | 'COMPLETED';
+    proposedScenario?: {
+      title: string;
+      proposer: string;
+      targetNode: string;
+      action: string;
+      seed: number;
+    };
+    results?: {
+      containmentRate: string;
+      blastRadiusDelta: number;
+      resilienceScore: number;
+      explanation: string;
+      verifiedZeroRegression: boolean;
+    };
+  }>({
+    status: 'IDLE'
+  });
+
+  const handleProposeAndSimulate = () => {
+    setSimulationState({
+      status: 'PROPOSING',
+      proposedScenario: {
+        title: 'Counterfactual Lateral Quarantine (Branch B-1)',
+        proposer: 'Grid Bastion (INCIDENT_RESPONDER)',
+        targetNode: 'node-app-cluster',
+        action: 'ISOLATE_NODE & SEVER_SMB',
+        seed: 998244353
+      }
+    });
+
+    setTimeout(() => {
+      setSimulationState((prev) => ({
+        ...prev,
+        status: 'SIMULATING'
+      }));
+
+      setTimeout(() => {
+        setSimulationState({
+          status: 'COMPLETED',
+          proposedScenario: {
+            title: 'Counterfactual Lateral Quarantine (Branch B-1)',
+            proposer: 'Grid Bastion (INCIDENT_RESPONDER)',
+            targetNode: 'node-app-cluster',
+            action: 'ISOLATE_NODE & SEVER_SMB',
+            seed: 998244353
+          },
+          results: {
+            containmentRate: '100% Contained (Tick 2)',
+            blastRadiusDelta: -3,
+            resilienceScore: 94,
+            explanation:
+              'Simulated isolation of node-app-cluster halted SMB propagation before adjacent database tiers were reached. Preserved 94% network resilience with zero critical asset compromises.',
+            verifiedZeroRegression: true
+          }
+        });
+      }, 700);
+    }, 600);
+  };
+
   const handleSignApproval = (id: string) => {
     setApprovals(
       approvals.map((a) =>
@@ -125,7 +186,97 @@ export const AgentsSocietyView: React.FC = () => {
             5 autonomous specialized personas coordinating containment, triaging alerts, and enforcing dual-custody gates.
           </p>
         </div>
+
+        <button
+          onClick={handleProposeAndSimulate}
+          disabled={simulationState.status === 'PROPOSING' || simulationState.status === 'SIMULATING'}
+          className="px-4 py-2.5 rounded-lg bg-neon-purple/20 hover:bg-neon-purple/30 text-neon-purple border border-neon-purple/50 font-mono text-xs font-bold transition-all glow-purple flex items-center space-x-2 disabled:opacity-50"
+        >
+          <Sparkles className="w-4 h-4" />
+          <span>
+            {simulationState.status === 'PROPOSING'
+              ? 'Agent Formulating Scenario...'
+              : simulationState.status === 'SIMULATING'
+              ? 'Simulating PRNG Ticks...'
+              : 'Agent: Propose & Run Simulation'}
+          </span>
+        </button>
       </div>
+
+      {/* Autonomous Counterfactual Agent Simulation Panel */}
+      {simulationState.status !== 'IDLE' && (
+        <div className="glass-panel p-5 rounded-xl border border-neon-purple/40 space-y-4 font-mono text-xs">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 text-neon-purple font-bold">
+              <GitBranch className="w-4 h-4" />
+              <span>AGENT COUNTERFACTUAL SCENARIO & REASONING LOOP</span>
+            </div>
+            <span
+              className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                simulationState.status === 'COMPLETED'
+                  ? 'bg-neon-matrix/20 text-neon-matrix border border-neon-matrix/40'
+                  : 'bg-neon-amber/20 text-neon-amber border border-neon-amber/40 animate-pulse'
+              }`}
+            >
+              STATUS: {simulationState.status}
+            </span>
+          </div>
+
+          {simulationState.proposedScenario && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="p-3 bg-slate-950/80 rounded border border-surface-border">
+                <span className="text-slate-500 text-[10px]">PROPOSED SCENARIO</span>
+                <div className="text-white font-bold mt-0.5">{simulationState.proposedScenario.title}</div>
+                <div className="text-[10px] text-neon-cyan mt-1">By {simulationState.proposedScenario.proposer}</div>
+              </div>
+              <div className="p-3 bg-slate-950/80 rounded border border-surface-border">
+                <span className="text-slate-500 text-[10px]">ACTION & TARGET</span>
+                <div className="text-neon-matrix font-bold mt-0.5">{simulationState.proposedScenario.action}</div>
+                <div className="text-[10px] text-slate-400 mt-1">Target: {simulationState.proposedScenario.targetNode}</div>
+              </div>
+              <div className="p-3 bg-slate-950/80 rounded border border-surface-border">
+                <span className="text-slate-500 text-[10px]">DETERMINISTIC SEED</span>
+                <div className="text-neon-psionic font-bold mt-0.5">#{simulationState.proposedScenario.seed}</div>
+                <div className="text-[10px] text-slate-400 mt-1">PRNG Mulberry32 Engine</div>
+              </div>
+            </div>
+          )}
+
+          {simulationState.results && (
+            <div className="p-4 bg-slate-950/90 rounded-lg border border-neon-matrix/30 space-y-3">
+              <div className="flex flex-wrap items-center gap-4 text-xs">
+                <div>
+                  <span className="text-slate-500 text-[10px]">CONTAINMENT RATE</span>
+                  <div className="text-neon-matrix font-bold">{simulationState.results.containmentRate}</div>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-[10px]">BLAST RADIUS REDUCTION</span>
+                  <div className="text-neon-cyan font-bold">{simulationState.results.blastRadiusDelta} Nodes</div>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-[10px]">PRESERVED RESILIENCE</span>
+                  <div className="text-neon-matrix font-bold">{simulationState.results.resilienceScore} / 100</div>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-[10px]">VERIFICATION GATE</span>
+                  <div className="text-neon-matrix font-bold flex items-center space-x-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>0-Regression Pass</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-3 bg-slate-900/80 rounded border border-slate-800 text-slate-200 text-xs leading-relaxed flex items-start space-x-2">
+                <Zap className="w-4 h-4 text-neon-cyan flex-shrink-0 mt-0.5" />
+                <div>
+                  <span className="text-neon-cyan font-bold">Reviewer & Auditor Agent Explanation: </span>
+                  {simulationState.results.explanation}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Agents Grid */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-3">

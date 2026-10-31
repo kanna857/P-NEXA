@@ -7,8 +7,7 @@ import {
   CheckCircle,
   Database,
   Binary,
-  Award,
-  FileCheck
+  Award
 } from 'lucide-react';
 
 interface AuditLogEntry {

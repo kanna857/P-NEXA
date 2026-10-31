@@ -19,7 +19,6 @@ import {
   Sparkles,
   CheckCircle2,
   PauseCircle,
-  Play,
   UserCheck,
   ShieldAlert,
   Server,

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { PlaySquare, GitBranch, RotateCcw, Activity, Shield, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { PlaySquare, GitBranch, CheckCircle2 } from 'lucide-react';
 
 export const SimulatorView: React.FC = () => {
-  const [seed, setSeed] = useState(777123);
+  const [seed] = useState(777123);
   const [currentTick, setCurrentTick] = useState(2);
-  const [isBranching, setIsBranching] = useState(false);
   const [divergenceMetrics, setDivergenceMetrics] = useState<{
     firstDivergenceTick: number;
     blastRadiusDelta: number;
@@ -17,7 +16,6 @@ export const SimulatorView: React.FC = () => {
   };
 
   const handleCreateBranch = () => {
-    setIsBranching(true);
     setDivergenceMetrics({
       firstDivergenceTick: 3,
       blastRadiusDelta: -2,
