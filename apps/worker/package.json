@@ -1,0 +1,25 @@
+{
+  "name": "@nexus/worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@nexus/agent-engine": "workspace:*",
+    "@nexus/cyber-engine": "workspace:*",
+    "@nexus/event-store": "workspace:*",
+    "@nexus/observability": "workspace:*",
+    "@nexus/shared": "workspace:*",
+    "@nexus/workflow-engine": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
+
+

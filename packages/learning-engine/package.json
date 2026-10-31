@@ -1,0 +1,26 @@
+{
+  "name": "@nexus/learning-engine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@nexus/shared": "workspace:*",
+    "@nexus/governance": "workspace:*",
+    "@nexus/twin-graph": "workspace:*",
+    "@nexus/agent-engine": "workspace:*",
+    "@nexus/simulation-engine": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
+
+

@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#07090e] text-slate-100 overflow-x-hidden;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+.glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+}
+
+.glow-matrix {
+  box-shadow: 0 0 15px rgba(0, 255, 102, 0.25);
+}
+
+.glow-alert {
+  box-shadow: 0 0 15px rgba(255, 0, 60, 0.35);
+}
+
+.glass-panel {
+  background: rgba(14, 19, 29, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+}
+
+.glass-panel-amber {
+  background: rgba(20, 16, 10, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+}
+
+.glass-panel-alert {
+  background: rgba(24, 10, 14, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 0, 60, 0.2);
+}
