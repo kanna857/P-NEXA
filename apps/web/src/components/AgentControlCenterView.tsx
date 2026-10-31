@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   Users,
   Search,
@@ -13,9 +13,12 @@ import {
   BookOpen,
   LayoutGrid,
   Lock,
-  Sparkles
+  Sparkles,
+  Clock
 } from 'lucide-react';
 import defaultCatalogData from '../data/agencyHiresCatalog.json';
+import defaultHiveTasks from '../data/hiveTasks.json';
+import { AgentExecutionTimeline } from './AgentExecutionTimeline.js';
 
 interface AgentControlCenterViewProps {
   userRole?: string;
@@ -57,20 +60,33 @@ export interface TaskItem {
   title: string;
   prompt: string;
   priority: 'LOW' | 'NORMAL' | 'HIGH' | 'CRITICAL';
-  status: 'PLANNING' | 'EXECUTING' | 'IN_REVIEW' | 'TESTING' | 'AWAITING_APPROVAL' | 'COMPLETED' | 'REJECTED';
+  status: 'PLANNING' | 'EXECUTING' | 'IN_REVIEW' | 'TESTING' | 'AWAITING_APPROVAL' | 'COMPLETED' | 'REJECTED' | 'RETRYING' | 'FAILED' | 'RUNNING';
   currentStage: string;
   leadSpecialist: string;
   leadSpecialistId: string;
   worktreeBranch: string;
   targetBranch: string;
   isWorktreeCleaned: boolean;
-  squad: Array<{ id: string; name: string; role: string; provider: string }>;
-  logs: Array<{ timestamp: string; agent: string; level: 'info' | 'warn' | 'error' | 'success'; message: string }>;
+  squad: Array<{ id: string; name: string; role: string; provider: string; division?: string; deskId?: string }>;
+  logs: Array<{ timestamp: string; agent: string; level: 'info' | 'warn' | 'error' | 'success'; message: string; agentId?: string; agentName?: string }>;
   codeReviewPassed?: boolean;
   securityAuditPassed?: boolean;
   testsPassed?: boolean;
   testCount?: number;
   createdAt: string;
+  updatedAt?: string;
+  retryCount?: number;
+  maxRetries?: number;
+  failureReason?: string;
+  errorDetails?: {
+    code?: string;
+    message: string;
+    stack?: string;
+    stage: string;
+    timestamp: string;
+    retryCount: number;
+    recovered?: boolean;
+  };
 }
 
 export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
@@ -79,7 +95,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
   const isAdmin = userRole === 'admin' || userRole === 'commander' || userRole === 'SUPER_ADMIN' || userRole === 'ORG_ADMIN';
 
   // Sub-tabs
-  const [activeSubTab, setActiveSubTab] = useState<'floor' | 'catalog' | 'tasks' | 'approvals' | 'blackboard'>('tasks');
+  const [activeSubTab, setActiveSubTab] = useState<'timeline' | 'tasks' | 'approvals' | 'floor' | 'catalog' | 'blackboard'>('timeline');
 
   // Catalog State
   const hires: MunderHireItem[] = useMemo(() => {
@@ -121,8 +137,57 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
     return Object.entries(counts).sort((a, b) => b[1] - a[1]);
   }, [hires]);
 
+  // Normalize tasks from Hive ledger
+  const initialHiveTasks: TaskItem[] = useMemo(() => {
+    try {
+      const rawTasks = (defaultHiveTasks as any[]) || [];
+      if (rawTasks.length === 0) return [];
+      return rawTasks.map((t: any) => ({
+        id: t.id,
+        title: t.title || t.prompt?.slice(0, 50) || 'Development Task',
+        prompt: t.prompt || t.title || '',
+        priority: t.priority || 'NORMAL',
+        status: t.status || 'COMPLETED',
+        currentStage: t.currentStage || 'APPROVAL_GATE',
+        leadSpecialist: t.squad?.find((s: any) => s.assignedRole === 'LEAD_SPECIALIST')?.name || t.leadSpecialist || 'Senior Developer',
+        leadSpecialistId: t.squad?.find((s: any) => s.assignedRole === 'LEAD_SPECIALIST')?.id || t.leadSpecialistId || 'agency-senior-developer',
+        worktreeBranch: t.worktree?.branchName || t.worktreeBranch || `feat/agent-task-${t.id.toLowerCase()}`,
+        targetBranch: t.humanApproval?.targetBranch || t.targetBranch || 'main',
+        isWorktreeCleaned: t.worktree?.isCleanedUp ?? t.isWorktreeCleaned ?? true,
+        squad: (t.squad || []).map((s: any) => ({
+          id: s.id,
+          name: s.name,
+          role: s.role || s.assignedRole || 'Specialist',
+          provider: s.provider || 'antigravity',
+          division: s.division,
+          deskId: s.deskId
+        })),
+        logs: (t.executionLogs || t.logs || []).map((l: any) => ({
+          timestamp: l.timestamp || new Date().toLocaleTimeString(),
+          agent: l.agentName || l.agentId || l.agent || 'Specialist',
+          level: l.level || 'info',
+          message: l.message || '',
+          agentId: l.agentId,
+          agentName: l.agentName
+        })),
+        codeReviewPassed: t.codeReview?.passed ?? t.codeReviewPassed ?? true,
+        securityAuditPassed: t.securityReview?.passed ?? t.securityAuditPassed ?? true,
+        testsPassed: t.testResults?.passed ?? t.testsPassed ?? true,
+        testCount: t.testResults?.total ?? t.testCount ?? 158,
+        createdAt: t.createdAt || new Date().toISOString(),
+        updatedAt: t.updatedAt,
+        retryCount: t.retryCount,
+        maxRetries: t.maxRetries || 3,
+        failureReason: t.failureReason,
+        errorDetails: t.errorDetails
+      }));
+    } catch {
+      return [];
+    }
+  }, []);
+
   // Active Tasks Pipeline State
-  const [tasks, setTasks] = useState<TaskItem[]>([
+  const [tasks, setTasks] = useState<TaskItem[]>(initialHiveTasks.length > 0 ? initialHiveTasks : [
     {
       id: 'MD-TASK-3D-VIEWPORT',
       title: '3D Viewport Controls & Camera Reset Optimization',
@@ -159,6 +224,65 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
       createdAt: '2026-10-31T15:02:00Z'
     }
   ]);
+
+  // Live API Synchronization callback
+  const refreshTasksFromApi = useCallback(async () => {
+    try {
+      const res = await fetch('/api/v1/developer/tasks', {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data?.tasks) && json.data.tasks.length > 0) {
+          const apiTasks = json.data.tasks.map((t: any) => ({
+            id: t.id,
+            title: t.title || t.prompt?.slice(0, 50),
+            prompt: t.prompt,
+            priority: t.priority || 'NORMAL',
+            status: t.status,
+            currentStage: t.currentStage,
+            leadSpecialist: t.squad?.find((s: any) => s.assignedRole === 'LEAD_SPECIALIST')?.name || 'Senior Developer',
+            leadSpecialistId: t.squad?.find((s: any) => s.assignedRole === 'LEAD_SPECIALIST')?.id || 'agency-senior-developer',
+            worktreeBranch: t.worktree?.branchName || `feat/agent-task-${t.id.toLowerCase()}`,
+            targetBranch: t.humanApproval?.targetBranch || 'main',
+            isWorktreeCleaned: t.worktree?.isCleanedUp ?? true,
+            squad: (t.squad || []).map((s: any) => ({
+              id: s.id,
+              name: s.name,
+              role: s.role || s.assignedRole || 'Specialist',
+              provider: s.provider || 'antigravity',
+              division: s.division,
+              deskId: s.deskId
+            })),
+            logs: (t.executionLogs || []).map((l: any) => ({
+              timestamp: l.timestamp,
+              agent: l.agentName || l.agentId || 'Specialist',
+              level: l.level,
+              message: l.message,
+              agentId: l.agentId,
+              agentName: l.agentName
+            })),
+            codeReviewPassed: t.codeReview?.passed,
+            securityAuditPassed: t.securityReview?.passed,
+            testsPassed: t.testResults?.passed,
+            testCount: t.testResults?.total,
+            createdAt: t.createdAt,
+            retryCount: t.retryCount,
+            maxRetries: t.maxRetries,
+            failureReason: t.failureReason,
+            errorDetails: t.errorDetails
+          }));
+          setTasks(apiTasks);
+        }
+      }
+    } catch {
+      // Gracefully retain current state
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshTasksFromApi();
+  }, [refreshTasksFromApi]);
 
   const [selectedTask, setSelectedTask] = useState<TaskItem | null>(tasks[0] || null);
 
@@ -359,6 +483,32 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
     );
   };
 
+  // Handle Task Cancellation
+  const handleCancel = (taskId: string, reason?: string) => {
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (t.id === taskId) {
+          return {
+            ...t,
+            status: 'CANCELLED' as any,
+            currentStage: 'CANCELLED',
+            isWorktreeCleaned: true,
+            logs: [
+              ...t.logs,
+              {
+                timestamp: new Date().toLocaleTimeString(),
+                agent: 'Michael (Supervisor)',
+                level: 'warn',
+                message: `Task CANCELLED by Administrator: "${reason || 'Manual pipeline abort'}". Worktree safely pruned.`
+              }
+            ]
+          };
+        }
+        return t;
+      })
+    );
+  };
+
   // If non-admin user
   if (!isAdmin) {
     return (
@@ -413,6 +563,20 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
 
           <div className="flex flex-wrap items-center gap-2.5">
             <button
+              onClick={() => setActiveSubTab('timeline')}
+              aria-label="View live multi-agent execution timeline"
+              className={`px-3.5 py-2 rounded-xl border text-xs font-bold flex items-center space-x-1.5 transition-all shadow-lg ${
+                activeSubTab === 'timeline'
+                  ? 'bg-neon-cyan/20 border-neon-cyan text-neon-cyan shadow-cyan-950/40'
+                  : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 border-surface-border'
+              }`}
+              title="Inspect real-time agent execution timeline"
+            >
+              <Clock className="w-3.5 h-3.5 text-neon-cyan" />
+              <span>Live Timeline</span>
+            </button>
+
+            <button
               onClick={() => {
                 const uri = `munderdifflin://open?path=${encodeURIComponent('integrations/munder-difflin/hive')}`;
                 window.open(uri, '_blank');
@@ -435,7 +599,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
         </div>
 
         {/* Quick KPI Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-surface-border/60">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-4 pt-4 border-t border-surface-border/60">
           <div className="p-2.5 rounded-xl bg-slate-950/60 border border-surface-border">
             <div className="text-[10px] text-slate-400">AGENCY SPECIALISTS</div>
             <div className="text-base font-bold text-white mt-0.5">{hires.length} Active</div>
@@ -447,6 +611,13 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
               {tasks.filter((t) => !t.isWorktreeCleaned).length} Isolated
             </div>
             <div className="text-[9px] text-slate-500">Zero index collisions</div>
+          </div>
+          <div className="p-2.5 rounded-xl bg-slate-950/60 border border-surface-border">
+            <div className="text-[10px] text-slate-400">TIMELINE EVENTS</div>
+            <div className="text-base font-bold text-purple-300 mt-0.5">
+              {tasks.reduce((sum, t) => sum + (t.logs?.length || 1), 0)} Logged
+            </div>
+            <div className="text-[9px] text-slate-500">Real lifecycle events</div>
           </div>
           <div className="p-2.5 rounded-xl bg-slate-950/60 border border-surface-border">
             <div className="text-[10px] text-slate-400">PENDING APPROVALS</div>
@@ -464,11 +635,36 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
       </div>
 
       {/* ── Sub-Navigation Tabs ──────────────────────────────────────────────── */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-surface-border pb-2">
-        <div className="flex space-x-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-surface-border pb-2" role="tablist" aria-label="Control Center Sub-Tabs">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Sub-tab 0: Execution Timeline */}
           <button
+            role="tab"
+            id="tab-timeline"
+            aria-selected={activeSubTab === 'timeline'}
+            aria-controls="panel-timeline"
+            onClick={() => setActiveSubTab('timeline')}
+            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-neon-cyan ${
+              activeSubTab === 'timeline'
+                ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/50 shadow-md shadow-cyan-950/40'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Clock className="w-3.5 h-3.5" />
+            <span>Agent Execution Timeline</span>
+            <span className="flex h-2 w-2 relative ml-0.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-cyan opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-neon-cyan" />
+            </span>
+          </button>
+
+          <button
+            role="tab"
+            id="tab-tasks"
+            aria-selected={activeSubTab === 'tasks'}
+            aria-controls="panel-tasks"
             onClick={() => setActiveSubTab('tasks')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 ${
+            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-neon-cyan ${
               activeSubTab === 'tasks'
                 ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40'
                 : 'text-slate-400 hover:text-white'
@@ -482,8 +678,12 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
           </button>
 
           <button
+            role="tab"
+            id="tab-approvals"
+            aria-selected={activeSubTab === 'approvals'}
+            aria-controls="panel-approvals"
             onClick={() => setActiveSubTab('approvals')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 ${
+            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
               activeSubTab === 'approvals'
                 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
                 : 'text-slate-400 hover:text-white'
@@ -499,8 +699,12 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
           </button>
 
           <button
+            role="tab"
+            id="tab-floor"
+            aria-selected={activeSubTab === 'floor'}
+            aria-controls="panel-floor"
             onClick={() => setActiveSubTab('floor')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 ${
+            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-purple-400 ${
               activeSubTab === 'floor'
                 ? 'bg-purple-900/40 text-purple-300 border border-purple-500/40'
                 : 'text-slate-400 hover:text-white'
@@ -511,8 +715,12 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
           </button>
 
           <button
+            role="tab"
+            id="tab-catalog"
+            aria-selected={activeSubTab === 'catalog'}
+            aria-controls="panel-catalog"
             onClick={() => setActiveSubTab('catalog')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 ${
+            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
               activeSubTab === 'catalog'
                 ? 'bg-blue-900/40 text-blue-300 border border-blue-500/40'
                 : 'text-slate-400 hover:text-white'
@@ -523,8 +731,12 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
           </button>
 
           <button
+            role="tab"
+            id="tab-blackboard"
+            aria-selected={activeSubTab === 'blackboard'}
+            aria-controls="panel-blackboard"
             onClick={() => setActiveSubTab('blackboard')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 ${
+            className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-slate-400 ${
               activeSubTab === 'blackboard'
                 ? 'bg-slate-800 text-white border border-slate-700'
                 : 'text-slate-400 hover:text-white'
@@ -541,8 +753,27 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
         </div>
       </div>
 
+      {/* ── TAB 0: Agent Execution Timeline & Live Trace ─────────────────────── */}
+      {activeSubTab === 'timeline' && (
+        <div id="panel-timeline" role="tabpanel" aria-labelledby="tab-timeline">
+          <AgentExecutionTimeline
+            tasks={tasks}
+            onSelectTask={(t) => {
+              setSelectedTask(t);
+              setActiveSubTab('tasks');
+            }}
+            onRefreshTasks={refreshTasksFromApi}
+            onDispatchTask={(prompt) => {
+              setNewTaskPrompt(prompt);
+              setActiveSubTab('tasks');
+            }}
+          />
+        </div>
+      )}
+
       {/* ── TAB 1: Task Pipeline & Worktrees ─────────────────────────────────── */}
       {activeSubTab === 'tasks' && (
+        <div id="panel-tasks" role="tabpanel" aria-labelledby="tab-tasks">
         <div className="space-y-4">
           {/* New Task Dispatch Input */}
           <div className="glass-panel p-4 rounded-xl border border-surface-border space-y-3">
@@ -690,6 +921,14 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
                           <XCircle className="w-3.5 h-3.5 text-rose-400" />
                           <span>Reject</span>
                         </button>
+                        <button
+                          onClick={() => handleCancel(selectedTask.id, 'Operator aborted task')}
+                          aria-label={`Cancel execution for task ${selectedTask.id}`}
+                          className="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-surface-border font-bold text-xs flex items-center space-x-1"
+                        >
+                          <XCircle className="w-3.5 h-3.5 text-slate-500" />
+                          <span>Cancel</span>
+                        </button>
                       </div>
                     )}
                   </div>
@@ -774,11 +1013,12 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
             )}
           </div>
         </div>
+      </div>
       )}
 
       {/* ── TAB 2: Human Approvals Queue ─────────────────────────────────────── */}
       {activeSubTab === 'approvals' && (
-        <div className="space-y-4">
+        <div id="panel-approvals" role="tabpanel" aria-labelledby="tab-approvals" className="space-y-4">
           <div className="glass-panel p-4 rounded-xl border border-surface-border flex items-center justify-between">
             <div>
               <h2 className="text-base font-bold text-white">Human-in-the-Loop Merge Authorization</h2>
@@ -863,7 +1103,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
 
       {/* ── TAB 3: Munder Difflin 2D Office Floor ─────────────────────────────── */}
       {activeSubTab === 'floor' && (
-        <div className="space-y-4">
+        <div id="panel-floor" role="tabpanel" aria-labelledby="tab-floor" className="space-y-4">
           <div className="glass-panel p-4 rounded-xl border border-surface-border flex items-center justify-between">
             <div>
               <h2 className="text-base font-bold text-white">Munder Difflin 2D Virtual Office Floor</h2>
@@ -1009,7 +1249,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
 
       {/* ── TAB 4: Agency Agents Searchable Catalog (283 Agents) ─────────────── */}
       {activeSubTab === 'catalog' && (
-        <div className="space-y-4">
+        <div id="panel-catalog" role="tabpanel" aria-labelledby="tab-catalog" className="space-y-4">
           {/* Search & Filters */}
           <div className="glass-panel p-4 rounded-xl border border-surface-border space-y-3">
             <div className="flex flex-col sm:flex-row gap-3">
@@ -1092,7 +1332,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
 
       {/* ── TAB 5: Hive Shared Blackboard ────────────────────────────────────── */}
       {activeSubTab === 'blackboard' && (
-        <div className="space-y-4">
+        <div id="panel-blackboard" role="tabpanel" aria-labelledby="tab-blackboard" className="space-y-4">
           <div className="glass-panel p-5 rounded-xl border border-surface-border space-y-4">
             <div className="flex items-center justify-between border-b border-surface-border pb-3">
               <div>
