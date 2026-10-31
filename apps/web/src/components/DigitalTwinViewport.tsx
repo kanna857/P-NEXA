@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { useThreeViewport, ActiveLayers, WorldMode } from '../hooks/useThreeViewport.js';
 import { TwinNode, TwinEdge, computeBlastRadius } from '@nexus/twin-graph';
 import {
@@ -18,6 +18,7 @@ import {
   Plus,
   Minus,
   Maximize2,
+  Minimize2,
   Building2,
   Users,
   Car,
@@ -26,7 +27,9 @@ import {
   Sun,
   X,
   Radio,
-  BookOpen
+  BookOpen,
+  ChevronDown,
+  Crosshair
 } from 'lucide-react';
 
 interface DigitalTwinViewportProps {
@@ -77,9 +80,21 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
 
   // Interactive Measurement & Zone notifications
   const [hudMessage, setHudMessage] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [screenReaderAnnouncement, setScreenReaderAnnouncement] = useState('');
+  const [showEntitySelector, setShowEntitySelector] = useState(false);
 
   // Three.js Viewport Hook
-  const { setCameraPreset, zoomIn, zoomOut, resetCamera, compassAngle } = useThreeViewport({
+  const {
+    setCameraPreset,
+    zoomIn,
+    zoomOut,
+    resetCamera,
+    focusNode,
+    hoveredNodeId,
+    compassAngle,
+    fpsTelemetry
+  } = useThreeViewport({
     canvasRef,
     worldMode,
     simulationPlan,
@@ -91,11 +106,98 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
       setSelectedNodeId(nodeId);
       setIsInspectorOpen(true);
       setShowBlastRadius(false);
+      focusNode(nodeId);
+      setScreenReaderAnnouncement(`Selected node ${nodeId}`);
     },
     activeLayers,
     activeTool: selectedTool,
     isSimulating: selectedTool === 'simulate'
   });
+
+  // Track Fullscreen State Changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  // Keyboard navigation & accessibility shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = (e.target as HTMLElement) || (document.activeElement as HTMLElement);
+
+      // Escape key handler: ALWAYS dismiss drawers/inspectors/modals, even from within dialogs
+      if (e.key === 'Escape') {
+        if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+          (target as HTMLInputElement).blur();
+        }
+        setIsInspectorOpen(false);
+        setShowEntitySelector(false);
+        setShowLayersDropdown(false);
+        return;
+      }
+
+      // Guard: Completely suppress letter/number shortcuts whenever user is typing in inputs, search boxes, forms, or text areas
+      const isTypingContext =
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable ||
+          target.getAttribute('role') === 'textbox' ||
+          target.getAttribute('role') === 'searchbox' ||
+          Boolean(
+            target.closest('input, textarea, select, [contenteditable="true"], [role="searchbox"], form')
+          ));
+
+      if (isTypingContext) {
+        return;
+      }
+
+      if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        resetCamera();
+        setActivePreset('orbital');
+        setScreenReaderAnnouncement('Camera view reset to default orbital perspective.');
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        handleToggleFullscreen();
+      } else if (e.key === '+' || e.key === '=') {
+        e.preventDefault();
+        zoomIn();
+        setScreenReaderAnnouncement('Camera zoomed in.');
+      } else if (e.key === '-' || e.key === '_') {
+        e.preventDefault();
+        zoomOut();
+        setScreenReaderAnnouncement('Camera zoomed out.');
+      } else if (e.key === '1') {
+        setActivePreset('orbital');
+        setCameraPreset('orbital');
+        setScreenReaderAnnouncement('Switched to orbital camera preset.');
+      } else if (e.key === '2') {
+        setActivePreset('top-down');
+        setCameraPreset('top-down');
+        setScreenReaderAnnouncement('Switched to top-down camera preset.');
+      } else if (e.key === '3') {
+        setActivePreset('ingress');
+        setCameraPreset('ingress');
+        setScreenReaderAnnouncement('Switched to ingress camera preset.');
+      } else if (e.key === '4') {
+        setActivePreset('stadium');
+        setCameraPreset('stadium');
+        setScreenReaderAnnouncement('Switched to stadium camera preset.');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [resetCamera, zoomIn, zoomOut, setCameraPreset, isInspectorOpen]);
 
   const toggleLayer = (layer: keyof ActiveLayers) => {
     setActiveLayers((prev) => ({
@@ -144,10 +246,31 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   const handleToggleFullscreen = () => {
     if (!containerRef.current) return;
     if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen().catch(() => {});
+      const el = containerRef.current as any;
+      const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+      if (req) {
+        req.call(el).catch((err: unknown) => {
+          console.warn('Fullscreen request blocked:', err);
+        });
+      }
     } else {
-      document.exitFullscreen().catch(() => {});
+      const doc = document as any;
+      const exit = doc.exitFullscreen || doc.webkitExitFullscreen || doc.mozCancelFullScreen || doc.msExitFullscreen;
+      if (exit) {
+        exit.call(doc).catch((err: unknown) => {
+          console.warn('Exit fullscreen failed:', err);
+        });
+      }
     }
+  };
+
+  const handleSelectEntity = (nodeId: string) => {
+    setSelectedNodeId(nodeId);
+    setIsInspectorOpen(true);
+    setShowBlastRadius(false);
+    focusNode(nodeId);
+    setShowEntitySelector(false);
+    setScreenReaderAnnouncement(`Focused on entity ${nodeId}`);
   };
 
   // 7 Holographic Beacons dynamically configured per simulation world
@@ -569,13 +692,25 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[620px] rounded-2xl overflow-hidden border border-blue-500/25 bg-[#060814] select-none font-mono shadow-2xl"
+      role="region"
+      tabIndex={0}
+      data-testid="digital-twin-viewport"
+      aria-label="3D Digital Twin World Viewport"
+      className="relative w-full h-[620px] rounded-2xl overflow-hidden border border-blue-500/25 bg-[#060814] select-none font-mono shadow-2xl focus:outline-none focus:ring-1 focus:ring-purple-500/50"
     >
+      {/* Screen Reader Live Region for Accessibility Announcements */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {screenReaderAnnouncement}
+      </div>
+
       {/* 3D WebGL Canvas */}
       <canvas
         ref={canvasRef}
-        className="w-full h-full block"
-        style={{ cursor: selectedTool === 'measure' ? 'crosshair' : 'grab' }}
+        tabIndex={0}
+        role="application"
+        aria-label="Interactive 3D Digital Twin Viewport. Use mouse drag to orbit, right-click drag to pan, wheel to zoom, R to reset camera, F to toggle fullscreen."
+        className="w-full h-full block focus:outline-none focus:ring-1 focus:ring-neon-cyan/50"
+        style={{ cursor: selectedTool === 'measure' ? 'crosshair' : hoveredNodeId ? 'pointer' : 'grab' }}
       />
 
       {/* Floating Holographic Beacons in 3D Space */}
@@ -586,9 +721,16 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         return (
           <div
             key={b.id}
-            onClick={() => {
-              setSelectedNodeId(b.nodeId);
-              setIsInspectorOpen(true);
+            data-testid={b.id === 'beacon-server' ? 'beacon-server' : `beacon-${b.nodeId}`}
+            role="button"
+            tabIndex={0}
+            aria-label={`Select and focus ${b.title}, status: ${b.status}`}
+            onClick={() => handleSelectEntity(b.nodeId)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleSelectEntity(b.nodeId);
+              }
             }}
             style={{ top: b.top, left: b.left }}
             className={`absolute z-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 group ${
@@ -626,46 +768,111 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         );
       })}
 
-      {/* Floating Top-Left: "Layers +" Menu */}
-      <div className="absolute top-4 left-4 z-20 flex flex-col space-y-2">
-        <button
-          onClick={() => setShowLayersDropdown(!showLayersDropdown)}
-          className="px-3 py-1.5 rounded-xl bg-slate-950/85 border border-blue-500/40 hover:border-neon-cyan text-white text-xs font-bold flex items-center space-x-2 transition-all shadow-xl backdrop-blur-md group"
+      {/* Floating Top-Left: "Layers +" and "Focus Entity" Menus */}
+      <div className="absolute top-4 left-4 z-20 flex items-start space-x-2">
+        <div className="flex flex-col space-y-2">
+          <button
+            onClick={() => setShowLayersDropdown(!showLayersDropdown)}
+            aria-label="Toggle map visual layers"
+            className="px-3 py-1.5 rounded-xl bg-slate-950/85 border border-blue-500/40 hover:border-neon-cyan text-white text-xs font-bold flex items-center space-x-2 transition-all shadow-xl backdrop-blur-md group"
+          >
+            <Layers className="w-3.5 h-3.5 text-neon-cyan group-hover:rotate-12 transition-transform" />
+            <span>Layers +</span>
+          </button>
+
+          {/* Compact Vertical Layer Icons or Expanded Palette */}
+          {showLayersDropdown && (
+            <div className="p-1.5 rounded-xl bg-slate-950/95 border border-slate-800 shadow-2xl backdrop-blur-md flex flex-col space-y-1">
+              {[
+                { id: 'buildings', label: 'Buildings', icon: Building2 },
+                { id: 'people', label: 'People', icon: Users },
+                { id: 'vehicles', label: 'Vehicles', icon: Car },
+                { id: 'servers', label: 'Servers', icon: Server },
+                { id: 'network', label: 'Network', icon: Share2 },
+                { id: 'security', label: 'Security', icon: Shield },
+                { id: 'weather', label: 'Weather', icon: Sun }
+              ].map((layer) => {
+                const Icon = layer.icon;
+                const isEnabled = activeLayers[layer.id as keyof ActiveLayers];
+
+                return (
+                  <button
+                    key={layer.id}
+                    onClick={() => toggleLayer(layer.id as keyof ActiveLayers)}
+                    className={`p-2 rounded-lg flex items-center space-x-2 text-xs transition-all ${
+                      isEnabled
+                        ? 'bg-blue-600/30 text-neon-cyan border border-blue-500/40 font-bold'
+                        : 'text-slate-500 hover:text-slate-300 hover:bg-slate-900/60'
+                    }`}
+                    title={`Toggle ${layer.label}`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span className="text-[11px] hidden sm:inline">{layer.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Quick Entity Focus Selector Dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setShowEntitySelector(!showEntitySelector)}
+            data-testid="entity-focus-selector"
+            aria-label="Quick focus entity selector"
+            className="px-3 py-1.5 rounded-xl bg-slate-950/85 border border-purple-500/40 hover:border-neon-purple text-white text-xs font-bold flex items-center space-x-2 transition-all shadow-xl backdrop-blur-md"
+          >
+            <Crosshair className="w-3.5 h-3.5 text-neon-purple" />
+            <span className="hidden md:inline">Focus Entity</span>
+            <ChevronDown className="w-3 h-3 text-slate-400" />
+          </button>
+
+          {showEntitySelector && (
+            <div className="absolute top-full left-0 mt-2 w-64 p-1.5 rounded-xl bg-slate-950/95 border border-slate-700 shadow-2xl z-50 backdrop-blur-xl space-y-1">
+              <div className="px-2 py-1 text-[10px] text-slate-500 font-mono uppercase tracking-wider">
+                Select Facility to Focus Camera
+              </div>
+              {beacons.map((b) => (
+                <button
+                  key={b.id}
+                  onClick={() => handleSelectEntity(b.nodeId)}
+                  className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex items-center justify-between ${
+                    selectedNodeId === b.nodeId
+                      ? 'bg-purple-600/30 text-neon-purple font-bold border border-purple-500/40'
+                      : 'text-slate-300 hover:bg-slate-900'
+                  }`}
+                >
+                  <span className="truncate">{b.title}</span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${b.dotColor}`} />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Real-time Hardware FPS & Performance Telemetry */}
+        <div
+          data-testid="fps-telemetry-pill"
+          aria-label={`Hardware render telemetry: ${fpsTelemetry.fps} frames per second, ${fpsTelemetry.frameTimeMs} milliseconds frame time`}
+          className="px-2.5 py-1.5 rounded-xl bg-slate-950/85 border border-slate-800 text-[11px] font-mono flex items-center space-x-2 shadow-xl backdrop-blur-md"
         >
-          <Layers className="w-3.5 h-3.5 text-neon-cyan group-hover:rotate-12 transition-transform" />
-          <span>Layers +</span>
-        </button>
-
-        {/* Compact Vertical Layer Icons or Expanded Palette */}
-        <div className="p-1.5 rounded-xl bg-slate-950/90 border border-slate-800/80 shadow-2xl backdrop-blur-md flex flex-col space-y-1">
-          {[
-            { id: 'buildings', label: 'Buildings', icon: Building2 },
-            { id: 'people', label: 'People', icon: Users },
-            { id: 'vehicles', label: 'Vehicles', icon: Car },
-            { id: 'servers', label: 'Servers', icon: Server },
-            { id: 'network', label: 'Network', icon: Share2 },
-            { id: 'security', label: 'Security', icon: Shield },
-            { id: 'weather', label: 'Weather', icon: Sun }
-          ].map((layer) => {
-            const Icon = layer.icon;
-            const isEnabled = activeLayers[layer.id as keyof ActiveLayers];
-
-            return (
-              <button
-                key={layer.id}
-                onClick={() => toggleLayer(layer.id as keyof ActiveLayers)}
-                className={`p-2 rounded-lg flex items-center space-x-2 text-xs transition-all ${
-                  isEnabled
-                    ? 'bg-blue-600/20 text-neon-cyan border border-blue-500/40 font-bold'
-                    : 'text-slate-500 hover:text-slate-300 hover:bg-slate-900/60'
-                }`}
-                title={`Toggle ${layer.label}`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                <span className="text-[11px] hidden sm:inline">{layer.label}</span>
-              </button>
-            );
-          })}
+          <span
+            className={`w-2 h-2 rounded-full ${
+              fpsTelemetry.fps >= 50
+                ? 'bg-emerald-400 animate-pulse'
+                : fpsTelemetry.fps >= 30
+                ? 'bg-amber-400'
+                : 'bg-rose-500 animate-ping'
+            }`}
+          />
+          <span className="text-white font-bold">{fpsTelemetry.fps} FPS</span>
+          <span className="text-slate-500 text-[10px] hidden lg:inline">({fpsTelemetry.frameTimeMs}ms)</span>
+          {fpsTelemetry.isLowPowered && (
+            <span className="text-[9px] px-1 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
+              Low-Power LOD
+            </span>
+          )}
         </div>
       </div>
 
@@ -707,7 +914,11 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-xl bg-slate-950/90 border border-neon-cyan/40 text-neon-cyan text-xs font-bold shadow-2xl backdrop-blur-md flex items-center space-x-2 animate-pulse">
           <Radio className="w-4 h-4 text-neon-cyan" />
           <span>{hudMessage}</span>
-          <button onClick={() => setHudMessage(null)} className="ml-2 text-slate-400 hover:text-white">
+          <button
+            onClick={() => setHudMessage(null)}
+            aria-label="Dismiss tool announcement"
+            className="ml-2 text-slate-400 hover:text-white p-1 rounded-md w-6 h-6 flex items-center justify-center focus:outline-none focus:ring-1 focus:ring-neon-cyan"
+          >
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -717,28 +928,66 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
       <div className="absolute bottom-16 right-4 z-20 flex flex-col items-center space-y-2">
         {/* Camera Angle Presets */}
         <div className="flex items-center space-x-1 bg-slate-950/90 border border-slate-800 p-1 rounded-lg shadow-xl backdrop-blur-md text-[10px]">
-          {(['orbital', 'top-down', 'ingress', 'stadium'] as const).map((preset) => (
+          {(['orbital', 'top-down', 'ingress', 'stadium'] as const).map((preset, idx) => (
             <button
               key={preset}
+              data-testid={`camera-preset-${preset}`}
+              aria-label={`Switch camera to ${preset} preset (${idx + 1})`}
               onClick={() => {
                 setActivePreset(preset);
                 setCameraPreset(preset);
+                setScreenReaderAnnouncement(`Switched to ${preset} camera preset.`);
               }}
-              className={`px-2 py-1 rounded transition-colors capitalize ${
+              className={`px-2 py-1 rounded transition-colors capitalize flex items-center space-x-1 ${
                 activePreset === preset
                   ? 'bg-neon-cyan/20 text-neon-cyan font-bold border border-neon-cyan/40'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              {preset}
+              <span>{preset}</span>
+              <kbd className="text-[8px] opacity-60 font-mono">[{idx + 1}]</kbd>
             </button>
           ))}
         </div>
 
+        {/* Dedicated Reset View Button */}
+        <button
+          onClick={() => {
+            resetCamera();
+            setActivePreset('orbital');
+            setScreenReaderAnnouncement('Camera reset to default orbital view.');
+          }}
+          data-testid="reset-view-btn"
+          aria-label="Reset camera view to default orientation (R)"
+          title="Reset Camera View (R)"
+          className="w-full px-2.5 py-1.5 rounded-lg bg-slate-950/90 border border-slate-800 hover:border-neon-cyan text-slate-300 hover:text-white flex items-center justify-between text-[10px] font-mono shadow-xl backdrop-blur-md transition-all group focus:outline-none focus:ring-1 focus:ring-neon-cyan"
+        >
+          <span className="flex items-center space-x-1.5">
+            <RotateCcw className="w-3.5 h-3.5 text-neon-cyan group-hover:-rotate-90 transition-transform" />
+            <span>Reset View</span>
+          </span>
+          <kbd className="px-1 py-0.2 bg-slate-900 border border-slate-700 rounded text-[9px] text-slate-400">R</kbd>
+        </button>
+
         {/* Circular 3D Compass Dial */}
         <div
-          onClick={resetCamera}
-          className="relative w-12 h-12 rounded-full border border-blue-500/50 bg-slate-950/90 shadow-2xl flex items-center justify-center cursor-pointer hover:border-neon-cyan transition-all group backdrop-blur-md"
+          data-testid="compass-dial"
+          role="button"
+          tabIndex={0}
+          aria-label="Compass dial. Click to reset view to North."
+          onClick={() => {
+            resetCamera();
+            setActivePreset('orbital');
+            setScreenReaderAnnouncement('Camera oriented to North.');
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              resetCamera();
+              setActivePreset('orbital');
+            }
+          }}
+          className="relative w-12 h-12 rounded-full border border-blue-500/50 bg-slate-950/90 shadow-2xl flex items-center justify-center cursor-pointer hover:border-neon-cyan transition-all group backdrop-blur-md focus:outline-none focus:ring-1 focus:ring-neon-cyan"
           title="Reset View to North (Click Compass)"
         >
           {/* Compass Rose Labels */}
@@ -759,16 +1008,26 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         {/* Zoom In & Out Buttons */}
         <div className="flex flex-col space-y-1 bg-slate-950/90 border border-slate-800 p-1 rounded-xl shadow-xl backdrop-blur-md">
           <button
-            onClick={zoomIn}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
-            title="Zoom In"
+            onClick={() => {
+              zoomIn();
+              setScreenReaderAnnouncement('Zoomed in.');
+            }}
+            data-testid="zoom-in-btn"
+            aria-label="Zoom In (+)"
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors focus:outline-none focus:ring-1 focus:ring-neon-cyan"
+            title="Zoom In (+)"
           >
             <Plus className="w-4 h-4 text-neon-cyan" />
           </button>
           <button
-            onClick={zoomOut}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
-            title="Zoom Out"
+            onClick={() => {
+              zoomOut();
+              setScreenReaderAnnouncement('Zoomed out.');
+            }}
+            data-testid="zoom-out-btn"
+            aria-label="Zoom Out (-)"
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors focus:outline-none focus:ring-1 focus:ring-neon-cyan"
+            title="Zoom Out (-)"
           >
             <Minus className="w-4 h-4 text-neon-cyan" />
           </button>
@@ -781,7 +1040,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
         <div className="flex items-center space-x-3 flex-shrink-0">
           <button
             onClick={() => setIsPlayingTimeline(!isPlayingTimeline)}
-            className="p-1.5 rounded-lg bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40 hover:bg-neon-cyan/30 transition-all"
+            aria-label={isPlayingTimeline ? 'Pause timeline simulation' : 'Play timeline simulation'}
+            className="p-1.5 rounded-lg bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40 hover:bg-neon-cyan/30 transition-all min-w-[28px] min-h-[28px] flex items-center justify-center"
           >
             {isPlayingTimeline ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
           </button>
@@ -822,23 +1082,32 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
             onClick={() =>
               setSpeedMultiplier((prev) => (prev === '1x' ? '2x' : prev === '2x' ? '5x' : '1x'))
             }
-            className="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-white font-bold hover:border-neon-cyan transition-colors"
+            aria-label={`Toggle simulation speed multiplier, currently ${speedMultiplier}`}
+            className="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-white font-bold hover:border-neon-cyan transition-colors min-h-[26px] min-w-[28px]"
           >
             {speedMultiplier}
           </button>
           <button
             onClick={handleToggleFullscreen}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-900 transition-colors"
-            title="Toggle Fullscreen"
+            data-testid="fullscreen-btn"
+            aria-label={isFullscreen ? 'Exit Fullscreen (Esc or F)' : 'Enter Fullscreen (F)'}
+            aria-pressed={isFullscreen}
+            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-900 transition-colors focus:outline-none focus:ring-1 focus:ring-neon-cyan"
+            title={isFullscreen ? 'Exit Fullscreen (F)' : 'Enter Fullscreen (F)'}
           >
-            <Maximize2 className="w-4 h-4" />
+            {isFullscreen ? <Minimize2 className="w-4 h-4 text-neon-cyan" /> : <Maximize2 className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
       {/* Contextual Node / Entity Inspector Drawer */}
       {isInspectorOpen && selectedNode && (
-        <div className="absolute top-4 right-16 bottom-20 w-80 z-30 p-4 rounded-2xl bg-slate-950/95 border border-blue-500/40 shadow-2xl backdrop-blur-xl flex flex-col justify-between overflow-y-auto font-mono text-xs animate-in slide-in-from-right duration-200">
+        <div
+          data-testid="entity-inspector"
+          role="dialog"
+          aria-label="Entity Inspector"
+          className="absolute top-4 right-16 bottom-20 w-80 z-30 p-4 rounded-2xl bg-slate-950/95 border border-blue-500/40 shadow-2xl backdrop-blur-xl flex flex-col justify-between overflow-y-auto font-mono text-xs animate-in slide-in-from-right duration-200"
+        >
           <div className="space-y-3">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
@@ -848,6 +1117,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
               </div>
               <button
                 onClick={() => setIsInspectorOpen(false)}
+                aria-label="Close Inspector"
+                data-testid="close-inspector-btn"
                 className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
               >
                 <X className="w-4 h-4" />

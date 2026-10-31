@@ -135,3 +135,120 @@ export function interpolateParticlePosition(points: Vector3D[], progress: number
     z: p1.z + (p2.z - p1.z) * frac
   };
 }
+
+export interface SphericalCoordinates {
+  theta: number; // Azimuthal angle in radians
+  phi: number;   // Polar angle in radians
+  radius: number; // Distance from target
+}
+
+export interface CameraPresetConfig {
+  theta: number;
+  phi: number;
+  radius: number;
+  target: Vector3D;
+  description: string;
+}
+
+export const CAMERA_PRESETS: Record<'orbital' | 'top-down' | 'ingress' | 'stadium', CameraPresetConfig> = {
+  orbital: {
+    theta: 0.55,
+    phi: 1.05,
+    radius: 82,
+    target: { x: 0, y: 4, z: 0 },
+    description: 'Isometric Orbital View (Default Perspective)'
+  },
+  'top-down': {
+    theta: 0.0,
+    phi: 0.08,
+    radius: 105,
+    target: { x: 0, y: 0, z: 0 },
+    description: 'Zenith Orthographic Blueprint View'
+  },
+  ingress: {
+    theta: 1.25,
+    phi: 1.28,
+    radius: 42,
+    target: { x: 22, y: 10, z: -10 },
+    description: 'Perimeter Ingress & Gate Inspection'
+  },
+  stadium: {
+    theta: -0.85,
+    phi: 1.15,
+    radius: 55,
+    target: { x: -30, y: 2, z: 20 },
+    description: 'Sports Complex & Central Arena Close-Up'
+  }
+};
+
+/**
+ * Calculates cartesian 3D position (x, y, z) from spherical coordinates and target lookAt.
+ */
+export function calculateSphericalCameraPosition(
+  coords: SphericalCoordinates,
+  target: Vector3D = { x: 0, y: 0, z: 0 }
+): Vector3D {
+  const sinPhi = Math.sin(coords.phi);
+  const cosPhi = Math.cos(coords.phi);
+  const sinTheta = Math.sin(coords.theta);
+  const cosTheta = Math.cos(coords.theta);
+
+  return {
+    x: target.x + coords.radius * sinPhi * sinTheta,
+    y: target.y + coords.radius * cosPhi,
+    z: target.z + coords.radius * sinPhi * cosTheta
+  };
+}
+
+/**
+ * Clamps zoom radius within safe operational boundaries.
+ */
+export function clampCameraZoom(radius: number, min: number = 24, max: number = 180): number {
+  return Math.max(min, Math.min(max, radius));
+}
+
+/**
+ * Computes compass heading angle in degrees (0 to 360) from camera azimuth theta.
+ */
+export function computeCompassHeading(theta: number): number {
+  let deg = ((-theta * 180) / Math.PI + 32) % 360;
+  if (deg < 0) deg += 360;
+  return deg;
+}
+
+/**
+ * Calculates panning displacement vector relative to camera orientation.
+ */
+export function computePanDelta(
+  dx: number,
+  dy: number,
+  theta: number,
+  speed: number = 0.08
+): Vector3D {
+  const cosTheta = Math.cos(theta);
+  const sinTheta = Math.sin(theta);
+
+  return {
+    x: (-dx * cosTheta + dy * sinTheta) * speed,
+    y: 0,
+    z: (dx * sinTheta + dy * cosTheta) * speed
+  };
+}
+
+/**
+ * Computes optimal camera spherical coordinates and target to frame an entity.
+ */
+export function computeEntityFocusCoordinates(
+  entityPos: Vector3D,
+  currentSpherical: SphericalCoordinates,
+  closeUpRadius: number = 42
+): { target: Vector3D; spherical: SphericalCoordinates } {
+  return {
+    target: { x: entityPos.x, y: entityPos.y + 2, z: entityPos.z },
+    spherical: {
+      theta: currentSpherical.theta,
+      phi: Math.max(0.6, Math.min(1.2, currentSpherical.phi)),
+      radius: closeUpRadius
+    }
+  };
+}

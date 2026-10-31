@@ -28,6 +28,12 @@ interface UseThreeViewportOptions {
   isSimulating?: boolean;
 }
 
+export interface FpsTelemetry {
+  fps: number;
+  frameTimeMs: number;
+  isLowPowered: boolean;
+}
+
 export function useThreeViewport({
   canvasRef,
   worldMode = 'school',
@@ -54,8 +60,24 @@ export function useThreeViewport({
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const frameIdRef = useRef<number>(0);
   const isDraggingRef = useRef(false);
+  const isPanningRef = useRef(false);
+  const isTransitioningRef = useRef(false);
+  const targetSphericalRef = useRef({ theta: 0.55, phi: 1.05, radius: 82 });
+  const desiredLookAtRef = useRef(new THREE.Vector3(0, 4, 0));
   const lastMouseRef = useRef({ x: 0, y: 0 });
   const [compassAngle, setCompassAngle] = useState(0.55);
+  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+  const hoveredNodeIdRef = useRef<string | null>(null);
+
+  // Real-time hardware performance & FPS telemetry
+  const [fpsTelemetry, setFpsTelemetry] = useState<FpsTelemetry>({
+    fps: 60,
+    frameTimeMs: 16.6,
+    isLowPowered: false
+  });
+  const lastFrameTimeRef = useRef<number>(performance.now());
+  const frameTimesRef = useRef<number[]>([]);
+  const lastFpsUpdateRef = useRef<number>(performance.now());
 
   // Layer Groups
   const groupsRef = useRef<{
@@ -804,33 +826,91 @@ export function useThreeViewport({
     if (!canvas) return;
 
     const onMouseDown = (e: MouseEvent) => {
-      isDraggingRef.current = true;
+      isTransitioningRef.current = false;
+      if (e.button === 2 || e.button === 1 || e.shiftKey) {
+        isPanningRef.current = true;
+        isDraggingRef.current = false;
+      } else {
+        isDraggingRef.current = true;
+        isPanningRef.current = false;
+      }
       lastMouseRef.current = { x: e.clientX, y: e.clientY };
     };
 
-    const onMouseMove = (e: MouseEvent) => {
-      if (!isDraggingRef.current || !cameraRef.current) return;
-      const dx = e.clientX - lastMouseRef.current.x;
-      const dy = e.clientY - lastMouseRef.current.y;
-      lastMouseRef.current = { x: e.clientX, y: e.clientY };
-
-      sphericalRef.current.theta -= dx * 0.0055;
-      sphericalRef.current.phi = Math.max(0.12, Math.min(Math.PI / 2 - 0.05, sphericalRef.current.phi + dy * 0.0055));
-      updateCameraFromSpherical(cameraRef.current);
-    };
-
-    const onMouseUp = () => {
-      isDraggingRef.current = false;
-    };
-
-    const onWheel = (e: WheelEvent) => {
-      if (!cameraRef.current) return;
-      sphericalRef.current.radius = Math.max(28, Math.min(160, sphericalRef.current.radius + e.deltaY * 0.06));
-      updateCameraFromSpherical(cameraRef.current);
+    const onContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
     };
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!cameraRef.current) return;
+
+      const dx = e.clientX - lastMouseRef.current.x;
+      const dy = e.clientY - lastMouseRef.current.y;
+      lastMouseRef.current = { x: e.clientX, y: e.clientY };
+
+      if (isPanningRef.current) {
+        const cosTheta = Math.cos(sphericalRef.current.theta);
+        const sinTheta = Math.sin(sphericalRef.current.theta);
+        const panSpeed = 0.08 * (sphericalRef.current.radius / 80);
+
+        targetLookAt.current.x += (-dx * cosTheta + dy * sinTheta) * panSpeed;
+        targetLookAt.current.z += (dx * sinTheta + dy * cosTheta) * panSpeed;
+        desiredLookAtRef.current.copy(targetLookAt.current);
+        updateCameraFromSpherical(cameraRef.current);
+        return;
+      }
+
+      if (isDraggingRef.current) {
+        sphericalRef.current.theta -= dx * 0.0055;
+        sphericalRef.current.phi = Math.max(0.12, Math.min(Math.PI / 2 - 0.05, sphericalRef.current.phi + dy * 0.0055));
+        targetSphericalRef.current.theta = sphericalRef.current.theta;
+        targetSphericalRef.current.phi = sphericalRef.current.phi;
+        updateCameraFromSpherical(cameraRef.current);
+        return;
+      }
+
+      // Hover Raycasting
+      if (canvas && sceneRef.current) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(mouse, cameraRef.current);
+
+        const intersects = raycaster.intersectObjects(groupsRef.current.buildings.children, true);
+        if (intersects.length > 0) {
+          canvas.style.cursor = 'pointer';
+          const obj = intersects[0]!.object;
+          const id = obj.userData?.nodeId;
+          if (id && id !== hoveredNodeIdRef.current) {
+            hoveredNodeIdRef.current = id;
+            setHoveredNodeId(id);
+          }
+        } else {
+          canvas.style.cursor = activeTool === 'select' ? 'default' : 'crosshair';
+          if (hoveredNodeIdRef.current) {
+            hoveredNodeIdRef.current = null;
+            setHoveredNodeId(null);
+          }
+        }
+      }
+    };
+
+    const onMouseUp = () => {
+      isDraggingRef.current = false;
+      isPanningRef.current = false;
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (!cameraRef.current) return;
+      isTransitioningRef.current = false;
+      sphericalRef.current.radius = Math.max(28, Math.min(160, sphericalRef.current.radius + e.deltaY * 0.06));
+      targetSphericalRef.current.radius = sphericalRef.current.radius;
+      updateCameraFromSpherical(cameraRef.current);
+    };
+
     const onClick = (e: MouseEvent) => {
       if (!cameraRef.current || !sceneRef.current || !canvas) return;
       const rect = canvas.getBoundingClientRect();
@@ -847,6 +927,7 @@ export function useThreeViewport({
     };
 
     canvas.addEventListener('mousedown', onMouseDown);
+    canvas.addEventListener('contextmenu', onContextMenu);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
     canvas.addEventListener('wheel', onWheel, { passive: true });
@@ -855,9 +936,64 @@ export function useThreeViewport({
     let clock = 0;
     const animate = () => {
       frameIdRef.current = requestAnimationFrame(animate);
-      clock += 0.016;
+
+      // Measure real hardware frame interval
+      const now = performance.now();
+      const deltaMs = now - lastFrameTimeRef.current;
+      lastFrameTimeRef.current = now;
+
+      if (deltaMs > 0 && deltaMs < 250) {
+        frameTimesRef.current.push(deltaMs);
+        if (frameTimesRef.current.length > 30) {
+          frameTimesRef.current.shift();
+        }
+      }
+
+      // Smooth FPS update every 500ms
+      if (now - lastFpsUpdateRef.current > 500 && frameTimesRef.current.length >= 5) {
+        const sum = frameTimesRef.current.reduce((a, b) => a + b, 0);
+        const avgDelta = sum / frameTimesRef.current.length;
+        const computedFps = Math.min(120, Math.max(1, Math.round(1000 / avgDelta)));
+        const roundedDelta = Math.round(avgDelta * 10) / 10;
+        const lowPower = avgDelta > 28.5; // < 35 FPS signals constrained GPU/CPU
+
+        setFpsTelemetry({
+          fps: computedFps,
+          frameTimeMs: roundedDelta,
+          isLowPowered: lowPower
+        });
+
+        // Dynamic hardware adaptation: scale pixel ratio down if hardware is throttled/low-power
+        if (rendererRef.current) {
+          const currentPR = rendererRef.current.getPixelRatio();
+          if (lowPower && currentPR > 1.0) {
+            rendererRef.current.setPixelRatio(1.0);
+          } else if (!lowPower && currentPR < Math.min(window.devicePixelRatio, 2)) {
+            rendererRef.current.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          }
+        }
+        lastFpsUpdateRef.current = now;
+      }
+
+      clock += Math.min(0.05, deltaMs / 1000);
 
       if (!rendererRef.current || !sceneRef.current || !cameraRef.current) return;
+
+      // Smooth camera interpolation for presets / focus / reset
+      if (isTransitioningRef.current) {
+        const tD = targetSphericalRef.current;
+        const s = sphericalRef.current;
+        s.theta += (tD.theta - s.theta) * 0.12;
+        s.phi += (tD.phi - s.phi) * 0.12;
+        s.radius += (tD.radius - s.radius) * 0.12;
+        targetLookAt.current.lerp(desiredLookAtRef.current, 0.12);
+
+        const delta = Math.abs(tD.theta - s.theta) + Math.abs(tD.phi - s.phi) + Math.abs(tD.radius - s.radius);
+        if (delta < 0.005 && targetLookAt.current.distanceTo(desiredLookAtRef.current) < 0.05) {
+          isTransitioningRef.current = false;
+        }
+        updateCameraFromSpherical(cameraRef.current);
+      }
 
       // Move vehicles
       animatedObjectsRef.current.buses.forEach((b) => {
@@ -928,6 +1064,7 @@ export function useThreeViewport({
     return () => {
       cancelAnimationFrame(frameIdRef.current);
       canvas.removeEventListener('mousedown', onMouseDown);
+      canvas.removeEventListener('contextmenu', onContextMenu);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
       canvas.removeEventListener('wheel', onWheel);
@@ -935,45 +1072,62 @@ export function useThreeViewport({
       window.removeEventListener('resize', handleResize);
       rendererRef.current?.dispose();
     };
-  }, [buildCampusWorld, onNodeClick]);
+  }, [buildCampusWorld, onNodeClick, activeTool, updateCameraFromSpherical]);
 
   // Camera presets
   const setCameraPreset = useCallback((preset: 'orbital' | 'top-down' | 'ingress' | 'stadium') => {
     if (preset === 'orbital') {
-      sphericalRef.current = { theta: 0.55, phi: 1.05, radius: 82 };
-      targetLookAt.current.set(0, 4, 0);
+      targetSphericalRef.current = { theta: 0.55, phi: 1.05, radius: 82 };
+      desiredLookAtRef.current.set(0, 4, 0);
     } else if (preset === 'top-down') {
-      sphericalRef.current = { theta: 0.0, phi: 0.08, radius: 105 };
-      targetLookAt.current.set(0, 0, 0);
+      targetSphericalRef.current = { theta: 0.0, phi: 0.08, radius: 105 };
+      desiredLookAtRef.current.set(0, 0, 0);
     } else if (preset === 'ingress') {
-      sphericalRef.current = { theta: 1.25, phi: 1.28, radius: 42 };
-      targetLookAt.current.set(22, 10, -10);
+      targetSphericalRef.current = { theta: 1.25, phi: 1.28, radius: 42 };
+      desiredLookAtRef.current.set(22, 10, -10);
     } else if (preset === 'stadium') {
-      sphericalRef.current = { theta: -0.85, phi: 1.15, radius: 55 };
-      targetLookAt.current.set(-30, 2, 20);
+      targetSphericalRef.current = { theta: -0.85, phi: 1.15, radius: 55 };
+      desiredLookAtRef.current.set(-30, 2, 20);
     }
-    if (cameraRef.current) {
-      updateCameraFromSpherical(cameraRef.current);
-    }
+    isTransitioningRef.current = true;
   }, []);
 
   const zoomIn = useCallback(() => {
-    if (!cameraRef.current) return;
     sphericalRef.current.radius = Math.max(28, sphericalRef.current.radius - 12);
-    updateCameraFromSpherical(cameraRef.current);
-  }, []);
+    targetSphericalRef.current.radius = sphericalRef.current.radius;
+    if (cameraRef.current) updateCameraFromSpherical(cameraRef.current);
+  }, [updateCameraFromSpherical]);
 
   const zoomOut = useCallback(() => {
-    if (!cameraRef.current) return;
     sphericalRef.current.radius = Math.min(160, sphericalRef.current.radius + 12);
-    updateCameraFromSpherical(cameraRef.current);
-  }, []);
+    targetSphericalRef.current.radius = sphericalRef.current.radius;
+    if (cameraRef.current) updateCameraFromSpherical(cameraRef.current);
+  }, [updateCameraFromSpherical]);
 
   const resetCamera = useCallback(() => {
-    sphericalRef.current = { theta: 0.55, phi: 1.05, radius: 82 };
-    targetLookAt.current.set(0, 4, 0);
-    if (cameraRef.current) {
-      updateCameraFromSpherical(cameraRef.current);
+    targetSphericalRef.current = { theta: 0.55, phi: 1.05, radius: 82 };
+    desiredLookAtRef.current.set(0, 4, 0);
+    isTransitioningRef.current = true;
+  }, []);
+
+  const focusNode = useCallback((nodeId: string) => {
+    let targetMesh: THREE.Object3D | null = null;
+    groupsRef.current.buildings.traverse((obj) => {
+      if (obj.userData?.nodeId === nodeId && !targetMesh) {
+        targetMesh = obj;
+      }
+    });
+
+    if (targetMesh) {
+      const worldPos = new THREE.Vector3();
+      (targetMesh as THREE.Object3D).getWorldPosition(worldPos);
+      desiredLookAtRef.current.set(worldPos.x, worldPos.y + 2, worldPos.z);
+      targetSphericalRef.current = {
+        theta: sphericalRef.current.theta,
+        phi: Math.max(0.65, Math.min(1.2, sphericalRef.current.phi)),
+        radius: 46
+      };
+      isTransitioningRef.current = true;
     }
   }, []);
 
@@ -982,6 +1136,9 @@ export function useThreeViewport({
     zoomIn,
     zoomOut,
     resetCamera,
-    compassAngle
+    focusNode,
+    hoveredNodeId,
+    compassAngle,
+    fpsTelemetry
   };
 }

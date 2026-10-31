@@ -3,7 +3,13 @@ import {
   generateCyberGrid,
   computeHierarchicalClusterLayout,
   computeSplineCurvePoints,
-  interpolateParticlePosition
+  interpolateParticlePosition,
+  calculateSphericalCameraPosition,
+  clampCameraZoom,
+  computeCompassHeading,
+  computePanDelta,
+  computeEntityFocusCoordinates,
+  CAMERA_PRESETS
 } from './index.js';
 import { TwinNode, TwinEdge } from '@nexus/twin-graph';
 
@@ -49,6 +55,62 @@ describe('World Engine — 3D Spatial Utilities', () => {
     const atEnd = interpolateParticlePosition(points, 1);
     expect(atStart.x).toBeCloseTo(0);
     expect(atEnd.x).toBeCloseTo(20);
+  });
+
+  it('calculateSphericalCameraPosition accurately maps spherical to cartesian coords', () => {
+    // Phi = PI / 2 (equator), Theta = 0 (along Z axis)
+    const pos = calculateSphericalCameraPosition({ theta: 0, phi: Math.PI / 2, radius: 50 }, { x: 0, y: 0, z: 0 });
+    expect(pos.x).toBeCloseTo(0, 2);
+    expect(pos.y).toBeCloseTo(0, 2);
+    expect(pos.z).toBeCloseTo(50, 2);
+
+    // Phi = 0 (north pole, straight up on Y)
+    const topPos = calculateSphericalCameraPosition({ theta: 0, phi: 0, radius: 100 }, { x: 10, y: 5, z: 0 });
+    expect(topPos.x).toBeCloseTo(10, 2);
+    expect(topPos.y).toBeCloseTo(105, 2);
+    expect(topPos.z).toBeCloseTo(0, 2);
+  });
+
+  it('clampCameraZoom constrains radius within limits', () => {
+    expect(clampCameraZoom(10, 24, 180)).toBe(24);
+    expect(clampCameraZoom(250, 24, 180)).toBe(180);
+    expect(clampCameraZoom(85, 24, 180)).toBe(85);
+  });
+
+  it('computeCompassHeading returns 0-360 degree normalized heading', () => {
+    const heading0 = computeCompassHeading(0);
+    expect(heading0).toBeGreaterThanOrEqual(0);
+    expect(heading0).toBeLessThan(360);
+
+    const headingPi = computeCompassHeading(Math.PI);
+    expect(headingPi).toBeGreaterThanOrEqual(0);
+    expect(headingPi).toBeLessThan(360);
+  });
+
+  it('computePanDelta shifts coordinates according to angle', () => {
+    const delta = computePanDelta(10, 0, 0, 0.1);
+    expect(delta.x).toBeCloseTo(-1, 1);
+    expect(delta.y).toBe(0);
+  });
+
+  it('computeEntityFocusCoordinates centers target on entity and clamps phi', () => {
+    const focus = computeEntityFocusCoordinates(
+      { x: 25, y: 8, z: -15 },
+      { theta: 0.8, phi: 0.2, radius: 80 },
+      45
+    );
+    expect(focus.target).toEqual({ x: 25, y: 10, z: -15 });
+    expect(focus.spherical.radius).toBe(45);
+    expect(focus.spherical.phi).toBeGreaterThanOrEqual(0.6); // Clamped minimum
+  });
+
+  it('CAMERA_PRESETS contains all required perspectives with targets', () => {
+    expect(CAMERA_PRESETS.orbital).toBeDefined();
+    expect(CAMERA_PRESETS['top-down']).toBeDefined();
+    expect(CAMERA_PRESETS.ingress).toBeDefined();
+    expect(CAMERA_PRESETS.stadium).toBeDefined();
+    expect(CAMERA_PRESETS.orbital.radius).toBe(82);
+    expect(CAMERA_PRESETS['top-down'].phi).toBeLessThan(0.2); // Overhead
   });
 });
 
