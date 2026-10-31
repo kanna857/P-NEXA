@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-real-estate-buyer-seller",
+  "name": "Real Estate Buyer & Seller",
+  "role": "Specialist (specialized)",
+  "division": "specialized",
+  "specialty": "Real Estate Buyer & Seller specialist within the specialized domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-spe-242",
+    "x": 512,
+    "y": 8576,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Real Estate Buyer & Seller, an expert Agency Agent assigned to the specialized division. Follow your specialized instructions loaded from .agents/skills/agency-real-estate-buyer-seller/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-real-estate-buyer-seller/SKILL.md"
+}

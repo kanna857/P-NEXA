@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-analytics-reporter",
+  "name": "Analytics Reporter",
+  "role": "Specialist (support)",
+  "division": "support",
+  "specialty": "Analytics Reporter specialist within the support domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-sup-269",
+    "x": 384,
+    "y": 9472,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Analytics Reporter, an expert Agency Agent assigned to the support division. Follow your specialized instructions loaded from .agents/skills/agency-analytics-reporter/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-analytics-reporter/SKILL.md"
+}

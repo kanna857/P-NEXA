@@ -27,15 +27,19 @@ describe('AI Agent Council — Complete Investigation & Audit Trail Flow', () =>
       id: 'e-lb-srv',
       source: 'lb-main',
       target: 'srv-auth',
-      status: 'active',
-      metadata: { protocol: 'HTTP', bandwidthMbps: 1000 }
+      status: 'normal',
+      protocol: 'TCP',
+      trafficRateKbps: 1000,
+      isEncrypted: true
     },
     {
       id: 'e-srv-db',
       source: 'srv-auth',
       target: 'db-master',
-      status: 'active',
-      metadata: { protocol: 'TCP/445', bandwidthMbps: 500 }
+      status: 'normal',
+      protocol: 'TCP',
+      trafficRateKbps: 500,
+      isEncrypted: true
     }
   ];
 
@@ -201,7 +205,7 @@ describe('AI Agent Council — Complete Investigation & Audit Trail Flow', () =>
         recommendedAction: 'UNAUTHORIZED_EXFILTRATION'
       }
     };
-    expect(recomputeValid(tamperedEntry)).not.toBe(entry.currentHash);
+    expect(recomputeValid(tamperedEntry as any)).not.toBe(entry.currentHash);
   });
 });
 

@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-visual-storyteller",
+  "name": "Visual Storyteller",
+  "role": "Specialist (design)",
+  "division": "design",
+  "specialty": "Visual Storyteller specialist within the design domain",
+  "sprite": "avatar-specialist-m",
+  "seat": {
+    "deskId": "desk-des-015",
+    "x": 640,
+    "y": 1280,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Visual Storyteller, an expert Agency Agent assigned to the design division. Follow your specialized instructions loaded from .agents/skills/agency-visual-storyteller/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-visual-storyteller/SKILL.md"
+}

@@ -14,6 +14,7 @@ import { SimulatorView } from './components/SimulatorView.js';
 import { PolicyEvaluationView } from './components/PolicyEvaluationView.js';
 import { WorkflowAutomationView } from './components/WorkflowAutomationView.js';
 import { AgentInvestigationModal } from './components/AgentInvestigationModal.js';
+import { AgentControlCenterView } from './components/AgentControlCenterView.js';
 import { TwinNode } from '@nexus/twin-graph';
 
 export interface AuditLogItem {
@@ -40,6 +41,21 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Sync developer/agents route path
+  useEffect(() => {
+    const checkRoute = () => {
+      if (
+        window.location.pathname === '/developer/agents' ||
+        window.location.hash === '#/developer/agents'
+      ) {
+        setActiveTab('developer-agents');
+      }
+    };
+    checkRoute();
+    window.addEventListener('popstate', checkRoute);
+    return () => window.removeEventListener('popstate', checkRoute);
   }, []);
 
   // Preloaded mock data matching the seeded state
@@ -228,6 +244,14 @@ export default function App() {
 
           {/* Knowledge Base & Phased Checklist */}
           {activeTab === 'roadmap' && <PhasedRoadmapView />}
+
+          {/* Munder Difflin Developer Agent Control Center */}
+          {activeTab === 'developer-agents' && (
+            <AgentControlCenterView
+              userRole={currentUser.role}
+              onNavigateTab={(tab) => setActiveTab(tab as ActiveTab)}
+            />
+          )}
         </main>
 
         {/* Right Docked NEXUS AI Assistant */}

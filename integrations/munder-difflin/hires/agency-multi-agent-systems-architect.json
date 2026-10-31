@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-multi-agent-systems-architect",
+  "name": "Multi-Agent Systems Architect",
+  "role": "Specialist (engineering)",
+  "division": "engineering",
+  "specialty": "Multi-Agent Systems Architect specialist within the engineering domain",
+  "sprite": "avatar-specialist-m",
+  "seat": {
+    "deskId": "desk-eng-055",
+    "x": 384,
+    "y": 1792,
+    "zone": "Engineering Bay Alpha"
+  },
+  "provider": "claude-code",
+  "model": "claude-3-7-sonnet",
+  "systemPrompt": "You are Multi-Agent Systems Architect, an expert Agency Agent assigned to the engineering division. Follow your specialized instructions loaded from .agents/skills/agency-multi-agent-systems-architect/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-multi-agent-systems-architect/SKILL.md"
+}

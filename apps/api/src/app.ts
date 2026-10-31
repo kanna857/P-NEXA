@@ -15,6 +15,7 @@ import { incidentsRouter } from './routes/incidents.js';
 import { scenariosRouter } from './routes/scenarios.js';
 import { policiesRouter } from './routes/policies.js';
 import { workflowsRouter } from './routes/workflows.js';
+import { developerRouter } from './routes/developer.js';
 import { verifyAccessToken } from './services/authService.js';
 import { rootLogger } from '@nexus/observability';
 
@@ -99,6 +100,7 @@ export function createApp(): { app: Express; httpServer: ReturnType<typeof creat
   app.use('/api/v1/scenarios', scenariosRouter);
   app.use('/api/v1/policies', policiesRouter);
   app.use('/api/v1/workflows', workflowsRouter);
+  app.use('/api/v1/developer', developerRouter);
 
   // Global error handler
   app.use(errorHandler);

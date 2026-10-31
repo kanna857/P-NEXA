@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-feedback-synthesizer",
+  "name": "Feedback Synthesizer",
+  "role": "Specialist (product)",
+  "division": "product",
+  "specialty": "Feedback Synthesizer specialist within the product domain",
+  "sprite": "avatar-lead-m",
+  "seat": {
+    "deskId": "desk-pro-171",
+    "x": 640,
+    "y": 5504,
+    "zone": "Product & Agile Command Deck"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Feedback Synthesizer, an expert Agency Agent assigned to the product division. Follow your specialized instructions loaded from .agents/skills/agency-feedback-synthesizer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-feedback-synthesizer/SKILL.md"
+}

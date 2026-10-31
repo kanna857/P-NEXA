@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-civil-engineer",
+  "name": "Civil Engineer",
+  "role": "Specialist (specialized)",
+  "division": "specialized",
+  "specialty": "Civil Engineer specialist within the specialized domain",
+  "sprite": "avatar-specialist-m",
+  "seat": {
+    "deskId": "desk-spe-250",
+    "x": 512,
+    "y": 8832,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Civil Engineer, an expert Agency Agent assigned to the specialized division. Follow your specialized instructions loaded from .agents/skills/agency-civil-engineer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-civil-engineer/SKILL.md"
+}

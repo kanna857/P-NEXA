@@ -1,0 +1,74 @@
+{
+  "$schema": "https://raw.githubusercontent.com/HarnessMD/munder-difflin/main/docs/config-schema.json",
+  "office": {
+    "name": "NEXUS Ω X Autonomous HQ",
+    "floor": "Tier-4 Cyber Operations & Architecture Deck",
+    "theme": "cyberpunk-matrix",
+    "dimensions": {
+      "width": 1920,
+      "height": 1080
+    },
+    "zones": [
+      {
+        "id": "eng-bay-alpha",
+        "name": "Engineering Bay Alpha",
+        "color": "#06b6d4",
+        "bounds": { "x": 64, "y": 64, "width": 512, "height": 384 }
+      },
+      {
+        "id": "sec-ops-vault",
+        "name": "SOC & Hardened Security Vault",
+        "color": "#ec4899",
+        "bounds": { "x": 640, "y": 64, "width": 512, "height": 384 }
+      },
+      {
+        "id": "qa-lab",
+        "name": "QA & Automated Testing Lab",
+        "color": "#10b981",
+        "bounds": { "x": 64, "y": 512, "width": 512, "height": 384 }
+      },
+      {
+        "id": "spatial-studio",
+        "name": "Spatial 3D & Graphics Studio",
+        "color": "#8b5cf6",
+        "bounds": { "x": 640, "y": 512, "width": 512, "height": 384 }
+      },
+      {
+        "id": "command-deck",
+        "name": "Product & Agile Command Deck",
+        "color": "#f59e0b",
+        "bounds": { "x": 1216, "y": 64, "width": 512, "height": 832 }
+      }
+    ]
+  },
+  "hive": {
+    "protocolVersion": "1.0.0",
+    "storagePath": "./hive",
+    "singleCommitterRails": true,
+    "worktreeIsolation": true,
+    "baseBranch": "feat/munder-difflin-integration",
+    "protectedBranches": ["main", "master", "release/*"]
+  },
+  "supervisor": {
+    "name": "Michael (Branch Manager)",
+    "agentId": "munder-michael-supervisor",
+    "deskId": "desk-mgr-001",
+    "autonomyLevel": "supervised",
+    "approvalsRequiredFor": [
+      "git push",
+      "git merge into main",
+      "rm -rf",
+      "database reset"
+    ]
+  },
+  "budget": {
+    "globalDailyTokenLimit": 5000000,
+    "maxTokensPerTask": 250000,
+    "circuitBreakers": {
+      "errorStormThreshold": 4,
+      "repeatedToolCallThreshold": 5,
+      "maxConcurrentAgents": 6
+    }
+  }
+}
+

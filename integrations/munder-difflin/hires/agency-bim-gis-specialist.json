@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-bim-gis-specialist",
+  "name": "BIM/GIS Specialist",
+  "role": "Specialist (gis)",
+  "division": "gis",
+  "specialty": "BIM/GIS Specialist specialist within the gis domain",
+  "sprite": "avatar-lead-m",
+  "seat": {
+    "deskId": "desk-gis-111",
+    "x": 640,
+    "y": 4352,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are BIM/GIS Specialist, an expert Agency Agent assigned to the gis division. Follow your specialized instructions loaded from .agents/skills/agency-bim-gis-specialist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-bim-gis-specialist/SKILL.md"
+}

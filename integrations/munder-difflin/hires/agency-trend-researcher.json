@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-trend-researcher",
+  "name": "Trend Researcher",
+  "role": "Specialist (product)",
+  "division": "product",
+  "specialty": "Trend Researcher specialist within the product domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-pro-174",
+    "x": 512,
+    "y": 5632,
+    "zone": "Product & Agile Command Deck"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Trend Researcher, an expert Agency Agent assigned to the product division. Follow your specialized instructions loaded from .agents/skills/agency-trend-researcher/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-trend-researcher/SKILL.md"
+}

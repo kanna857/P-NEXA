@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-account-strategist",
+  "name": "Account Strategist",
+  "role": "Specialist (sales)",
+  "division": "sales",
+  "specialty": "Account Strategist specialist within the sales domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-sal-183",
+    "x": 640,
+    "y": 6272,
+    "zone": "Executive & Revenue Suite"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Account Strategist, an expert Agency Agent assigned to the sales division. Follow your specialized instructions loaded from .agents/skills/agency-account-strategist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-account-strategist/SKILL.md"
+}

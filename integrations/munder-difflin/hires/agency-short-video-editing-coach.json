@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-short-video-editing-coach",
+  "name": "Short-Video Editing Coach",
+  "role": "Specialist (marketing)",
+  "division": "marketing",
+  "specialty": "Short-Video Editing Coach specialist within the marketing domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-mar-152",
+    "x": 768,
+    "y": 5632,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Short-Video Editing Coach, an expert Agency Agent assigned to the marketing division. Follow your specialized instructions loaded from .agents/skills/agency-short-video-editing-coach/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-short-video-editing-coach/SKILL.md"
+}

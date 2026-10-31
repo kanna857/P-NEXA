@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-git-workflow-master",
+  "name": "Git Workflow Master",
+  "role": "Specialist (engineering)",
+  "division": "engineering",
+  "specialty": "Git Workflow Master specialist within the engineering domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-eng-044",
+    "x": 512,
+    "y": 1408,
+    "zone": "Engineering Bay Alpha"
+  },
+  "provider": "claude-code",
+  "model": "claude-3-7-sonnet",
+  "systemPrompt": "You are Git Workflow Master, an expert Agency Agent assigned to the engineering division. Follow your specialized instructions loaded from .agents/skills/agency-git-workflow-master/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-git-workflow-master/SKILL.md"
+}

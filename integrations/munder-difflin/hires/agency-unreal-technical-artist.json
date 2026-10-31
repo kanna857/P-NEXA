@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-unreal-technical-artist",
+  "name": "Unreal Technical Artist",
+  "role": "Specialist (game-development)",
+  "division": "game-development",
+  "specialty": "Unreal Technical Artist specialist within the game-development domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-gam-107",
+    "x": 896,
+    "y": 3840,
+    "zone": "Spatial 3D & Graphics Studio"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Unreal Technical Artist, an expert Agency Agent assigned to the game-development division. Follow your specialized instructions loaded from .agents/skills/agency-unreal-technical-artist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-unreal-technical-artist/SKILL.md"
+}

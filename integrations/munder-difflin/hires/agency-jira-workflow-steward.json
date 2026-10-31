@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-jira-workflow-steward",
+  "name": "Jira Workflow Steward",
+  "role": "Specialist (project-management)",
+  "division": "project-management",
+  "specialty": "Jira Workflow Steward specialist within the project-management domain",
+  "sprite": "avatar-lead-m",
+  "seat": {
+    "deskId": "desk-pro-176",
+    "x": 768,
+    "y": 5632,
+    "zone": "Product & Agile Command Deck"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Jira Workflow Steward, an expert Agency Agent assigned to the project-management division. Follow your specialized instructions loaded from .agents/skills/agency-jira-workflow-steward/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-jira-workflow-steward/SKILL.md"
+}

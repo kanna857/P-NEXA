@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-study-abroad-advisor",
+  "name": "Study Abroad Advisor",
+  "role": "Specialist (specialized)",
+  "division": "specialized",
+  "specialty": "Study Abroad Advisor specialist within the specialized domain",
+  "sprite": "avatar-lead-m",
+  "seat": {
+    "deskId": "desk-spe-266",
+    "x": 512,
+    "y": 9344,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Study Abroad Advisor, an expert Agency Agent assigned to the specialized division. Follow your specialized instructions loaded from .agents/skills/agency-study-abroad-advisor/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-study-abroad-advisor/SKILL.md"
+}

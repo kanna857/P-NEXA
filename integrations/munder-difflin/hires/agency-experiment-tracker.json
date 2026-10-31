@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-experiment-tracker",
+  "name": "Experiment Tracker",
+  "role": "Specialist (project-management)",
+  "division": "project-management",
+  "specialty": "Experiment Tracker specialist within the project-management domain",
+  "sprite": "avatar-specialist-m",
+  "seat": {
+    "deskId": "desk-pro-175",
+    "x": 640,
+    "y": 5632,
+    "zone": "Product & Agile Command Deck"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Experiment Tracker, an expert Agency Agent assigned to the project-management division. Follow your specialized instructions loaded from .agents/skills/agency-experiment-tracker/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-experiment-tracker/SKILL.md"
+}

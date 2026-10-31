@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-social-media-strategist",
+  "name": "Social Media Strategist",
+  "role": "Specialist (marketing)",
+  "division": "marketing",
+  "specialty": "Social Media Strategist specialist within the marketing domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-mar-153",
+    "x": 384,
+    "y": 5760,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Social Media Strategist, an expert Agency Agent assigned to the marketing division. Follow your specialized instructions loaded from .agents/skills/agency-social-media-strategist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-social-media-strategist/SKILL.md"
+}

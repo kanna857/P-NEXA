@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-developer-advocate",
+  "name": "Developer Advocate",
+  "role": "Specialist (specialized)",
+  "division": "specialized",
+  "specialty": "Developer Advocate specialist within the specialized domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-spe-253",
+    "x": 384,
+    "y": 8960,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Developer Advocate, an expert Agency Agent assigned to the specialized division. Follow your specialized instructions loaded from .agents/skills/agency-developer-advocate/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-developer-advocate/SKILL.md"
+}

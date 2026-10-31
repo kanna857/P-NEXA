@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-ai-citation-strategist",
+  "name": "AI Citation Strategist",
+  "role": "Specialist (marketing)",
+  "division": "marketing",
+  "specialty": "AI Citation Strategist specialist within the marketing domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-mar-127",
+    "x": 640,
+    "y": 4864,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are AI Citation Strategist, an expert Agency Agent assigned to the marketing division. Follow your specialized instructions loaded from .agents/skills/agency-ai-citation-strategist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-ai-citation-strategist/SKILL.md"
+}

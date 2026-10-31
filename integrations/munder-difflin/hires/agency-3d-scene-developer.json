@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-3d-scene-developer",
+  "name": "3D & Scene Developer",
+  "role": "Specialist (gis)",
+  "division": "gis",
+  "specialty": "3D & Scene Developer specialist within the gis domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-gis-109",
+    "x": 384,
+    "y": 4352,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are 3D & Scene Developer, an expert Agency Agent assigned to the gis division. Follow your specialized instructions loaded from .agents/skills/agency-3d-scene-developer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-3d-scene-developer/SKILL.md"
+}

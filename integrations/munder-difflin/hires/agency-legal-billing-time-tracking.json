@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-legal-billing-time-tracking",
+  "name": "Legal Billing & Time Tracking",
+  "role": "Specialist (specialized)",
+  "division": "specialized",
+  "specialty": "Legal Billing & Time Tracking specialist within the specialized domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-spe-232",
+    "x": 768,
+    "y": 8192,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Legal Billing & Time Tracking, an expert Agency Agent assigned to the specialized division. Follow your specialized instructions loaded from .agents/skills/agency-legal-billing-time-tracking/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-legal-billing-time-tracking/SKILL.md"
+}

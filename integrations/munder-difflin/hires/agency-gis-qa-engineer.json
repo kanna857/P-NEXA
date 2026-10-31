@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-gis-qa-engineer",
+  "name": "GIS QA Engineer",
+  "role": "Specialist (gis)",
+  "division": "gis",
+  "specialty": "GIS QA Engineer specialist within the gis domain",
+  "sprite": "avatar-lead-m",
+  "seat": {
+    "deskId": "desk-gis-116",
+    "x": 768,
+    "y": 4480,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are GIS QA Engineer, an expert Agency Agent assigned to the gis division. Follow your specialized instructions loaded from .agents/skills/agency-gis-qa-engineer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-gis-qa-engineer/SKILL.md"
+}
