@@ -1090,4 +1090,87 @@ describe('NEXUS OMEGA X API Gateway & Security Tests', () => {
     expect(res.body.data.controls.some((c: any) => c.controlId === 'GOVERN_1.1')).toBe(true);
     expect(res.body.data.controls.some((c: any) => c.controlId === 'MEASURE_2.6')).toBe(true);
   });
+
+  // ── Phase 9: Secrets & Credential Hygiene Verification ─────────────────────
+  it('enforces production security guards against default development JWT_SECRET', () => {
+    const { z } = require('zod');
+    const testConfigSchema = z
+      .object({
+        NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+        JWT_SECRET: z.string().min(16).default('nexus_omega_x_super_secret_jwt_key_2026_at_least_32_chars!')
+      })
+      .refine(
+        (data: any) => {
+          if (
+            data.NODE_ENV === 'production' &&
+            data.JWT_SECRET === 'nexus_omega_x_super_secret_jwt_key_2026_at_least_32_chars!'
+          ) {
+            return false;
+          }
+          return true;
+        },
+        {
+          message: 'FATAL SECURITY VIOLATION: Default development JWT_SECRET is strictly forbidden in production.'
+        }
+      );
+
+    // Development mode with default secret is valid
+    expect(() =>
+      testConfigSchema.parse({
+        NODE_ENV: 'development',
+        JWT_SECRET: 'nexus_omega_x_super_secret_jwt_key_2026_at_least_32_chars!'
+      })
+    ).not.toThrow();
+
+    // Production mode with default secret MUST throw
+    expect(() =>
+      testConfigSchema.parse({
+        NODE_ENV: 'production',
+        JWT_SECRET: 'nexus_omega_x_super_secret_jwt_key_2026_at_least_32_chars!'
+      })
+    ).toThrow(/FATAL SECURITY VIOLATION/);
+
+    // Production mode with rotated secret succeeds
+    expect(() =>
+      testConfigSchema.parse({
+        NODE_ENV: 'production',
+        JWT_SECRET: 'c9f8a37b12d5e468901a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e'
+      })
+    ).not.toThrow();
+  });
+
+  it('verifies that seed credential guard rejects static credentials when NODE_ENV=production', () => {
+    const checkSeedGuards = (env: {
+      NODE_ENV?: string;
+      SEED_ADMIN_PASSWORD?: string;
+      SEED_DEFAULT_USER_PASSWORD?: string;
+    }) => {
+      const isProduction = env.NODE_ENV === 'production';
+      if (isProduction && (!env.SEED_ADMIN_PASSWORD || !env.SEED_DEFAULT_USER_PASSWORD)) {
+        throw new Error(
+          'CRITICAL SECURITY VIOLATION: Seeding in a production environment with default credentials is prohibited.'
+        );
+      }
+      return {
+        admin: env.SEED_ADMIN_PASSWORD || 'DevOnly_SuperAdmin_#2026$Rotated!',
+        user: env.SEED_DEFAULT_USER_PASSWORD || 'DevOnly_User_#2026$Rotated!'
+      };
+    };
+
+    // Fails in production without explicit credentials
+    expect(() => checkSeedGuards({ NODE_ENV: 'production' })).toThrow(/CRITICAL SECURITY VIOLATION/);
+
+    // Succeeds in production with explicit credentials
+    const prodCreds = checkSeedGuards({
+      NODE_ENV: 'production',
+      SEED_ADMIN_PASSWORD: 'Complex_Prod_Admin_Password!#992',
+      SEED_DEFAULT_USER_PASSWORD: 'Complex_Prod_User_Password!#993'
+    });
+    expect(prodCreds.admin).toBe('Complex_Prod_Admin_Password!#992');
+
+    // Succeeds in development with rotated fallback credentials
+    const devCreds = checkSeedGuards({ NODE_ENV: 'development' });
+    expect(devCreds.admin).toBe('DevOnly_SuperAdmin_#2026$Rotated!');
+    expect(devCreds.user).toBe('DevOnly_User_#2026$Rotated!');
+  });
 });

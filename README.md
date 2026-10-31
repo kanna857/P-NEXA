@@ -194,11 +194,11 @@ pnpm install
 pnpm build
 ```
 
-### 3️⃣ Run Test Suite (136 Tests)
+### 3️⃣ Run Test Suite (153 Tests)
 ```bash
 pnpm test
 ```
-All **136 test suites** across 10 packages validate state transitions, Merkle chains, PRNG determinism, and API validation.
+All **153 tests** across 18 test suites validate state transitions, Merkle chains, PRNG determinism, 3D viewport controls, and API security validation.
 
 ### 4️⃣ Seed Local Environment & Development Personas
 ```bash
@@ -206,10 +206,11 @@ pnpm --filter @nexus/api seed
 ```
 
 > [!CAUTION]
-> **Production Credential Security Notice:**
-> - In accordance with high-assurance security standards, **production credentials and secret keys are never committed to this repository**.
-> - For local development and CI testing, `seed.ts` provisions test personas with credentials configured via your local environment (`SEED_ADMIN_PASSWORD` in `.env.local` or environment flags).
-> - In public or production deployments, hardcoded demo access is strictly disabled; user identity is governed by SSO/OIDC and rotating cryptographically signed JWTs.
+> **Production Credential Security & Rotation Advisory:**
+> - **Compromised Credential Deprecation Notice**: Sample demonstration passwords displayed in early preview drafts (`NexusPass2026!`, `NexusSuperPass2026!`) are **deprecated and considered compromised**. If you have ever deployed an instance with these sample passwords, **rotate them immediately**.
+> - **Production Guardrails**: In `NODE_ENV=production`, `seed.ts` strictly prohibits default passwords and will terminate execution unless `SEED_ADMIN_PASSWORD` and `SEED_DEFAULT_USER_PASSWORD` are explicitly defined. Furthermore, production builds enforce high-entropy `JWT_SECRET` rotation.
+> - **Enterprise Secrets Injection**: Production deployments must inject credentials and encryption keys at runtime using enterprise secrets managers (e.g. AWS Secrets Manager, HashiCorp Vault, GCP Secret Manager, or Azure Key Vault).
+> - **Local Development Fallback**: For local development, `seed.ts` uses isolated, synthetic development-only credentials (`DevOnly_SuperAdmin_#2026$Rotated!` and `DevOnly_User_#2026$Rotated!`), which can be overridden in your `.env.local` file.
 
 #### Provisioned Development Personas:
 | Persona / Role | Email | Scope | Access Level |

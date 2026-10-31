@@ -97,9 +97,18 @@ pnpm dev
 - **Health Check**: `http://localhost:3000/health`
 - **Readiness Probe**: `http://localhost:3000/health/ready`
 
-### 4.5 Seed Account Credentials
-- **Super Admin**: `superadmin@nexus.ai` / `NexusSuperPass2026!`
-- **Org Admin (Commander)**: `admin@cyberdyne.ai` / `NexusPass2026!`
-- **Security Analyst**: `analyst@cyberdyne.ai` / `NexusPass2026!`
-- **Auditor**: `auditor@cyberdyne.ai` / `NexusPass2026!`
+### 4.5 Seed Account Credentials & Security Rotation Notice
+> [!CAUTION]
+> **Credential Security Advisory:**
+> - Plaintext demonstration passwords previously visible in early drafts (`NexusPass2026!`, `NexusSuperPass2026!`) are **deprecated, revoked, and strictly considered compromised**.
+> - Any environment that ever used those early sample passwords **must immediately rotate them**.
+> - For local development, `apps/api/src/scripts/seed.ts` reads `SEED_ADMIN_PASSWORD` and `SEED_DEFAULT_USER_PASSWORD` from `.env.local` (defaulting to synthetic local stubs `DevOnly_SuperAdmin_#2026$Rotated!` and `DevOnly_User_#2026$Rotated!`).
+> - In `NODE_ENV=production`, hardcoded defaults are disabled and will throw a fatal error.
+> - Provisioned seed roles:
+>   - **Super Admin**: `superadmin@nexus.ai`
+>   - **Org Admin (Commander)**: `admin@cyberdyne.ai`
+>   - **Security Analyst**: `analyst@cyberdyne.ai`
+>   - **Simulation Engineer**: `sim.engineer@cyberdyne.ai`
+>   - **Auditor**: `auditor@cyberdyne.ai`
+>   - **Viewer**: `viewer@cyberdyne.ai`
 

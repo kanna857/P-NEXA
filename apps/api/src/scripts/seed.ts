@@ -65,7 +65,26 @@ export async function runSeed(): Promise<void> {
   });
 
   // 2. Seed Users for CyberDyne Orbital
-  const defaultPasswordHash = await hashPassword('NexusPass2026!');
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  // Hard production security guard: Default/static seed credentials are strictly forbidden
+  if (isProduction && (!process.env.SEED_ADMIN_PASSWORD || !process.env.SEED_DEFAULT_USER_PASSWORD)) {
+    throw new Error(
+      'CRITICAL SECURITY VIOLATION: Seeding in a production environment with default credentials is prohibited. ' +
+      'You must explicitly provide cryptographically strong SEED_ADMIN_PASSWORD and SEED_DEFAULT_USER_PASSWORD environment variables.'
+    );
+  }
+
+  // Explicitly labeled rotated development credentials (never valid in production)
+  const devAdminPassword = process.env.SEED_ADMIN_PASSWORD || 'DevOnly_SuperAdmin_#2026$Rotated!';
+  const devUserPassword = process.env.SEED_DEFAULT_USER_PASSWORD || 'DevOnly_User_#2026$Rotated!';
+
+  if (!process.env.SEED_ADMIN_PASSWORD || !process.env.SEED_DEFAULT_USER_PASSWORD) {
+    logger.warn('NOTICE: Seeding with synthetic development-only credentials. DO NOT deploy these credentials to production environments.');
+  }
+
+  const defaultPasswordHash = await hashPassword(devUserPassword);
+  const superAdminPasswordHash = await hashPassword(devAdminPassword);
 
   const users = [
     {
@@ -73,7 +92,7 @@ export async function runSeed(): Promise<void> {
       firstName: 'Nexus',
       lastName: 'Prime',
       role: SystemRoles.SUPER_ADMIN,
-      passwordHash: await hashPassword('NexusSuperPass2026!')
+      passwordHash: superAdminPasswordHash
     },
     {
       email: 'admin@cyberdyne.ai',
