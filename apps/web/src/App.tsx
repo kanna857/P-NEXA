@@ -13,6 +13,8 @@ import { IncidentsView } from './components/IncidentsView.js';
 import { SimulatorView } from './components/SimulatorView.js';
 import { PolicyEvaluationView } from './components/PolicyEvaluationView.js';
 import { WorkflowAutomationView } from './components/WorkflowAutomationView.js';
+import { AgentInvestigationModal } from './components/AgentInvestigationModal.js';
+import { TwinNode } from '@nexus/twin-graph';
 
 export interface AuditLogItem {
   sequenceNumber: number;
@@ -65,7 +67,7 @@ export default function App() {
     { id: 'u5', email: 'auditor@cyberdyne.ai', firstName: 'Elena', lastName: 'Rostova', role: 'AUDITOR', status: 'active' }
   ]);
 
-  const [auditLogs] = useState<AuditLogItem[]>([
+  const [auditLogs, setAuditLogs] = useState<AuditLogItem[]>([
     {
       sequenceNumber: 1,
       previousHash: '0000000000000000000000000000000000000000000000000000000000000000',
@@ -94,6 +96,33 @@ export default function App() {
       timestamp: new Date(Date.now() - 3600000).toISOString()
     }
   ]);
+
+  // AI Agent Council Live Investigation Flow State
+  const [investigatingEntity, setInvestigatingEntity] = useState<TwinNode | null>(null);
+  const [isInvestigationModalOpen, setIsInvestigationModalOpen] = useState(false);
+
+  const handleOpenInvestigation = (entity?: TwinNode) => {
+    const defaultServerNode: TwinNode = {
+      id: 'srv-auth',
+      name:
+        currentTenant.mode === 'office'
+          ? 'Enterprise SSO & Okta Identity Node'
+          : currentTenant.mode === 'defense'
+          ? 'Cryptographic Key Vault Bastion'
+          : 'Main Authentication Server',
+      type: 'server',
+      tier: 2,
+      status: 'compromised',
+      position: { x: 0, y: 0, z: 0 },
+      metadata: { ipAddress: '10.2.0.10', os: 'Ubuntu 24.04 LTS', cpuUsage: 93, memoryUsage: 96 }
+    };
+    setInvestigatingEntity(entity || defaultServerNode);
+    setIsInvestigationModalOpen(true);
+  };
+
+  const handleRecordAuditLog = (newEntry: AuditLogItem) => {
+    setAuditLogs((prev) => [newEntry, ...prev]);
+  };
 
   const handleInviteUser = (email: string, role: string) => {
     const newUser = {
@@ -141,10 +170,12 @@ export default function App() {
                   const match = availableTenants.find((t) => t.mode === mode);
                   if (match) setCurrentTenantId(match.id);
                 }}
+                onInvestigateEntity={handleOpenInvestigation}
               />
               <CommandGrid
                 onNavigateTab={(tab) => setActiveTab(tab as ActiveTab)}
                 worldMode={currentTenant.mode}
+                onInvestigateIncident={() => handleOpenInvestigation()}
               />
             </div>
           )}
@@ -158,6 +189,7 @@ export default function App() {
                 const match = availableTenants.find((t) => t.mode === mode);
                 if (match) setCurrentTenantId(match.id);
               }}
+              onInvestigateEntity={handleOpenInvestigation}
             />
           )}
 
@@ -209,6 +241,19 @@ export default function App() {
         onSelectTab={(tab) => setActiveTab(tab)}
         availableTenants={availableTenants}
         onSwitchTenant={(id) => setCurrentTenantId(id)}
+      />
+
+      {/* AI Agent Council Real-time Investigation Modal */}
+      <AgentInvestigationModal
+        isOpen={isInvestigationModalOpen}
+        onClose={() => setIsInvestigationModalOpen(false)}
+        entity={investigatingEntity}
+        worldMode={currentTenant.mode}
+        currentUserEmail={currentUser.email}
+        previousAuditHash={auditLogs[0]?.currentHash || '0000000000000000000000000000000000000000000000000000000000000000'}
+        nextAuditSequenceNumber={auditLogs.length + 1}
+        onRecordAuditLog={handleRecordAuditLog}
+        onNavigateTab={(tab) => setActiveTab(tab as ActiveTab)}
       />
     </div>
   );

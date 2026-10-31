@@ -29,6 +29,7 @@ export interface DigitalTwinWorldViewProps {
   worldMode?: WorldMode;
   worldName?: string;
   onWorldChange?: (mode: WorldMode, name: string) => void;
+  onInvestigateEntity?: (node: TwinNode) => void;
 }
 
 // Procedural World Seeding per Mode (School, Office, Defense)
@@ -558,7 +559,8 @@ type ViewMode = '3d' | 'map' | 'graph' | 'list';
 export const DigitalTwinWorldView: React.FC<DigitalTwinWorldViewProps> = ({
   worldMode: propWorldMode,
   worldName: propWorldName,
-  onWorldChange
+  onWorldChange,
+  onInvestigateEntity
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('3d');
   const [internalWorldMode, setInternalWorldMode] = useState<WorldMode>(propWorldMode || 'school');
@@ -974,6 +976,7 @@ export const DigitalTwinWorldView: React.FC<DigitalTwinWorldViewProps> = ({
           simulationPlan={simulationPlan}
           onNodeStatusChange={handleNodeStatusChange}
           onEdgeStatusChange={handleEdgeStatusChange}
+          onInvestigateEntity={onInvestigateEntity}
         />
       )}
 

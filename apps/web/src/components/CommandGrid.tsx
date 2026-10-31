@@ -11,9 +11,14 @@ import {
 interface CommandGridProps {
   onNavigateTab?: (tab: string) => void;
   worldMode?: 'school' | 'office' | 'defense';
+  onInvestigateIncident?: () => void;
 }
 
-export const CommandGrid: React.FC<CommandGridProps> = ({ onNavigateTab, worldMode = 'school' }) => {
+export const CommandGrid: React.FC<CommandGridProps> = ({
+  onNavigateTab,
+  worldMode = 'school',
+  onInvestigateIncident
+}) => {
   const [incidentTimer, setIncidentTimer] = useState('00:12:45');
   const [approvalRequested, setApprovalRequested] = useState(false);
 
@@ -234,8 +239,15 @@ export const CommandGrid: React.FC<CommandGridProps> = ({ onNavigateTab, worldMo
               View Details
             </button>
             <button
-              onClick={() => onNavigateTab?.('agents')}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[10px] text-slate-300"
+              onClick={() => {
+                if (onInvestigateIncident) {
+                  onInvestigateIncident();
+                } else {
+                  onNavigateTab?.('agents');
+                }
+              }}
+              data-testid="run-incident-investigation-btn"
+              className="px-2.5 py-1.5 rounded-lg bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-[10px] text-purple-200 font-bold transition-all shadow-sm"
             >
               Run Investigation
             </button>

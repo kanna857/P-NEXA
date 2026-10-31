@@ -23,6 +23,12 @@ async function runSuite() {
   });
 
   const page = await context.newPage();
+  page.on('pageerror', err => console.error('  [PAGE ERROR]:', err.message));
+  page.on('console', msg => {
+    if (msg.type() === 'error' || msg.text().includes('Agent')) {
+      console.log(`  [PAGE CONSOLE ${msg.type()}]:`, msg.text());
+    }
+  });
   let passedTests = 0;
   let failedTests = 0;
 
@@ -110,24 +116,25 @@ async function runSuite() {
     // -------------------------------------------------------------------------
     console.log('\n[TEST 3] Verifying Keyboard Navigation Shortcuts & Viewport Reset...');
     await page.click('[data-testid="digital-twin-viewport"]');
+    await page.waitForTimeout(200);
 
     // Preset '2' (Top-down)
     await page.keyboard.press('2');
-    await page.waitForTimeout(100);
-    const topDownActive = await page.$eval('[data-testid="camera-preset-top-down"]', el => el.className.includes('border-neon-cyan'));
-    assert(topDownActive, 'Key "2" successfully switched camera preset to top-down');
+    await page.waitForTimeout(200);
+    const topDownActive = await page.locator('[data-testid="camera-preset-top-down"]').getAttribute('class');
+    assert(topDownActive?.includes('border-neon-cyan'), 'Key "2" successfully switched camera preset to top-down');
 
     // Preset '3' (Ingress)
     await page.keyboard.press('3');
-    await page.waitForTimeout(100);
-    const ingressActive = await page.$eval('[data-testid="camera-preset-ingress"]', el => el.className.includes('border-neon-cyan'));
-    assert(ingressActive, 'Key "3" successfully switched camera preset to ingress');
+    await page.waitForTimeout(200);
+    const ingressActive = await page.locator('[data-testid="camera-preset-ingress"]').getAttribute('class');
+    assert(ingressActive?.includes('border-neon-cyan'), 'Key "3" successfully switched camera preset to ingress');
 
     // Preset '1' (Orbital)
     await page.keyboard.press('1');
-    await page.waitForTimeout(100);
-    const orbitalActive = await page.$eval('[data-testid="camera-preset-orbital"]', el => el.className.includes('border-neon-cyan'));
-    assert(orbitalActive, 'Key "1" successfully switched camera preset to orbital');
+    await page.waitForTimeout(200);
+    const orbitalActive = await page.locator('[data-testid="camera-preset-orbital"]').getAttribute('class');
+    assert(orbitalActive?.includes('border-neon-cyan'), 'Key "1" successfully switched camera preset to orbital');
 
     // Zoom shortcuts '+' and '-'
     await page.keyboard.press('+');
@@ -135,10 +142,10 @@ async function runSuite() {
 
     // Reset view shortcut 'r'
     await page.keyboard.press('r');
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(200);
 
     // Verify Screen Reader live region
-    const liveAnnouncement = await page.$eval('[role="status"][aria-live="polite"]', el => el.textContent || '');
+    const liveAnnouncement = (await page.locator('[role="status"][aria-live="polite"]').textContent()) || '';
     assert(liveAnnouncement.length > 0, 'Screen reader live region received accessibility announcements');
 
     console.log(`✅ Keyboard Shortcuts: Presets 1-3, zoom (+/-), reset view (R), and screen reader announcements verified.`);
@@ -150,8 +157,8 @@ async function runSuite() {
     console.log('\n[TEST 4] Verifying Keyboard Shortcut Isolation (Typing in Inputs)...');
 
     // Test AI Assistant Chat Input
-    const chatInput = await page.$('input[placeholder*="Ask anything" i]');
-    assert(chatInput !== null, 'AI Assistant chat input found');
+    const chatInput = page.locator('input[placeholder*="Ask anything" i]');
+    await chatInput.waitFor({ state: 'visible', timeout: 5000 });
 
     await chatInput.click();
     // Type string containing shortcut triggers: 'r', 'f', '1', '2', '3', '4', '+', '-'
@@ -163,8 +170,8 @@ async function runSuite() {
     assert(finalVal === testString, `Typed text was preserved exactly: "${finalVal}"`);
 
     // Verify camera preset was NOT hijacked by typing '1', '2', '3', '4'
-    const orbitalStillActive = await page.$eval('[data-testid="camera-preset-orbital"]', el => el.className.includes('border-neon-cyan'));
-    assert(orbitalStillActive, 'Typing numbers into input did NOT trigger camera preset hotkeys');
+    const orbitalStillActive = await page.locator('[data-testid="camera-preset-orbital"]').getAttribute('class');
+    assert(orbitalStillActive?.includes('border-neon-cyan'), 'Typing numbers into input did NOT trigger camera preset hotkeys');
 
     console.log('✅ Shortcut Isolation: Typing "r", "f", "1", "2", "+", "-" in input fields does NOT trigger viewport shortcuts.');
     passedTests++;
@@ -173,7 +180,7 @@ async function runSuite() {
     // Test 5: Real Hardware FPS & Performance Benchmarking
     // -------------------------------------------------------------------------
     console.log('\n[TEST 5] Measuring Real Hardware FPS and Render Performance...');
-    const fpsPillText = await page.$eval('[data-testid="fps-telemetry-pill"]', el => el.textContent || '');
+    const fpsPillText = (await page.locator('[data-testid="fps-telemetry-pill"]').textContent()) || '';
     console.log(`  Live UI FPS Telemetry Pill: "${fpsPillText.trim()}"`);
     assert(fpsPillText.includes('FPS'), 'FPS telemetry pill is rendered in the viewport');
 
@@ -264,6 +271,71 @@ async function runSuite() {
 
     assert(criticalViolations.length <= 4, 'Accessibility audit passes acceptable baseline');
     console.log('✅ Accessibility Audit: WCAG 2.2 AA standards evaluated with Axe-core.');
+    passedTests++;
+
+    // -------------------------------------------------------------------------
+    // Test 7: Complete Multi-Agent Council Incident Investigation & Audit Flow
+    // -------------------------------------------------------------------------
+    console.log('\n[TEST 7] Verifying End-to-End Multi-Agent Council Investigation & Audit Flow...');
+
+    // 1. Return to Overview if not already there
+    await page.goto('http://localhost:5173', { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('canvas', { timeout: 15000 });
+
+    // 2. Select digital twin entity via beacon or direct button
+    const flowInspector = page.locator('[data-testid="entity-inspector"]');
+    if (await flowInspector.isVisible()) {
+      await page.locator('[data-testid="close-inspector-btn"]').click();
+      await flowInspector.waitFor({ state: 'detached', timeout: 5000 });
+    }
+
+    const serverBeacon = page.locator('[data-testid="beacon-server"], [data-testid="beacon-srv-auth"]').first();
+    await serverBeacon.waitFor({ state: 'visible', timeout: 10000 });
+    await serverBeacon.click();
+    await flowInspector.waitFor({ state: 'visible', timeout: 10000 });
+    console.log('  Selected digital twin server entity via interactive canvas beacon.');
+
+    // 3. Click "Investigate Incident with Agent Council"
+    const investigateBtn = page.locator('[data-testid="investigate-incident-btn"]');
+    await investigateBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await investigateBtn.click();
+
+    // 4. Verify Agent Council modal opens
+    const modal = page.locator('[aria-label="AI Agent Council Incident Investigation"]');
+    await modal.waitFor({ state: 'visible', timeout: 5000 });
+    console.log('  Agent Council investigation modal opened.');
+
+    // 5. Wait for real agent execution to reach completion (dossier rendered)
+    const triageHeading = modal.locator('text=SOC Triage Finding');
+    await triageHeading.waitFor({ state: 'visible', timeout: 15000 });
+    console.log('  Agent Council execution complete; evidence-backed dossier rendered.');
+
+    // 6. Verify recommendations and cryptographic state proof
+    const modalText = (await modal.textContent()) || '';
+    assert(modalText.includes('CRITICAL SEVERITY') || modalText.includes('SEVERITY'), 'Triage reflects severity');
+    assert(modalText.includes('T1486'), 'MITRE ATT&CK technique identified');
+    assert(modalText.includes('RECOMMENDED BY COUNCIL'), 'Council recommendation displayed');
+    assert(modalText.includes('VERIFIED') || modalText.includes('Cryptographic State Proof'), 'Cryptographic proof displayed');
+
+    // 7. Authorize containment & sign dual-custody
+    const authBtn = modal.locator('button:has-text("Authorize Containment")');
+    await authBtn.click();
+
+    // 8. Verify audit vault recording confirmation toast
+    const auditToast = modal.locator('text=Recorded in Tamper-Evident Audit Vault');
+    await auditToast.waitFor({ state: 'visible', timeout: 5000 });
+    console.log('  Outcome cryptographically recorded into audit history.');
+
+    // 9. Click "Inspect Ledger" to navigate to Audit Vault
+    const inspectBtn = modal.locator('button:has-text("Inspect Ledger")');
+    await inspectBtn.click();
+    await modal.waitFor({ state: 'detached', timeout: 5000 });
+
+    // 10. Verify navigation to Audit Vault and presence of new Block
+    await page.waitForSelector('text=Evidence-Based AI Governance & Merkle Vault', { timeout: 10000 });
+    const vaultText = (await page.textContent('body')) || '';
+    assert(vaultText.includes('CONTAINMENT_QUARANTINE_AUTHORIZED') || vaultText.includes('Block #4'), 'Audit ledger reflects new investigation block');
+    console.log('✅ End-to-End Flow: Entity selection -> Agent investigation -> Evidence recommendations -> Audit Vault verified.');
     passedTests++;
 
   } catch (error) {
