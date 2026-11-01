@@ -520,6 +520,7 @@ export const AgentExecutionTimeline: React.FC<AgentExecutionTimelineProps> = ({
                   key={status}
                   onClick={() => setSelectedStatus(status)}
                   aria-pressed={isActive}
+                  data-testid={`timeline-filter-status-${status.toLowerCase()}`}
                   aria-label={`Filter by ${status} status (${count} events)`}
                   className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center space-x-1.5 border focus:outline-none focus:ring-2 focus:ring-neon-cyan ${
                     isActive
@@ -543,6 +544,7 @@ export const AgentExecutionTimeline: React.FC<AgentExecutionTimelineProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              data-testid="timeline-search-input"
               placeholder="Search prompt, branch, agent, error..."
               aria-label="Search execution logs, error reasons, or worktrees"
               className="w-full pl-8 pr-3.5 py-1.5 rounded-xl bg-slate-950 border border-surface-border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan font-mono"
@@ -567,6 +569,7 @@ export const AgentExecutionTimeline: React.FC<AgentExecutionTimelineProps> = ({
             </label>
             <select
               id="agent-filter-select"
+              data-testid="timeline-agent-select"
               value={selectedAgent}
               onChange={(e) => setSelectedAgent(e.target.value)}
               aria-label="Filter timeline events by specific agent"
@@ -587,6 +590,7 @@ export const AgentExecutionTimeline: React.FC<AgentExecutionTimelineProps> = ({
             </label>
             <select
               id="task-filter-select"
+              data-testid="timeline-task-select"
               value={selectedTaskId}
               onChange={(e) => setSelectedTaskId(e.target.value)}
               aria-label="Filter timeline events by Task ID"
@@ -654,6 +658,7 @@ export const AgentExecutionTimeline: React.FC<AgentExecutionTimelineProps> = ({
             return (
               <article
                 key={event.id}
+                data-testid="timeline-event-card"
                 aria-labelledby={`card-title-${event.id}`}
                 className={`relative z-10 p-4 rounded-xl border transition-all ${
                   isErrorState

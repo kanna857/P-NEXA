@@ -512,7 +512,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
   // If non-admin user
   if (!isAdmin) {
     return (
-      <div className="p-8 font-mono text-xs flex flex-col items-center justify-center min-h-[500px]">
+      <div data-testid="restricted-developer-zone" className="p-8 font-mono text-xs flex flex-col items-center justify-center min-h-[500px]">
         <div className="max-w-md w-full glass-panel p-6 rounded-2xl border border-rose-500/40 text-center space-y-4">
           <div className="w-12 h-12 rounded-xl bg-rose-950/60 border border-rose-500/50 flex items-center justify-center mx-auto text-neon-crimson">
             <Lock className="w-6 h-6" />
@@ -634,13 +634,13 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
         </div>
       </div>
 
-      {/* ── Sub-Navigation Tabs ──────────────────────────────────────────────── */}
+            {/* ── Sub-Navigation Tabs ──────────────────────────────────────────────── */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-surface-border pb-2" role="tablist" aria-label="Control Center Sub-Tabs">
         <div className="flex flex-wrap items-center gap-2">
-          {/* Sub-tab 0: Execution Timeline */}
           <button
             role="tab"
             id="tab-timeline"
+            data-testid="tab-timeline"
             aria-selected={activeSubTab === 'timeline'}
             aria-controls="panel-timeline"
             onClick={() => setActiveSubTab('timeline')}
@@ -661,6 +661,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
           <button
             role="tab"
             id="tab-tasks"
+            data-testid="tab-tasks"
             aria-selected={activeSubTab === 'tasks'}
             aria-controls="panel-tasks"
             onClick={() => setActiveSubTab('tasks')}
@@ -680,6 +681,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
           <button
             role="tab"
             id="tab-approvals"
+            data-testid="tab-approvals"
             aria-selected={activeSubTab === 'approvals'}
             aria-controls="panel-approvals"
             onClick={() => setActiveSubTab('approvals')}
@@ -908,18 +910,27 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
                     {selectedTask.status === 'AWAITING_APPROVAL' && (
                       <div className="flex items-center space-x-2 flex-shrink-0">
                         <button
-                          onClick={() => handleApprove(selectedTask.id)}
+                          data-testid="approve-task-btn" onClick={() => handleApprove(selectedTask.id)}
                           className="px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-500/50 hover:bg-emerald-900/60 font-bold text-xs flex items-center space-x-1"
                         >
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                           <span>Approve & Merge</span>
                         </button>
                         <button
-                          onClick={() => handleReject(selectedTask.id)}
+                          data-testid="reject-task-btn" onClick={() => handleReject(selectedTask.id)}
                           className="px-3 py-1.5 rounded-lg bg-rose-950 text-rose-300 border border-rose-500/50 hover:bg-rose-900/60 font-bold text-xs flex items-center space-x-1"
                         >
                           <XCircle className="w-3.5 h-3.5 text-rose-400" />
                           <span>Reject</span>
+                        </button>
+                        <button
+                          data-testid="cancel-task-btn"
+                          onClick={() => handleCancel(selectedTask.id, "Operator aborted task")}
+                          aria-label={`Cancel execution for task ${selectedTask.id}`}
+                          className="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-surface-border font-bold text-xs flex items-center space-x-1"
+                        >
+                          <XCircle className="w-3.5 h-3.5 text-slate-500" />
+                          <span>Cancel</span>
                         </button>
                         <button
                           onClick={() => handleCancel(selectedTask.id, 'Operator aborted task')}
@@ -1055,6 +1066,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
 
                     <div className="flex items-center space-x-2">
                       <button
+                        data-testid="authorize-merge-btn"
                         onClick={() => handleApprove(task.id)}
                         className="px-4 py-2 rounded-xl bg-emerald-900/60 hover:bg-emerald-800 text-emerald-200 border border-emerald-600 font-bold text-xs flex items-center space-x-1.5 transition-all shadow-lg"
                       >
@@ -1062,6 +1074,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
                         <span>Authorize & Merge to Main</span>
                       </button>
                       <button
+                        data-testid="reject-teardown-btn"
                         onClick={() => handleReject(task.id)}
                         className="px-4 py-2 rounded-xl bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-700 font-bold text-xs flex items-center space-x-1.5 transition-all"
                       >
