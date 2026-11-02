@@ -463,6 +463,17 @@ export const AgentInvestigationModal: React.FC<AgentInvestigationModalProps> = (
           </div>
 
           <div className="flex items-center space-x-2.5">
+            <button
+              onClick={() => {
+                onClose();
+                onNavigateTab?.('ai-council');
+              }}
+              className="px-3 py-2 rounded-xl bg-purple-900/40 hover:bg-purple-900/60 text-purple-300 font-bold transition-all text-xs border border-purple-500/40 flex items-center space-x-1.5"
+            >
+              <Bot className="w-3.5 h-3.5 text-purple-400" />
+              <span>Open in AI Council View</span>
+            </button>
+
             {result && !recordedAuditBlock && (
               <button
                 onClick={handleRecordInvestigationOnly}

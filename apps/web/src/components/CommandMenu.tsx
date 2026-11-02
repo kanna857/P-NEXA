@@ -14,7 +14,8 @@ import {
   Building,
   ArrowRight,
   X,
-  Terminal
+  Terminal,
+  ShieldAlert
 } from 'lucide-react';
 import { ActiveTab } from './Sidebar.js';
 
@@ -68,6 +69,13 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({
       description: '3D WebGL viewport, tier layer filtering, and blast radius calculation',
       icon: Box,
       category: 'Core Navigation'
+    },
+    {
+      id: 'ai-council',
+      label: 'AI Council Command Center',
+      description: 'Autonomous runtime AI council investigation, what-if simulations, and human approval gates',
+      icon: ShieldAlert,
+      category: 'AI & Intelligence'
     },
     {
       id: 'agents',

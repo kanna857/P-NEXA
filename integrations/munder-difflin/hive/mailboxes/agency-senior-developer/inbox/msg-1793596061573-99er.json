@@ -1,0 +1,10 @@
+{
+  "id": "msg-1793596061573-99er",
+  "timestamp": "2026-11-02T05:07:41.573Z",
+  "recipient": "agency-senior-developer",
+  "from": "Michael (Branch Manager)",
+  "taskId": "MD-TASK-MVYSS7T8",
+  "type": "TASK_ASSIGNMENT",
+  "subject": "New Lead Assignment: Temporary task to be cancelled by operator",
+  "body": "You are assigned as LEAD SPECIALIST. Execute implementation on isolated branch 'feat/agent-task-MD-TASK-MVYSS7T8'."
+}

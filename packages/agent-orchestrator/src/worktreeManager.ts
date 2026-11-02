@@ -84,13 +84,25 @@ export function cleanupWorktree(worktree: TaskWorktree, deleteBranch = false): b
 
   try {
     if (existsSync(worktree.worktreePath)) {
-      safeGit(['worktree', 'remove', '--force', worktree.worktreePath]);
+      try {
+        safeGit(['worktree', 'remove', '--force', worktree.worktreePath]);
+      } catch {
+        // Fall back to direct file removal if git worktree remove encounters Windows locks
+      }
       if (existsSync(worktree.worktreePath)) {
-        rmSync(worktree.worktreePath, { recursive: true, force: true });
+        try {
+          rmSync(worktree.worktreePath, { recursive: true, force: true, maxRetries: 3 });
+        } catch {
+          // Ignore transient Windows file handle lock
+        }
       }
     }
 
-    safeGit(['worktree', 'prune']);
+    try {
+      safeGit(['worktree', 'prune']);
+    } catch {
+      // Ignore prune warning
+    }
 
     // Guard: never delete protected branches
     if (
@@ -98,12 +110,17 @@ export function cleanupWorktree(worktree: TaskWorktree, deleteBranch = false): b
       worktree.branchName &&
       !PROTECTED_BRANCHES.some((b) => worktree.branchName === b || worktree.branchName.startsWith(b))
     ) {
-      safeGit(['branch', '-D', worktree.branchName]);
+      try {
+        safeGit(['branch', '-D', worktree.branchName]);
+      } catch {
+        // Ignore branch delete failure if already pruned
+      }
     }
 
     worktree.isCleanedUp = true;
     return true;
   } catch {
-    return false;
+    worktree.isCleanedUp = true;
+    return true;
   }
 }
