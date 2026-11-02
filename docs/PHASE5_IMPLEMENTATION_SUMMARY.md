@@ -91,3 +91,4 @@ Phase 5 successfully upgrades P-NEXA from an episodic investigation and digital 
 - **DAG Acyclicity Checks:** 104,929 checks/sec (mean latency: 9.53 µs)
 - **Heap Memory Delta:** +5.50 MB across 100,000 operations
 - **Dual-Custody Safeguard:** Verified requiring two distinct identities.
+

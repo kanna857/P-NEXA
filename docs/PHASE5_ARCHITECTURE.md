@@ -89,3 +89,4 @@ flowchart TD
 To guarantee complete operational safety, P-NEXA supports strict mode segregation:
 - **Connected Mode:** Bound to real production agent feeds, physical sensors, and verified network infrastructure. All updates require authentic bearer JWT tokens.
 - **Demo Mode:** Uses synthetic simulation generators. All demo data is marked with `mode: 'demo'`, clearly watermarked in the user interface, and isolated from production telemetry tables.
+

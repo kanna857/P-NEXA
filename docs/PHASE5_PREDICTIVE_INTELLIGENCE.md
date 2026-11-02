@@ -87,3 +87,4 @@ Each anomaly evaluation returns an explainable `AnomalyFinding`:
   "timestamp": "2026-11-02T15:30:10.144Z"
 }
 ```
+

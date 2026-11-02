@@ -59,3 +59,4 @@ High-risk remediations (such as isolating an authentication server or severing b
 
 #### 4.3 Safe Cancellation
 Active workflows can be cleanly aborted at any stage via the API or UI. All in-flight agent tasks are notified, temporary worktrees are cleaned up, and a cancellation event is appended to the audit log.
+

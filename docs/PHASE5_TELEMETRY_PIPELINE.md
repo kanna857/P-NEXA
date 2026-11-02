@@ -95,3 +95,4 @@ export interface TelemetryEvent {
 | `POST` | `/api/v1/telemetry/replay` | Replays historical telemetry in chronological order for disaster drills. |
 | `GET` | `/api/v1/telemetry/stream` | Server-Sent Events (SSE) streaming connection for real-time dashboards. |
 | `POST` | `/api/v1/telemetry/demo-scenario` | Triggers a 1-click end-to-end incident simulation for live demonstrations. |
+

@@ -41,3 +41,4 @@ Phase 5 introduces high-frequency telemetry ingestion, streaming SSE/WebSocket c
 
 - **Deterministic Event Deduplication:** Inbound events are fingerprinted using timestamp, tenant, entity, and metric parameters. Duplicates within the ingestion window are acknowledged idempotently without processing.
 - **Alert Fatigue Mitigation:** A 60-second cooldown window per entity suppresses repeated Council triggers during sustained incidents.
+

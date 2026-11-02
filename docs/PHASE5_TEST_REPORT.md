@@ -57,3 +57,4 @@ Actual measured metrics executed on the local runtime environment (`11th Gen Int
 | **OLS Trend Forecasting** | 5,000 forecasts | 435.31 ms | **11,486 forecasts/sec** | Mean: 0.0871 ms |
 | **Acyclic DAG Validation** | 25,000 9-node DAGs | 238.26 ms | **104,929 DAG checks/sec** | Mean: 9.53 µs |
 | **Heap Memory Impact** | 100,000 operations | — | — | Baseline: 5.49 MB -> Final: 10.99 MB (+5.50 MB) |
+

@@ -77,3 +77,4 @@ test.describe('NEXUS Ω X — Phase 5: Telemetry, Predictive Intelligence & Auto
     await expect(page.locator('text=DAG Verified: 100% Acyclic, 0 Cycles Detected')).toBeVisible({ timeout: 5000 });
   });
 });
+
