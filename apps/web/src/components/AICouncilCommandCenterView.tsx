@@ -54,6 +54,7 @@ export const AICouncilCommandCenterView: React.FC<AICouncilCommandCenterViewProp
   const [isRejecting, setIsRejecting] = useState(false);
   const [isRequestingRevision, setIsRequestingRevision] = useState(false);
   const [approvalComments, setApprovalComments] = useState('');
+  const [secondaryApprover, setSecondaryApprover] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
   const [revisionNotes, setRevisionNotes] = useState('');
   const [approvalFeedback, setApprovalFeedback] = useState<string | null>(null);
@@ -121,9 +122,17 @@ export const AICouncilCommandCenterView: React.FC<AICouncilCommandCenterViewProp
     if (!dossier) return;
     setIsLoading(true);
     try {
-      const updated = await approveInvestigation(dossier.investigationId, approvalComments, tenantId);
+      const coSigner = dossier.recommendedPlan?.requiresDualCustody
+        ? (secondaryApprover.trim() || 'commander-backup@p-nexa.internal')
+        : undefined;
+
+      const updated = await approveInvestigation(dossier.investigationId, approvalComments, tenantId, coSigner);
       setDossier(updated);
-      setApprovalFeedback(`Action '${updated.recommendedPlan.action}' approved and queued for safe tool execution.`);
+      setApprovalFeedback(
+        updated.status === 'APPROVED'
+          ? `Action '${updated.recommendedPlan.action}' approved and queued for safe tool execution.`
+          : `Dual-custody verification recorded. Awaiting secondary commander signoff.`
+      );
       setIsApproving(false);
 
       if (onRecordAuditLog) {
@@ -860,9 +869,16 @@ export const AICouncilCommandCenterView: React.FC<AICouncilCommandCenterViewProp
                 {/* Approve Sub-Form */}
                 {isApproving && (
                   <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/50 space-y-2 animate-in fade-in">
-                    <span className="text-[11px] font-mono text-emerald-300 font-bold block">
-                      Sign & Authorize Execution:
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-mono text-emerald-300 font-bold block">
+                        Sign & Authorize Execution:
+                      </span>
+                      {dossier.recommendedPlan.requiresDualCustody && (
+                        <span className="text-[10px] font-mono bg-cyan-950 text-cyan-400 border border-cyan-800 px-2 py-0.5 rounded">
+                          Dual-Custody (2 Distinct Signers Required)
+                        </span>
+                      )}
+                    </div>
                     <input
                       type="text"
                       placeholder="Commander verification notes / ticket ID..."
@@ -870,6 +886,16 @@ export const AICouncilCommandCenterView: React.FC<AICouncilCommandCenterViewProp
                       onChange={(e) => setApprovalComments(e.target.value)}
                       className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs font-mono text-white outline-none focus:ring-1 focus:ring-emerald-500"
                     />
+                    {dossier.recommendedPlan.requiresDualCustody && (
+                      <input
+                        type="text"
+                        placeholder="Secondary Authorizing Commander (e.g. commander-backup@p-nexa.internal)"
+                        value={secondaryApprover}
+                        onChange={(e) => setSecondaryApprover(e.target.value)}
+                        data-testid="secondary-approver-input"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs font-mono text-white outline-none focus:ring-1 focus:ring-cyan-500"
+                      />
+                    )}
                     <div className="flex space-x-2">
                       <button
                         onClick={handleApprove}

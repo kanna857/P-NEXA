@@ -498,7 +498,10 @@ export class CouncilOrchestrator {
         recommendedPlan,
         reviewerVerdict,
         humanApproval: {
-          required: true // Consequential actions require explicit human operator sign-off
+          required: true, // Consequential actions require explicit human operator sign-off
+          requiresDualCustody: recommendedPlan.requiresDualCustody === true,
+          requiredApprovals: recommendedPlan.requiresDualCustody ? 2 : 1,
+          approvals: []
         },
         cryptographicProof: {
           sequenceNumber: Date.now(),
@@ -615,20 +618,86 @@ export class CouncilOrchestrator {
   }
 
   /**
-   * Records human authorization approval
+   * Records human authorization approval with dual-custody enforcement.
+   * If the recommended plan requires dual custody (requiresDualCustody: true),
+   * two distinct authorized identities must approve before status transitions to 'APPROVED'.
    */
-  public approveInvestigation(investigationId: string, operatorEmail: string, comments?: string): CouncilInvestigationDossier {
+  public approveInvestigation(
+    investigationId: string,
+    operatorEmail: string,
+    comments?: string,
+    secondaryApproverEmail?: string
+  ): CouncilInvestigationDossier {
     const dossier = this.activeInvestigations.get(investigationId);
     if (!dossier) throw new Error(`Investigation '${investigationId}' not found.`);
 
-    dossier.status = 'APPROVED';
-    dossier.humanApproval = {
-      required: true,
+    if (dossier.status === 'APPROVED') {
+      return dossier;
+    }
+
+    const requiresDualCustody = dossier.recommendedPlan?.requiresDualCustody ?? false;
+    const requiredApprovals = requiresDualCustody ? 2 : 1;
+
+    if (!dossier.humanApproval.approvals) {
+      dossier.humanApproval.approvals = [];
+    }
+
+    const normalizedPrimary = operatorEmail.trim().toLowerCase();
+
+    // Verify primary hasn't already signed
+    const alreadySigned = dossier.humanApproval.approvals.some(
+      (a) => a.approvedBy.trim().toLowerCase() === normalizedPrimary
+    );
+    if (alreadySigned) {
+      throw new Error(
+        'Dual-custody policy violation: Second approval must be signed by a distinct authorized identity. Self-approval is not permitted.'
+      );
+    }
+
+    const now = new Date().toISOString();
+    dossier.humanApproval.approvals.push({
       approvedBy: operatorEmail,
-      decidedAt: new Date().toISOString(),
+      decidedAt: now,
       comments
-    };
-    dossier.updatedAt = new Date().toISOString();
+    });
+
+    // If secondary approver is provided in the same call (co-signed verification)
+    if (secondaryApproverEmail && secondaryApproverEmail.trim()) {
+      const normalizedSecondary = secondaryApproverEmail.trim().toLowerCase();
+      if (normalizedSecondary === normalizedPrimary) {
+        throw new Error(
+          'Dual-custody policy violation: Primary and secondary approver must be two distinct identities. Self-approval is not permitted.'
+        );
+      }
+      dossier.humanApproval.approvals.push({
+        approvedBy: secondaryApproverEmail.trim(),
+        decidedAt: now,
+        comments: `Co-signed with ${operatorEmail}`
+      });
+    }
+
+    // Evaluate distinct unique approvers
+    const uniqueApprovers = new Set(
+      dossier.humanApproval.approvals.map((a) => a.approvedBy.trim().toLowerCase())
+    );
+
+    const approverList = dossier.humanApproval.approvals;
+    dossier.humanApproval.approvedBy = approverList[0]?.approvedBy;
+    if (approverList.length > 1) {
+      dossier.humanApproval.secondApprovedBy = approverList[1]?.approvedBy;
+    }
+    dossier.humanApproval.decidedAt = now;
+    dossier.humanApproval.comments = comments;
+    dossier.humanApproval.requiresDualCustody = requiresDualCustody;
+    dossier.humanApproval.requiredApprovals = requiredApprovals;
+
+    if (uniqueApprovers.size >= requiredApprovals) {
+      dossier.status = 'APPROVED';
+    } else {
+      dossier.status = 'AWAITING_APPROVAL';
+    }
+
+    dossier.updatedAt = now;
     return dossier;
   }
 

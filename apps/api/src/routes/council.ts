@@ -39,7 +39,8 @@ const createInvestigationSchema = z.object({
 });
 
 const approvalSchema = z.object({
-  comments: z.string().optional()
+  comments: z.string().optional(),
+  secondaryApprover: z.string().optional()
 });
 
 const rejectionSchema = z.object({
@@ -244,21 +245,39 @@ councilRouter.post('/investigations/:id/approve', async (req: Request, res: Resp
     const tenantId = req.tenantId!;
     const userEmail = (req as any).user?.email || 'admin@p-nexa.internal';
 
-    const approvedDossier = defaultCouncilOrchestrator.approveInvestigation(
-      id!,
-      userEmail,
-      parse.data.comments
-    );
+    if (parse.data.secondaryApprover && parse.data.secondaryApprover.trim().toLowerCase() === userEmail.trim().toLowerCase()) {
+      throw new ValidationError('Dual-custody policy violation: Primary and secondary approver must be two distinct identities.');
+    }
+
+    let approvedDossier: CouncilInvestigationDossier;
+    try {
+      approvedDossier = defaultCouncilOrchestrator.approveInvestigation(
+        id!,
+        userEmail,
+        parse.data.comments,
+        parse.data.secondaryApprover
+      );
+    } catch (err: any) {
+      if (err.message?.includes('Dual-custody policy violation')) {
+        throw new ForbiddenError(err.message);
+      }
+      throw err;
+    }
+
+    const isFullyApproved = approvedDossier.status === 'APPROVED';
 
     await recordAuditEvent({
       tenantId,
       actor: getAuditActor(req),
-      action: 'COUNCIL_ACTION_APPROVED',
+      action: isFullyApproved ? 'COUNCIL_ACTION_APPROVED' : 'COUNCIL_APPROVAL_RECORDED',
       targetResource: { type: 'node', id: approvedDossier.targetEntity.id },
       payload: {
         investigationId: id,
         action: approvedDossier.recommendedPlan.action,
         comments: parse.data.comments,
+        status: approvedDossier.status,
+        requiresDualCustody: approvedDossier.recommendedPlan.requiresDualCustody,
+        approvers: approvedDossier.humanApproval.approvals?.map((a) => a.approvedBy),
         sha256Proof: approvedDossier.cryptographicProof.sha256Hash
       }
     });
@@ -268,13 +287,16 @@ councilRouter.post('/investigations/:id/approve', async (req: Request, res: Resp
       io.to(`tenant:${tenantId}`).emit('council:approved', {
         investigationId: id,
         approvedBy: userEmail,
+        status: approvedDossier.status,
         action: approvedDossier.recommendedPlan.action
       });
     }
 
     res.json({
       success: true,
-      message: `Action '${approvedDossier.recommendedPlan.action}' approved and queued for safe tool execution.`,
+      message: isFullyApproved
+        ? `Action '${approvedDossier.recommendedPlan.action}' approved and queued for safe tool execution.`
+        : `First approval recorded for '${approvedDossier.recommendedPlan.action}'. Dual-custody policy requires a second distinct authorized Commander.`,
       dossier: approvedDossier
     });
   } catch (err) {

@@ -86,13 +86,14 @@ export async function fetchInvestigationById(
 export async function approveInvestigation(
   id: string,
   comments?: string,
-  tenantId?: string
+  tenantId?: string,
+  secondaryApprover?: string
 ): Promise<CouncilInvestigationDossier> {
   try {
     const res = await fetch(`${API_BASE}/investigations/${id}/approve`, {
       method: 'POST',
       headers: getAuthHeaders(tenantId),
-      body: JSON.stringify({ comments })
+      body: JSON.stringify({ comments, secondaryApprover })
     });
 
     if (res.ok) {
@@ -108,7 +109,22 @@ export async function approveInvestigation(
   dossier.status = 'APPROVED';
   dossier.humanApproval = {
     required: true,
+    requiresDualCustody: true,
+    requiredApprovals: 2,
     approvedBy: 'admin@p-nexa.internal',
+    secondApprovedBy: secondaryApprover || 'commander-backup@p-nexa.internal',
+    approvals: [
+      {
+        approvedBy: 'admin@p-nexa.internal',
+        decidedAt: new Date().toISOString(),
+        comments: comments || 'Primary commander approval signed'
+      },
+      {
+        approvedBy: secondaryApprover || 'commander-backup@p-nexa.internal',
+        decidedAt: new Date().toISOString(),
+        comments: 'Dual-custody verification co-signed'
+      }
+    ],
     decidedAt: new Date().toISOString(),
     comments: comments || 'Approved by operator'
   };

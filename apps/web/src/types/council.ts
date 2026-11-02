@@ -133,6 +133,13 @@ export interface CouncilLifecycleEvent {
   metadata?: Record<string, unknown>;
 }
 
+export interface CouncilApprovalEntry {
+  approvedBy: string;
+  decidedAt: string;
+  comments?: string;
+  role?: string;
+}
+
 export interface CouncilInvestigationDossier {
   investigationId: string;
   incidentId: string;
@@ -155,10 +162,14 @@ export interface CouncilInvestigationDossier {
   reviewerVerdict: ReviewerVerdict;
   humanApproval: {
     required: true;
+    requiresDualCustody?: boolean;
+    requiredApprovals?: number;
     approvedBy?: string;
+    secondApprovedBy?: string;
     rejectedBy?: string;
     decidedAt?: string;
     comments?: string;
+    approvals?: CouncilApprovalEntry[];
   };
   cryptographicProof: {
     sequenceNumber: number;

@@ -147,15 +147,38 @@ describe('Phase 4 — Runtime Autonomous AI Agent Council', () => {
     });
 
     expect(dossier.status).toBe('AWAITING_APPROVAL');
+    expect(dossier.recommendedPlan.requiresDualCustody).toBe(true);
 
-    // Approve
-    const approved = orchestrator.approveInvestigation(
+    // 1st Approver signs
+    const step1 = orchestrator.approveInvestigation(
       dossier.investigationId,
       'admin@p-nexa.internal',
-      'Dual-custody key signed'
+      'Dual-custody key signed by Commander 1'
+    );
+    // Since requiresDualCustody is true, still awaiting 2nd distinct approval
+    expect(step1.status).toBe('AWAITING_APPROVAL');
+    expect(step1.humanApproval.approvedBy).toBe('admin@p-nexa.internal');
+    expect(step1.humanApproval.approvals?.length).toBe(1);
+
+    // Attempting self-approval by the same identity must fail
+    expect(() =>
+      orchestrator.approveInvestigation(
+        dossier.investigationId,
+        'admin@p-nexa.internal',
+        'Attempted self-approval'
+      )
+    ).toThrow(/Dual-custody policy violation/);
+
+    // 2nd distinct authorized approver signs
+    const approved = orchestrator.approveInvestigation(
+      dossier.investigationId,
+      'commander2@p-nexa.internal',
+      'Dual-custody counter-signed by Commander 2'
     );
     expect(approved.status).toBe('APPROVED');
     expect(approved.humanApproval.approvedBy).toBe('admin@p-nexa.internal');
+    expect(approved.humanApproval.secondApprovedBy).toBe('commander2@p-nexa.internal');
+    expect(approved.humanApproval.approvals?.length).toBe(2);
 
     // Reject another
     const dossier2 = await orchestrator.executeInvestigation({

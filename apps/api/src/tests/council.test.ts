@@ -8,6 +8,7 @@ import { SystemRoles } from '@nexus/shared';
 describe('Phase 4 — Council API Gateway & Investigation Suite', () => {
   let app: ReturnType<typeof createApp>['app'];
   let adminToken: string;
+  let secondAdminToken: string;
   let viewerToken: string;
   let foreignTenantToken: string;
   let foreignTenantId: string;
@@ -35,6 +36,14 @@ describe('Phase 4 — Council API Gateway & Investigation Suite', () => {
     expect(regRes.status).toBe(201);
     testTenantId = regRes.body.data.tenant.id;
     adminToken = regRes.body.data.accessToken;
+
+    secondAdminToken = signAccessToken({
+      userId: 'user-commander-02',
+      tenantId: testTenantId,
+      email: `commander2@${uniqueSlug}.ai`,
+      role: SystemRoles.ORG_ADMIN,
+      permissions: ['*']
+    });
 
     viewerToken = signAccessToken({
       userId: 'user-viewer-01',
@@ -151,7 +160,7 @@ describe('Phase 4 — Council API Gateway & Investigation Suite', () => {
     expect(res.status).toBe(403);
   });
 
-  it('enforces human authorization approval gate (non-admin rejected)', async () => {
+  it('enforces human authorization approval gate (non-admin rejected and dual-custody enforced)', async () => {
     // Non-admin viewer tries to approve
     const viewerRes = await request(app)
       .post(`/api/v1/council/investigations/${createdInvestigationId}/approve`)
@@ -161,17 +170,41 @@ describe('Phase 4 — Council API Gateway & Investigation Suite', () => {
 
     expect(viewerRes.status).toBe(403);
 
-    // Authorized Admin approves
-    const adminRes = await request(app)
+    // Primary Commander submits first approval
+    const admin1Res = await request(app)
       .post(`/api/v1/council/investigations/${createdInvestigationId}/approve`)
       .set('Authorization', `Bearer ${adminToken}`)
       .set('x-tenant-id', testTenantId)
-      .send({ comments: 'Dual-custody verification signed by Commander' });
+      .send({ comments: 'Primary Commander authorization' });
 
-    expect(adminRes.status).toBe(200);
-    expect(adminRes.body.success).toBe(true);
-    expect(adminRes.body.dossier.status).toBe('APPROVED');
-    expect(adminRes.body.dossier.humanApproval.approvedBy).toBeDefined();
+    expect(admin1Res.status).toBe(200);
+    expect(admin1Res.body.success).toBe(true);
+    // Recommended plan ISOLATE_NODE requires dual custody; status remains awaiting second signoff
+    expect(admin1Res.body.dossier.status).toBe('AWAITING_APPROVAL');
+    expect(admin1Res.body.dossier.humanApproval.approvedBy).toBeDefined();
+
+    // Self-approval attempt by the same Commander must be rejected
+    const selfRes = await request(app)
+      .post(`/api/v1/council/investigations/${createdInvestigationId}/approve`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .set('x-tenant-id', testTenantId)
+      .send({ comments: 'Attempted self-approval duplication' });
+
+    expect(selfRes.status).toBe(403);
+
+    // Second distinct authorized Commander signs
+    const admin2Res = await request(app)
+      .post(`/api/v1/council/investigations/${createdInvestigationId}/approve`)
+      .set('Authorization', `Bearer ${secondAdminToken}`)
+      .set('x-tenant-id', testTenantId)
+      .send({ comments: 'Secondary Commander dual-custody co-authorization' });
+
+    expect(admin2Res.status).toBe(200);
+    expect(admin2Res.body.success).toBe(true);
+    expect(admin2Res.body.dossier.status).toBe('APPROVED');
+    expect(admin2Res.body.dossier.humanApproval.approvedBy).toBeDefined();
+    expect(admin2Res.body.dossier.humanApproval.secondApprovedBy).toBeDefined();
+    expect(admin2Res.body.dossier.humanApproval.approvals.length).toBe(2);
   });
 
   it('supports investigation rejection with operator rationale', async () => {
