@@ -15,6 +15,7 @@ import { PolicyEvaluationView } from './components/PolicyEvaluationView.js';
 import { WorkflowAutomationView } from './components/WorkflowAutomationView.js';
 import { AgentInvestigationModal } from './components/AgentInvestigationModal.js';
 import { AgentControlCenterView } from './components/AgentControlCenterView.js';
+import { AICouncilCommandCenterView } from './components/AICouncilCommandCenterView.js';
 import { TwinNode } from '@nexus/twin-graph';
 
 export interface AuditLogItem {
@@ -52,6 +53,12 @@ export default function App() {
         window.location.hash === '#/developer/agents'
       ) {
         setActiveTab('developer-agents');
+      } else if (
+        window.location.pathname === '/ai-council' ||
+        window.location.hash.includes('ai-council') ||
+        window.location.hash === '#/ai-council'
+      ) {
+        setActiveTab('ai-council');
       }
     };
     checkRoute();
@@ -250,6 +257,17 @@ export default function App() {
           {activeTab === 'developer-agents' && (
             <AgentControlCenterView
               userRole={currentUser.role}
+              onNavigateTab={(tab) => setActiveTab(tab as ActiveTab)}
+            />
+          )}
+
+          {/* Autonomous AI Agent Council Command Center (Phase 4) */}
+          {activeTab === 'ai-council' && (
+            <AICouncilCommandCenterView
+              userRole={currentUser.role}
+              currentUserEmail={currentUser.email}
+              tenantId={currentTenant.id}
+              onRecordAuditLog={handleRecordAuditLog}
               onNavigateTab={(tab) => setActiveTab(tab as ActiveTab)}
             />
           )}

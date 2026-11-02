@@ -16,6 +16,7 @@ import { scenariosRouter } from './routes/scenarios.js';
 import { policiesRouter } from './routes/policies.js';
 import { workflowsRouter } from './routes/workflows.js';
 import { developerRouter } from './routes/developer.js';
+import { councilRouter } from './routes/council.js';
 import { verifyAccessToken } from './services/authService.js';
 import { rootLogger } from '@nexus/observability';
 
@@ -101,6 +102,7 @@ export function createApp(): { app: Express; httpServer: ReturnType<typeof creat
   app.use('/api/v1/policies', policiesRouter);
   app.use('/api/v1/workflows', workflowsRouter);
   app.use('/api/v1/developer', developerRouter);
+  app.use('/api/v1/council', councilRouter);
 
   // Global error handler
   app.use(errorHandler);

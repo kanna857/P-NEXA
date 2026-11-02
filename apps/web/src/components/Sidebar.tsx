@@ -28,6 +28,7 @@ export type ActiveTab =
   | 'audit-vault'
   | 'tenants'
   | 'digital-twin'
+  | 'ai-council'
   | 'agents'
   | 'incidents'
   | 'simulations'
@@ -50,6 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, userRo
   }> = [
     { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'digital-twin', label: 'Digital Twin', icon: Box },
+    { id: 'ai-council', label: 'AI Council', icon: ShieldAlert },
     { id: 'agents', label: 'AI Agents', icon: Bot },
     { id: 'simulations', label: 'Simulations', icon: PlaySquare },
     { id: 'incidents', label: 'Cyber Security', icon: Flame },

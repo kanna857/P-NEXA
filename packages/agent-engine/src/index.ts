@@ -1,4 +1,6 @@
 export * from './types.js';
+export * from './councilTypes.js';
+export * from './councilOrchestrator.js';
 export * from './tools.js';
 export * from './approvalQueue.js';
 export * from './societyGraph.js';
