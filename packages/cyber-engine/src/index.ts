@@ -128,98 +128,98 @@ const MITRE_RULES: Array<{
   match: (e: NormalizedThreatEvent) => boolean;
   mapping: MitreAttackMapping;
 }> = [
-  {
-    match: (e) =>
-      e.eventType.toLowerCase().includes('ransom') ||
-      e.eventType.toLowerCase().includes('encrypt') ||
-      JSON.stringify(e.raw).toLowerCase().includes('vssadmin'),
-    mapping: {
-      tactic: 'Impact',
-      techniqueId: 'T1486',
-      techniqueName: 'Data Encrypted for Impact',
-      confidence: 0.98,
-      killChainPhase: 'Actions on Objectives'
+    {
+      match: (e) =>
+        e.eventType.toLowerCase().includes('ransom') ||
+        e.eventType.toLowerCase().includes('encrypt') ||
+        JSON.stringify(e.raw).toLowerCase().includes('vssadmin'),
+      mapping: {
+        tactic: 'Impact',
+        techniqueId: 'T1486',
+        techniqueName: 'Data Encrypted for Impact',
+        confidence: 0.98,
+        killChainPhase: 'Actions on Objectives'
+      }
+    },
+    {
+      match: (e) =>
+        e.eventType.toLowerCase().includes('exfiltration') ||
+        (e.bytesSent !== undefined && e.bytesSent > 10 * 1024 * 1024), // > 10MB
+      mapping: {
+        tactic: 'Exfiltration',
+        techniqueId: 'T1048',
+        techniqueName: 'Exfiltration Over Alternative Protocol',
+        confidence: 0.94,
+        killChainPhase: 'Exfiltration'
+      }
+    },
+    {
+      match: (e) =>
+        e.eventType.toLowerCase().includes('lateral') ||
+        e.eventType.toLowerCase().includes('smb') ||
+        e.eventType.toLowerCase().includes('remote_exec') ||
+        e.eventType.toLowerCase().includes('psexec'),
+      mapping: {
+        tactic: 'Lateral Movement',
+        techniqueId: 'T1021',
+        techniqueName: 'Remote Services',
+        confidence: 0.92,
+        killChainPhase: 'Lateral Movement'
+      }
+    },
+    {
+      match: (e) =>
+        e.eventType.toLowerCase().includes('credential') ||
+        e.eventType.toLowerCase().includes('dump') ||
+        e.eventType.toLowerCase().includes('lsass') ||
+        JSON.stringify(e.raw).toLowerCase().includes('mimikatz'),
+      mapping: {
+        tactic: 'Credential Access',
+        techniqueId: 'T1003',
+        techniqueName: 'OS Credential Dumping',
+        confidence: 0.95,
+        killChainPhase: 'Credential Access'
+      }
+    },
+    {
+      match: (e) =>
+        e.eventType.toLowerCase().includes('brute') ||
+        (e.eventType.toLowerCase().includes('auth_fail') && (e.raw['attemptCount'] as number) > 5),
+      mapping: {
+        tactic: 'Credential Access',
+        techniqueId: 'T1110',
+        techniqueName: 'Brute Force',
+        confidence: 0.9,
+        killChainPhase: 'Credential Access'
+      }
+    },
+    {
+      match: (e) =>
+        e.eventType.toLowerCase().includes('sqli') ||
+        e.eventType.toLowerCase().includes('exploit') ||
+        e.eventType.toLowerCase().includes('public_facing'),
+      mapping: {
+        tactic: 'Initial Access',
+        techniqueId: 'T1190',
+        techniqueName: 'Exploit Public-Facing Application',
+        confidence: 0.93,
+        killChainPhase: 'Weaponization / Delivery'
+      }
+    },
+    {
+      match: (e) =>
+        e.eventType.toLowerCase().includes('port_scan') ||
+        e.eventType.toLowerCase().includes('recon') ||
+        e.eventType.toLowerCase().includes('discovery'),
+      mapping: {
+        tactic: 'Discovery',
+        techniqueId: 'T1046',
+        techniqueName: 'Network Service Discovery',
+        confidence: 0.88,
+        killChainPhase: 'Reconnaissance'
+      }
     }
-  },
-  {
-    match: (e) =>
-      e.eventType.toLowerCase().includes('exfiltration') ||
-      (e.bytesSent !== undefined && e.bytesSent > 10 * 1024 * 1024), // > 10MB
-    mapping: {
-      tactic: 'Exfiltration',
-      techniqueId: 'T1048',
-      techniqueName: 'Exfiltration Over Alternative Protocol',
-      confidence: 0.94,
-      killChainPhase: 'Exfiltration'
-    }
-  },
-  {
-    match: (e) =>
-      e.eventType.toLowerCase().includes('lateral') ||
-      e.eventType.toLowerCase().includes('smb') ||
-      e.eventType.toLowerCase().includes('remote_exec') ||
-      e.eventType.toLowerCase().includes('psexec'),
-    mapping: {
-      tactic: 'Lateral Movement',
-      techniqueId: 'T1021',
-      techniqueName: 'Remote Services',
-      confidence: 0.92,
-      killChainPhase: 'Lateral Movement'
-    }
-  },
-  {
-    match: (e) =>
-      e.eventType.toLowerCase().includes('credential') ||
-      e.eventType.toLowerCase().includes('dump') ||
-      e.eventType.toLowerCase().includes('lsass') ||
-      JSON.stringify(e.raw).toLowerCase().includes('mimikatz'),
-    mapping: {
-      tactic: 'Credential Access',
-      techniqueId: 'T1003',
-      techniqueName: 'OS Credential Dumping',
-      confidence: 0.95,
-      killChainPhase: 'Credential Access'
-    }
-  },
-  {
-    match: (e) =>
-      e.eventType.toLowerCase().includes('brute') ||
-      (e.eventType.toLowerCase().includes('auth_fail') && (e.raw['attemptCount'] as number) > 5),
-    mapping: {
-      tactic: 'Credential Access',
-      techniqueId: 'T1110',
-      techniqueName: 'Brute Force',
-      confidence: 0.9,
-      killChainPhase: 'Credential Access'
-    }
-  },
-  {
-    match: (e) =>
-      e.eventType.toLowerCase().includes('sqli') ||
-      e.eventType.toLowerCase().includes('exploit') ||
-      e.eventType.toLowerCase().includes('public_facing'),
-    mapping: {
-      tactic: 'Initial Access',
-      techniqueId: 'T1190',
-      techniqueName: 'Exploit Public-Facing Application',
-      confidence: 0.93,
-      killChainPhase: 'Weaponization / Delivery'
-    }
-  },
-  {
-    match: (e) =>
-      e.eventType.toLowerCase().includes('port_scan') ||
-      e.eventType.toLowerCase().includes('recon') ||
-      e.eventType.toLowerCase().includes('discovery'),
-    mapping: {
-      tactic: 'Discovery',
-      techniqueId: 'T1046',
-      techniqueName: 'Network Service Discovery',
-      confidence: 0.88,
-      killChainPhase: 'Reconnaissance'
-    }
-  }
-];
+  ];
 
 export function mapMitreAttack(event: NormalizedThreatEvent): MitreAttackMapping {
   for (const rule of MITRE_RULES) {
@@ -372,9 +372,8 @@ export class CyberIncidentManager {
         id: incidentId,
         tenantId: event.tenantId,
         title: `${mitre.techniqueName} detected on ${event.targetNodeId || event.sourceSystem}`,
-        summary: `Automated detection triggered by ${event.eventType}. Threat actor: ${
-          enrichment.threatActor || 'Unknown Adversary'
-        }. MITRE: ${mitre.techniqueId} (${mitre.tactic}).`,
+        summary: `Automated detection triggered by ${event.eventType}. Threat actor: ${enrichment.threatActor || 'Unknown Adversary'
+          }. MITRE: ${mitre.techniqueId} (${mitre.tactic}).`,
         severity: event.severity,
         mitreTactic: mitre.tactic,
         mitreTechnique: `${mitre.techniqueId} - ${mitre.techniqueName}`,
@@ -449,3 +448,5 @@ export class CyberIncidentManager {
 
 // Global default singleton manager
 export const defaultIncidentManager = new CyberIncidentManager();
+
+export * from './predictiveEngine.js';

@@ -19,11 +19,13 @@ import {
   GraduationCap,
   Building2,
   ShieldAlert,
-  Terminal
+  Terminal,
+  Activity
 } from 'lucide-react';
 
 export type ActiveTab =
   | 'overview'
+  | 'telemetry'
   | 'roadmap'
   | 'audit-vault'
   | 'tenants'
@@ -50,6 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, userRo
     icon: React.ComponentType<{ className?: string }>;
   }> = [
     { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'telemetry', label: 'Telemetry & Intel', icon: Activity },
     { id: 'digital-twin', label: 'Digital Twin', icon: Box },
     { id: 'ai-council', label: 'AI Council', icon: ShieldAlert },
     { id: 'agents', label: 'AI Agents', icon: Bot },
@@ -70,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, userRo
         <div className="space-y-0.5">
           {navItems.map((item, idx) => {
             const Icon = item.icon;
-            const isActive = activeTab === item.id && idx !== 7;
+            const isActive = activeTab === item.id && idx !== 9;
 
             return (
               <button

@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { generateWorldFromNL } from './nl-generator.js';
 import { WorkflowManager } from './workflow-manager.js';
+import { WorkflowInstance, WorkflowStep } from './types.js';
+import { WorkflowStateMachine, validateWorkflowAcyclic } from './workflow-state-machine.js';
 
 describe('Phase 7: Natural-Language World Creation & Workflow Automation', () => {
   let manager: WorkflowManager;
@@ -148,6 +150,119 @@ describe('Phase 7: Natural-Language World Creation & Workflow Automation', () =>
       expect(playbook.status).toBe('ABORTED');
       expect(playbook.steps[3]?.status).toBe('FAILED');
       expect(playbook.steps[3]?.error).toContain('False alarm');
+    });
+  });
+
+  describe('Phase 5: Real-Time Intelligence & Workflow Automation Extensions', () => {
+    it('validates acyclic DAG structure and detects cyclic dependencies', () => {
+      // Valid acyclic DAG
+      const acyclicSteps: WorkflowStep[] = [
+        { id: 'step-1', name: 'Trigger', type: 'TELEMETRY_TRIGGER', status: 'PENDING', riskLevel: 'LOW', nextStepIds: ['step-2'] },
+        { id: 'step-2', name: 'Anomaly', type: 'ANOMALY_DETECTION', status: 'PENDING', riskLevel: 'LOW', nextStepIds: ['step-3'] },
+        { id: 'step-3', name: 'Remediate', type: 'AUTHORIZED_REMEDIATION', status: 'PENDING', riskLevel: 'HIGH', nextStepIds: [] }
+      ];
+      const validRes = validateWorkflowAcyclic(acyclicSteps);
+      expect(validRes.isValid).toBe(true);
+      expect(validRes.hasCycle).toBe(false);
+
+      // Cyclic graph: step-1 -> step-2 -> step-3 -> step-1
+      const cyclicSteps: WorkflowStep[] = [
+        { id: 'step-1', name: 'Trigger', type: 'TELEMETRY_TRIGGER', status: 'PENDING', riskLevel: 'LOW', nextStepIds: ['step-2'] },
+        { id: 'step-2', name: 'Anomaly', type: 'ANOMALY_DETECTION', status: 'PENDING', riskLevel: 'LOW', nextStepIds: ['step-3'] },
+        { id: 'step-3', name: 'Remediate', type: 'AUTHORIZED_REMEDIATION', status: 'PENDING', riskLevel: 'HIGH', nextStepIds: ['step-1'] }
+      ];
+      const cyclicRes = validateWorkflowAcyclic(cyclicSteps);
+      expect(cyclicRes.isValid).toBe(false);
+      expect(cyclicRes.hasCycle).toBe(true);
+      expect(cyclicRes.cyclePath?.length).toBeGreaterThan(1);
+    });
+
+    it('executes full 9-node Phase 5 automation pipeline with bounded execution and audit logging', () => {
+      const sm = new WorkflowStateMachine();
+
+      const instance: WorkflowInstance = {
+        id: 'wf-phase5-001',
+        tenantId: 'tenant-test',
+        title: 'Real-time Autonomous Threat Response',
+        description: 'Telemetry trigger -> Anomaly -> Council -> Remediation -> Audit',
+        version: '1.2.0',
+        status: 'IDLE',
+        currentStepIndex: 0,
+        maxExecutionSteps: 20,
+        context: {},
+        auditProofHash: '',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        steps: [
+          { id: 's1', name: 'CPU Spike Trigger', type: 'TELEMETRY_TRIGGER', status: 'PENDING', riskLevel: 'LOW', payload: { metric: 'cpu', value: 96 } },
+          { id: 's2', name: 'Threshold Check', type: 'THRESHOLD_CONDITION', status: 'PENDING', riskLevel: 'LOW', payload: { threshold: 85, value: 96 } },
+          { id: 's3', name: 'Predictive Anomaly Scorer', type: 'ANOMALY_DETECTION', status: 'PENDING', riskLevel: 'LOW' },
+          { id: 's4', name: 'AI Council Investigation', type: 'COUNCIL_INVESTIGATION', status: 'PENDING', riskLevel: 'LOW' },
+          { id: 's5', name: 'Blast Radius Simulation', type: 'SIMULATION', status: 'PENDING', riskLevel: 'LOW' },
+          { id: 's6', name: 'Commander Notification', type: 'NOTIFICATION', status: 'PENDING', riskLevel: 'LOW' },
+          { id: 's7', name: 'Human Dual Approval Gate', type: 'HUMAN_APPROVAL', status: 'PENDING', riskLevel: 'CRITICAL', requiresDualApproval: true },
+          { id: 's8', name: 'Authorized Node Isolation', type: 'AUTHORIZED_REMEDIATION', status: 'PENDING', riskLevel: 'HIGH' },
+          { id: 's9', name: 'Immutable Audit Ledger Record', type: 'AUDIT_LOGGING', status: 'PENDING', riskLevel: 'LOW' }
+        ]
+      };
+
+      // 1. Initial advance should halt at Step 7 (HUMAN_APPROVAL)
+      const res1 = sm.advance(instance);
+      expect(res1.haltedAtGate).toBe(true);
+      expect(instance.status).toBe('WAITING_FOR_APPROVAL');
+      expect(instance.currentStepIndex).toBe(6);
+      expect(instance.steps[0]?.status).toBe('COMPLETED');
+      expect(instance.steps[0]?.output?.triggered).toBe(true);
+      expect(instance.steps[3]?.output?.investigationTriggered).toBe(true);
+      expect(instance.executionHistory?.length).toBe(6);
+
+      // 2. Submit First Approval
+      const res2 = sm.advance(instance, {
+        userId: 'sec-lead-01',
+        role: 'SECURITY_ANALYST',
+        decision: 'APPROVED',
+        timestamp: new Date().toISOString()
+      });
+      expect(res2.haltedAtGate).toBe(true); // Still waiting for second approver
+
+      // 3. Submit Second Approval
+      const res3 = sm.advance(instance, {
+        userId: 'commander-02',
+        role: 'COMMANDER',
+        decision: 'APPROVED',
+        timestamp: new Date().toISOString()
+      });
+      expect(res3.haltedAtGate).toBe(false);
+      expect(instance.status).toBe('COMPLETED');
+      expect(instance.steps[7]?.output?.remediationStatus).toBe('EXECUTED_CLEANLY');
+      expect(instance.steps[8]?.output?.ledgerBlockSealed).toBe(true);
+      expect(instance.auditProofHash).toMatch(/^[a-f0-9]{64}$/);
+    });
+
+    it('safely cancels an in-flight workflow instance', () => {
+      const sm = new WorkflowStateMachine();
+
+      const instance: WorkflowInstance = {
+        id: 'wf-cancel-test',
+        tenantId: 'tenant-test',
+        title: 'Cancel Test',
+        description: 'Test cancellation',
+        status: 'WAITING_FOR_APPROVAL',
+        currentStepIndex: 1,
+        steps: [
+          { id: 's1', name: 'Step 1', type: 'TELEMETRY_TRIGGER', status: 'COMPLETED', riskLevel: 'LOW' },
+          { id: 's2', name: 'Step 2', type: 'HUMAN_APPROVAL', status: 'PAUSED', riskLevel: 'CRITICAL' }
+        ],
+        context: {},
+        auditProofHash: '',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      const cancelled = sm.cancel(instance, 'Operator cancelled due to maintenance window');
+      expect(cancelled.status).toBe('CANCELLED');
+      expect(cancelled.context.cancellationReason).toContain('maintenance window');
+      expect(cancelled.auditProofHash).toBeDefined();
     });
   });
 });

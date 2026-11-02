@@ -12,4 +12,6 @@ data/
 test-results/
 playwright-report/
 integrations/munder-difflin/hive/worktrees/
+integrations/munder-difflin/hive/blackboard/task_*
+integrations/munder-difflin/hive/mailboxes/*/inbox/msg-*
 
