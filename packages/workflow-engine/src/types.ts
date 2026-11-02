@@ -1,6 +1,17 @@
 import { TwinNode, TwinEdge } from '@nexus/twin-graph';
 
 export type WorkflowStepType =
+  // Phase 5 Enhanced Node Types
+  | 'TELEMETRY_TRIGGER'
+  | 'THRESHOLD_CONDITION'
+  | 'ANOMALY_DETECTION'
+  | 'COUNCIL_INVESTIGATION'
+  | 'SIMULATION'
+  | 'NOTIFICATION'
+  | 'HUMAN_APPROVAL'
+  | 'AUTHORIZED_REMEDIATION'
+  | 'AUDIT_LOGGING'
+  // Existing Step Types for Backward Compatibility
   | 'ANALYZE_ALERT'
   | 'RUN_DIAGNOSTICS'
   | 'COMPUTE_BLAST_RADIUS'
@@ -17,7 +28,8 @@ export type WorkflowStepStatus =
   | 'PAUSED'
   | 'COMPLETED'
   | 'FAILED'
-  | 'SKIPPED';
+  | 'SKIPPED'
+  | 'RETRYING';
 
 export type WorkflowInstanceStatus =
   | 'IDLE'
@@ -25,7 +37,8 @@ export type WorkflowInstanceStatus =
   | 'WAITING_FOR_APPROVAL'
   | 'COMPLETED'
   | 'FAILED'
-  | 'ABORTED';
+  | 'ABORTED'
+  | 'CANCELLED';
 
 export type StepRiskLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 
@@ -48,6 +61,21 @@ export interface WorkflowStep {
   payload?: Record<string, any>;
   output?: Record<string, any>;
   error?: string;
+  nextStepIds?: string[];
+  retries?: number;
+  maxRetries?: number;
+}
+
+export interface WorkflowExecutionRecord {
+  stepIndex: number;
+  stepId: string;
+  stepName: string;
+  type: WorkflowStepType;
+  status: WorkflowStepStatus;
+  timestamp: string;
+  durationMs?: number;
+  output?: Record<string, any>;
+  error?: string;
 }
 
 export interface WorkflowInstance {
@@ -55,6 +83,7 @@ export interface WorkflowInstance {
   tenantId: string;
   title: string;
   description: string;
+  version?: string;
   status: WorkflowInstanceStatus;
   currentStepIndex: number;
   steps: WorkflowStep[];
@@ -63,6 +92,17 @@ export interface WorkflowInstance {
   createdAt: string;
   updatedAt: string;
   completedAt?: string;
+  maxExecutionSteps?: number;
+  executionTimeoutMs?: number;
+  executionHistory?: WorkflowExecutionRecord[];
+}
+
+export interface DAGValidationResult {
+  isValid: boolean;
+  hasCycle: boolean;
+  cyclePath?: string[];
+  orphanStepIds?: string[];
+  totalSteps: number;
 }
 
 export interface NLWorldPrompt {

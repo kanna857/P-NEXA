@@ -16,6 +16,7 @@ import { WorkflowAutomationView } from './components/WorkflowAutomationView.js';
 import { AgentInvestigationModal } from './components/AgentInvestigationModal.js';
 import { AgentControlCenterView } from './components/AgentControlCenterView.js';
 import { AICouncilCommandCenterView } from './components/AICouncilCommandCenterView.js';
+import { RealtimeIntelligenceDashboardView } from './components/RealtimeIntelligenceDashboardView.js';
 import { TwinNode } from '@nexus/twin-graph';
 
 export interface AuditLogItem {
@@ -59,6 +60,12 @@ export default function App() {
         window.location.hash === '#/ai-council'
       ) {
         setActiveTab('ai-council');
+      } else if (
+        window.location.pathname === '/telemetry' ||
+        window.location.hash.includes('telemetry') ||
+        window.location.hash === '#/telemetry'
+      ) {
+        setActiveTab('telemetry');
       }
     };
     checkRoute();
@@ -202,6 +209,16 @@ export default function App() {
                 onInvestigateIncident={() => handleOpenInvestigation()}
               />
             </div>
+          )}
+
+          {/* Phase 5 Real-Time Telemetry & Predictive Intelligence Dashboard */}
+          {activeTab === 'telemetry' && (
+            <RealtimeIntelligenceDashboardView
+              tenantId={currentTenant.id}
+              userRole={currentUser.role}
+              onNavigateTab={(tab) => setActiveTab(tab as ActiveTab)}
+              onInvestigateEntity={handleOpenInvestigation}
+            />
           )}
 
           {/* Living 3D Digital Twin Dedicated View */}
