@@ -87,6 +87,10 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   const [screenReaderAnnouncement, setScreenReaderAnnouncement] = useState('');
   const [showEntitySelector, setShowEntitySelector] = useState(false);
 
+  const highlightedNodeIds = useMemo(() => {
+    return blastRadiusResult?.impactedNodeIds || [];
+  }, [blastRadiusResult]);
+
   // Three.js Viewport Hook
   const {
     setCameraPreset,
@@ -104,7 +108,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
     nodes,
     edges,
     selectedNodeId,
-    highlightedNodeIds: blastRadiusResult?.impactedNodeIds ?? [],
+    highlightedNodeIds,
     onNodeClick: (nodeId) => {
       setSelectedNodeId(nodeId);
       setIsInspectorOpen(true);

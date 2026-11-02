@@ -276,7 +276,7 @@ export function useThreeViewport({
     return new THREE.CanvasTexture(canvas);
   };
 
-  const updateCameraFromSpherical = (camera: THREE.PerspectiveCamera) => {
+  const updateCameraFromSpherical = useCallback((camera: THREE.PerspectiveCamera) => {
     const { theta, phi, radius } = sphericalRef.current;
     camera.position.set(
       radius * Math.sin(phi) * Math.sin(theta),
@@ -284,8 +284,8 @@ export function useThreeViewport({
       radius * Math.sin(phi) * Math.cos(theta)
     );
     camera.lookAt(targetLookAt.current);
-    setCompassAngle(theta);
-  };
+    setCompassAngle((prev) => (Math.abs(prev - theta) > 0.02 ? theta : prev));
+  }, []);
 
   const buildCampusWorld = useCallback(() => {
     if (!canvasRef.current) return;

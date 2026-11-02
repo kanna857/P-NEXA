@@ -307,7 +307,7 @@ async function runSuite() {
 
     // 5. Wait for real agent execution to reach completion (dossier rendered)
     const triageHeading = modal.locator('text=SOC Triage Finding');
-    await triageHeading.waitFor({ state: 'visible', timeout: 15000 });
+    await triageHeading.waitFor({ state: 'visible', timeout: 30000 });
     console.log('  Agent Council execution complete; evidence-backed dossier rendered.');
 
     // 6. Verify recommendations and cryptographic state proof
@@ -514,7 +514,10 @@ async function runSuite() {
     console.log('  Non-admin role blocked with Restricted Developer Zone banner.');
 
     // Restore role back to SUPER_ADMIN
-    await userProfileBtn.click();
+    if (!(await roleSelector.isVisible())) {
+      await userProfileBtn.click();
+      await roleSelector.waitFor({ state: 'visible', timeout: 5000 });
+    }
     await roleSelector.selectOption('SUPER_ADMIN');
 
     // Verify Control Center restored

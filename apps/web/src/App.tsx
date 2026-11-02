@@ -48,6 +48,7 @@ export default function App() {
     const checkRoute = () => {
       if (
         window.location.pathname === '/developer/agents' ||
+        window.location.hash.includes('developer-agents') ||
         window.location.hash === '#/developer/agents'
       ) {
         setActiveTab('developer-agents');

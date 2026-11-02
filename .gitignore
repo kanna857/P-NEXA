@@ -11,4 +11,5 @@ coverage
 data/
 test-results/
 playwright-report/
+integrations/munder-difflin/hive/worktrees/
 

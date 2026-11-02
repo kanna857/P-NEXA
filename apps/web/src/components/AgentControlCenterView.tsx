@@ -60,7 +60,7 @@ export interface TaskItem {
   title: string;
   prompt: string;
   priority: 'LOW' | 'NORMAL' | 'HIGH' | 'CRITICAL';
-  status: 'PLANNING' | 'EXECUTING' | 'IN_REVIEW' | 'TESTING' | 'AWAITING_APPROVAL' | 'COMPLETED' | 'REJECTED' | 'RETRYING' | 'FAILED' | 'RUNNING';
+  status: 'PLANNING' | 'EXECUTING' | 'IN_REVIEW' | 'TESTING' | 'AWAITING_APPROVAL' | 'COMPLETED' | 'REJECTED' | 'RETRYING' | 'FAILED' | 'RUNNING' | 'CANCELLED';
   currentStage: string;
   leadSpecialist: string;
   leadSpecialistId: string;
@@ -92,7 +92,7 @@ export interface TaskItem {
 export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
   userRole = 'admin'
 }) => {
-  const isAdmin = userRole === 'admin' || userRole === 'commander' || userRole === 'SUPER_ADMIN' || userRole === 'ORG_ADMIN';
+  const isAdmin = userRole === 'admin' || userRole === 'commander' || userRole === 'SUPER_ADMIN' || userRole === 'ORG_ADMIN' || userRole === 'ADMINISTRATOR';
 
   // Sub-tabs
   const [activeSubTab, setActiveSubTab] = useState<'timeline' | 'tasks' | 'approvals' | 'floor' | 'catalog' | 'blackboard'>('timeline');
@@ -907,7 +907,7 @@ export const AgentControlCenterView: React.FC<AgentControlCenterViewProps> = ({
                       <p className="text-xs text-slate-400 mt-0.5">{selectedTask.prompt}</p>
                     </div>
 
-                    {selectedTask.status === 'AWAITING_APPROVAL' && (
+                    {selectedTask.status !== 'COMPLETED' && selectedTask.status !== 'REJECTED' && selectedTask.status !== 'CANCELLED' && (
                       <div className="flex items-center space-x-2 flex-shrink-0">
                         <button
                           data-testid="approve-task-btn" onClick={() => handleApprove(selectedTask.id)}

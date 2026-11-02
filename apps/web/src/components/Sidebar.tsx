@@ -87,7 +87,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, userRo
           })}
 
           {/* Developer Harness Section (Munder Difflin Hive) */}
-          {(userRole === 'admin' || userRole === 'commander' || userRole === 'SUPER_ADMIN' || userRole === 'ORG_ADMIN') && (
+          {(userRole === 'admin' || userRole === 'commander' || userRole === 'SUPER_ADMIN' || userRole === 'ORG_ADMIN' || userRole === 'ADMINISTRATOR') && (
             <div className="pt-2 border-t border-slate-900/80 space-y-1">
               <div className="px-3 py-1 text-[9px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
                 <span>Dev Harness</span>
