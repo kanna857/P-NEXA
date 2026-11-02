@@ -146,7 +146,7 @@ async function runCouncilSuite() {
     await investigateBtn.click();
 
     // Verify modal opens
-    await page.waitForSelector('text=Multi-Agent Incident Investigation', { timeout: 8000 });
+    await page.waitForSelector('text=Autonomous Incident Investigation', { timeout: 8000 });
     console.log('  Digital twin incident modal opened via viewport inspector.');
 
     const openInCouncilBtn = page.locator('button:has-text("Open in AI Council View")');

@@ -21,7 +21,7 @@ function getAuditActor(req: Request) {
   const user = (req as any).user;
   const userId = user?.userId;
   return {
-    ...(userId && Types.ObjectId.isValid(userId) ? { userId: new Types.ObjectId(userId) } : {}),
+    ...(userId && typeof userId === 'string' && Types.ObjectId.isValid(userId) ? { userId } : {}),
     agentId: user?.email || 'operator@p-nexa.internal',
     systemService: 'council-orchestrator',
     ipAddress: req.ip
@@ -191,7 +191,6 @@ councilRouter.post('/investigations/:id/cancel', async (req: Request, res: Respo
     const { id } = req.params;
     const { reason = 'User requested cancellation' } = req.body;
     const tenantId = req.tenantId!;
-    const userEmail = (req as any).user?.email || 'operator@p-nexa.internal';
 
     const cancelled = defaultCouncilOrchestrator.cancelInvestigation(id!, reason);
     if (!cancelled) {

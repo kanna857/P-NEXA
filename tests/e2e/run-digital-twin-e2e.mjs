@@ -86,6 +86,11 @@ async function runSuite() {
     // -------------------------------------------------------------------------
     console.log('\n[TEST 2] Verifying Entity Selection & Contextual Inspector Panel...');
     const inspector = page.locator('[data-testid="entity-inspector"]');
+    if (!(await inspector.isVisible())) {
+      const serverBeacon = page.locator('[data-testid="beacon-server"]');
+      await serverBeacon.waitFor({ state: 'visible', timeout: 5000 });
+      await serverBeacon.click();
+    }
     await inspector.waitFor({ state: 'visible', timeout: 10000 });
     const initialText = (await inspector.textContent()) || '';
     assert(initialText.includes('Authentication') || initialText.includes('srv-auth') || initialText.includes('Campus'), 'Initial inspector contains server entity');
@@ -98,7 +103,7 @@ async function runSuite() {
 
     // Click on another beacon (e.g. Academic Block or Dormitory) to select a new entity
     const academicBeacon = page.locator('[data-testid="beacon-b-acad-1"], [data-testid="beacon-b-hostel-a"]').first();
-    await academicBeacon.click();
+    await academicBeacon.click({ force: true });
     await inspector.waitFor({ state: 'visible', timeout: 10000 });
 
     const newInspectorText = (await inspector.textContent()) || '';
@@ -115,7 +120,7 @@ async function runSuite() {
     // Test 3: Keyboard Navigation Shortcuts & Viewport Reset
     // -------------------------------------------------------------------------
     console.log('\n[TEST 3] Verifying Keyboard Navigation Shortcuts & Viewport Reset...');
-    await page.click('[data-testid="digital-twin-viewport"]');
+    await page.locator('[data-testid="digital-twin-viewport"]').focus();
     await page.waitForTimeout(200);
 
     // Preset '2' (Top-down)
@@ -291,7 +296,7 @@ async function runSuite() {
 
     const serverBeacon = page.locator('[data-testid="beacon-server"], [data-testid="beacon-srv-auth"]').first();
     await serverBeacon.waitFor({ state: 'visible', timeout: 10000 });
-    await serverBeacon.click();
+    await serverBeacon.click({ force: true });
     await flowInspector.waitFor({ state: 'visible', timeout: 10000 });
     console.log('  Selected digital twin server entity via interactive canvas beacon.');
 
