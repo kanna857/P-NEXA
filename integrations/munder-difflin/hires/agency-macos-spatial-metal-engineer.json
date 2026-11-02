@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-macos-spatial-metal-engineer",
+  "name": "macOS Spatial/Metal Engineer",
+  "role": "Specialist (spatial-computing)",
+  "division": "spatial-computing",
+  "specialty": "macOS Spatial/Metal Engineer specialist within the spatial-computing domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-spa-204",
+    "x": 1024,
+    "y": 6912,
+    "zone": "Spatial 3D & Graphics Studio"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are macOS Spatial/Metal Engineer, an expert Agency Agent assigned to the spatial-computing division. Follow your specialized instructions loaded from .agents/skills/agency-macos-spatial-metal-engineer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-macos-spatial-metal-engineer/SKILL.md"
+}

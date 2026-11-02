@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-internationalization-engineer",
+  "name": "Internationalization Engineer",
+  "role": "Specialist (engineering)",
+  "division": "engineering",
+  "specialty": "Internationalization Engineer specialist within the engineering domain",
+  "sprite": "avatar-specialist-m",
+  "seat": {
+    "deskId": "desk-eng-045",
+    "x": 128,
+    "y": 1536,
+    "zone": "Engineering Bay Alpha"
+  },
+  "provider": "claude-code",
+  "model": "claude-3-7-sonnet",
+  "systemPrompt": "You are Internationalization Engineer, an expert Agency Agent assigned to the engineering division. Follow your specialized instructions loaded from .agents/skills/agency-internationalization-engineer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-internationalization-engineer/SKILL.md"
+}

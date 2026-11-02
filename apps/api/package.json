@@ -14,6 +14,8 @@
   "dependencies": {
     "@nexus/agent-engine": "workspace:*",
     "@nexus/agent-memory": "workspace:*",
+    "@nexus/agent-orchestrator": "workspace:*",
+    "@nexus/agent-registry": "workspace:*",
     "@nexus/cyber-engine": "workspace:*",
     "@nexus/event-store": "workspace:*",
     "@nexus/governance": "workspace:*",

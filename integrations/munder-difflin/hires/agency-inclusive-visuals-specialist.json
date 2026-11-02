@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-inclusive-visuals-specialist",
+  "name": "Inclusive Visuals Specialist",
+  "role": "Specialist (design)",
+  "division": "design",
+  "specialty": "Inclusive Visuals Specialist specialist within the design domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-des-009",
+    "x": 384,
+    "y": 1152,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Inclusive Visuals Specialist, an expert Agency Agent assigned to the design division. Follow your specialized instructions loaded from .agents/skills/agency-inclusive-visuals-specialist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-inclusive-visuals-specialist/SKILL.md"
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-workflow-optimizer",
+  "name": "Workflow Optimizer",
+  "role": "Specialist (testing)",
+  "division": "testing",
+  "specialty": "Workflow Optimizer specialist within the testing domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-tes-283",
+    "x": 384,
+    "y": 9472,
+    "zone": "QA & Automated Testing Lab"
+  },
+  "provider": "codex",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Workflow Optimizer, an expert Agency Agent assigned to the testing division. Follow your specialized instructions loaded from .agents/skills/agency-workflow-optimizer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-workflow-optimizer/SKILL.md"
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-xr-immersive-developer",
+  "name": "XR Immersive Developer",
+  "role": "Specialist (spatial-computing)",
+  "division": "spatial-computing",
+  "specialty": "XR Immersive Developer specialist within the spatial-computing domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-spa-208",
+    "x": 1024,
+    "y": 7040,
+    "zone": "Spatial 3D & Graphics Studio"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are XR Immersive Developer, an expert Agency Agent assigned to the spatial-computing division. Follow your specialized instructions loaded from .agents/skills/agency-xr-immersive-developer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-xr-immersive-developer/SKILL.md"
+}

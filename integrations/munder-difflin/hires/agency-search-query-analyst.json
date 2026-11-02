@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-search-query-analyst",
+  "name": "Search Query Analyst",
+  "role": "Specialist (paid-media)",
+  "division": "paid-media",
+  "specialty": "Search Query Analyst specialist within the paid-media domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-pai-167",
+    "x": 640,
+    "y": 6144,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Search Query Analyst, an expert Agency Agent assigned to the paid-media division. Follow your specialized instructions loaded from .agents/skills/agency-search-query-analyst/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-search-query-analyst/SKILL.md"
+}

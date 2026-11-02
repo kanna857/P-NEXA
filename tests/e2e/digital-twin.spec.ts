@@ -179,3 +179,4 @@ test.describe('NEXUS Ω X — 3D Digital Twin Viewer & Cockpit E2E Tests', () =>
     expect(criticalViolations.length).toBeLessThanOrEqual(5);
   });
 });
+

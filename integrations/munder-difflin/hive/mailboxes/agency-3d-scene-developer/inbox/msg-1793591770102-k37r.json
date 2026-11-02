@@ -1,0 +1,10 @@
+{
+  "id": "msg-1793591770102-k37r",
+  "timestamp": "2026-11-02T03:56:10.102Z",
+  "recipient": "agency-3d-scene-developer",
+  "from": "Michael (Branch Manager)",
+  "taskId": "MD-TASK-MVYQ89OK",
+  "type": "TASK_ASSIGNMENT",
+  "subject": "New Lead Assignment: Refactor 3D digital twin viewport camera reset hotkeys",
+  "body": "You are assigned as LEAD SPECIALIST. Execute implementation on isolated branch 'feat/agent-task-MD-TASK-MVYQ89OK'."
+}

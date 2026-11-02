@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-instagram-curator",
+  "name": "Instagram Curator",
+  "role": "Specialist (marketing)",
+  "division": "marketing",
+  "specialty": "Instagram Curator specialist within the marketing domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-mar-142",
+    "x": 512,
+    "y": 5376,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Instagram Curator, an expert Agency Agent assigned to the marketing division. Follow your specialized instructions loaded from .agents/skills/agency-instagram-curator/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-instagram-curator/SKILL.md"
+}

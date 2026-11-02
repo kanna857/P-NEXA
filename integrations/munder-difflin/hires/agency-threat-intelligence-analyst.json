@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-threat-intelligence-analyst",
+  "name": "Threat Intelligence Analyst",
+  "role": "Specialist (security)",
+  "division": "security",
+  "specialty": "Threat Intelligence Analyst specialist within the security domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-sec-203",
+    "x": 896,
+    "y": 6528,
+    "zone": "SOC & Hardened Security Vault"
+  },
+  "provider": "gemini-cli",
+  "model": "gemini-2.5-pro",
+  "systemPrompt": "You are Threat Intelligence Analyst, an expert Agency Agent assigned to the security division. Follow your specialized instructions loaded from .agents/skills/agency-threat-intelligence-analyst/SKILL.md.",
+  "autonomyLevel": "strict-approval",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-threat-intelligence-analyst/SKILL.md"
+}

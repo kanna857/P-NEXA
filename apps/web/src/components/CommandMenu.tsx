@@ -13,7 +13,8 @@ import {
   Layers,
   Building,
   ArrowRight,
-  X
+  X,
+  Terminal
 } from 'lucide-react';
 import { ActiveTab } from './Sidebar.js';
 
@@ -123,6 +124,13 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({
       description: '134 automated unit & integration test coverage verification',
       icon: Layers,
       category: 'Administration'
+    },
+    {
+      id: 'developer-agents',
+      label: 'Munder Difflin Developer Control Center',
+      description: 'Hive harness coordinating 283 Agency Specialists with Git worktree isolation',
+      icon: Terminal,
+      category: 'Developer & AI Harness'
     }
   ];
 

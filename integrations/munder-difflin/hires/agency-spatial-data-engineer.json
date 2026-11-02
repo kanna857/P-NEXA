@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-spatial-data-engineer",
+  "name": "Spatial Data Engineer",
+  "role": "Specialist (gis)",
+  "division": "gis",
+  "specialty": "Spatial Data Engineer specialist within the gis domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-gis-118",
+    "x": 512,
+    "y": 4608,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Spatial Data Engineer, an expert Agency Agent assigned to the gis division. Follow your specialized instructions loaded from .agents/skills/agency-spatial-data-engineer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-spatial-data-engineer/SKILL.md"
+}

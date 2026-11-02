@@ -116,6 +116,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* User Profile Card & Switchers */}
         <div className="relative">
           <button
+            data-testid="user-profile-button"
             onClick={() => setShowUserDropdown(!showUserDropdown)}
             className="flex items-center space-x-2.5 p-1 rounded-xl hover:bg-slate-900/80 transition-all text-left"
           >
@@ -164,6 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
               <div>
                 <div className="text-slate-400 text-[10px] uppercase mb-1">Simulated Role</div>
                 <select
+                  data-testid="role-selector"
                   value={currentUser.role}
                   onChange={(e) => onSwitchRole(e.target.value)}
                   className="w-full bg-slate-900 text-neon-matrix border border-slate-800 rounded px-2 py-1 text-xs focus:outline-none font-bold"

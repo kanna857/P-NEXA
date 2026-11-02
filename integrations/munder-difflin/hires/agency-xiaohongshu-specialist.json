@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-xiaohongshu-specialist",
+  "name": "Xiaohongshu Specialist",
+  "role": "Specialist (marketing)",
+  "division": "marketing",
+  "specialty": "Xiaohongshu Specialist specialist within the marketing domain",
+  "sprite": "avatar-specialist-m",
+  "seat": {
+    "deskId": "desk-mar-160",
+    "x": 768,
+    "y": 5888,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Xiaohongshu Specialist, an expert Agency Agent assigned to the marketing division. Follow your specialized instructions loaded from .agents/skills/agency-xiaohongshu-specialist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-xiaohongshu-specialist/SKILL.md"
+}

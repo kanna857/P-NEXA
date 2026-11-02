@@ -14,6 +14,9 @@
     "seed": "pnpm --filter @nexus/api seed",
     "agency:orchestrate": "node scripts/agency-orchestrator.mjs",
     "agency:install": "powershell -ExecutionPolicy Bypass -File scripts/install-agency-agents.ps1",
+    "munder:sync": "node integrations/munder-difflin/sync-hive.mjs",
+    "munder:launch": "node integrations/munder-difflin/launcher.mjs",
+    "munder:status": "node integrations/munder-difflin/launcher.mjs --status",
     "clean": "pnpm -r run clean"
   },
   "devDependencies": {

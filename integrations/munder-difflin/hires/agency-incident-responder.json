@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-incident-responder",
+  "name": "Incident Responder",
+  "role": "Specialist (security)",
+  "division": "security",
+  "specialty": "Incident Responder specialist within the security domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-sec-198",
+    "x": 768,
+    "y": 6400,
+    "zone": "SOC & Hardened Security Vault"
+  },
+  "provider": "gemini-cli",
+  "model": "gemini-2.5-pro",
+  "systemPrompt": "You are Incident Responder, an expert Agency Agent assigned to the security division. Follow your specialized instructions loaded from .agents/skills/agency-incident-responder/SKILL.md.",
+  "autonomyLevel": "strict-approval",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-incident-responder/SKILL.md"
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-cloud-security-architect",
+  "name": "Cloud Security Architect",
+  "role": "Specialist (security)",
+  "division": "security",
+  "specialty": "Cloud Security Architect specialist within the security domain",
+  "sprite": "avatar-lead-m",
+  "seat": {
+    "deskId": "desk-sec-196",
+    "x": 1024,
+    "y": 6272,
+    "zone": "SOC & Hardened Security Vault"
+  },
+  "provider": "gemini-cli",
+  "model": "gemini-2.5-pro",
+  "systemPrompt": "You are Cloud Security Architect, an expert Agency Agent assigned to the security division. Follow your specialized instructions loaded from .agents/skills/agency-cloud-security-architect/SKILL.md.",
+  "autonomyLevel": "strict-approval",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-cloud-security-architect/SKILL.md"
+}

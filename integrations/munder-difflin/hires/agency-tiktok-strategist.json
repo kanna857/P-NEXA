@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-tiktok-strategist",
+  "name": "TikTok Strategist",
+  "role": "Specialist (marketing)",
+  "division": "marketing",
+  "specialty": "TikTok Strategist specialist within the marketing domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-mar-154",
+    "x": 512,
+    "y": 5760,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are TikTok Strategist, an expert Agency Agent assigned to the marketing division. Follow your specialized instructions loaded from .agents/skills/agency-tiktok-strategist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-tiktok-strategist/SKILL.md"
+}

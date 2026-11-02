@@ -29,7 +29,8 @@ import {
   Radio,
   BookOpen,
   ChevronDown,
-  Crosshair
+  Crosshair,
+  Bot
 } from 'lucide-react';
 
 interface DigitalTwinViewportProps {
@@ -39,6 +40,7 @@ interface DigitalTwinViewportProps {
   simulationPlan?: string;
   onNodeStatusChange?: (nodeId: string, status: TwinNode['status']) => void;
   onEdgeStatusChange?: (edgeId: string, status: TwinEdge['status']) => void;
+  onInvestigateEntity?: (node: TwinNode) => void;
 }
 
 export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
@@ -46,7 +48,8 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   edges,
   worldMode = 'school',
   simulationPlan = 'standard',
-  onNodeStatusChange
+  onNodeStatusChange,
+  onInvestigateEntity
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -84,6 +87,10 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
   const [screenReaderAnnouncement, setScreenReaderAnnouncement] = useState('');
   const [showEntitySelector, setShowEntitySelector] = useState(false);
 
+  const highlightedNodeIds = useMemo(() => {
+    return blastRadiusResult?.impactedNodeIds || [];
+  }, [blastRadiusResult]);
+
   // Three.js Viewport Hook
   const {
     setCameraPreset,
@@ -101,7 +108,7 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
     nodes,
     edges,
     selectedNodeId,
-    highlightedNodeIds: blastRadiusResult?.impactedNodeIds ?? [],
+    highlightedNodeIds,
     onNodeClick: (nodeId) => {
       setSelectedNodeId(nodeId);
       setIsInspectorOpen(true);
@@ -1177,6 +1184,19 @@ export const DigitalTwinViewport: React.FC<DigitalTwinViewportProps> = ({
 
             {/* Action Buttons */}
             <div className="space-y-2 pt-1">
+              <button
+                onClick={() => {
+                  if (selectedNode && onInvestigateEntity) {
+                    onInvestigateEntity(selectedNode);
+                  }
+                }}
+                data-testid="investigate-incident-btn"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-900/60 to-blue-900/60 border border-neon-purple text-white hover:from-purple-800/80 hover:to-blue-800/80 font-bold flex items-center justify-center space-x-2 transition-all text-xs shadow-lg shadow-purple-950/50 group animate-pulse"
+              >
+                <Bot className="w-4 h-4 text-neon-purple group-hover:scale-110 transition-transform" />
+                <span>Investigate Incident with Agent Council</span>
+              </button>
+
               <button
                 onClick={handleRunBlastRadius}
                 className="w-full py-2 rounded-xl bg-neon-amber/10 border border-neon-amber/40 text-neon-amber hover:bg-neon-amber/20 font-bold flex items-center justify-center space-x-2 transition-all text-xs"

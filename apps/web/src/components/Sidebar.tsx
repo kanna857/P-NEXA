@@ -18,7 +18,8 @@ import {
   CheckCircle2,
   GraduationCap,
   Building2,
-  ShieldAlert
+  ShieldAlert,
+  Terminal
 } from 'lucide-react';
 
 export type ActiveTab =
@@ -31,7 +32,8 @@ export type ActiveTab =
   | 'incidents'
   | 'simulations'
   | 'learning'
-  | 'workflows';
+  | 'workflows'
+  | 'developer-agents';
 
 interface SidebarProps {
   activeTab: ActiveTab;
@@ -40,7 +42,7 @@ interface SidebarProps {
   currentTenant?: { id: string; name: string; mode?: 'school' | 'office' | 'defense'; slug?: string };
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, currentTenant }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, userRole, currentTenant }) => {
   const navItems: Array<{
     id: ActiveTab;
     label: string;
@@ -83,6 +85,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, curren
               </button>
             );
           })}
+
+          {/* Developer Harness Section (Munder Difflin Hive) */}
+          {(userRole === 'admin' || userRole === 'commander' || userRole === 'SUPER_ADMIN' || userRole === 'ORG_ADMIN' || userRole === 'ADMINISTRATOR') && (
+            <div className="pt-2 border-t border-slate-900/80 space-y-1">
+              <div className="px-3 py-1 text-[9px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+                <span>Dev Harness</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-neon-matrix animate-ping" />
+              </div>
+              <button
+                onClick={() => onSelectTab('developer-agents')}
+                data-testid="nav-developer-agents"
+                className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-mono transition-all ${
+                  activeTab === 'developer-agents'
+                    ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40 font-bold shadow-lg shadow-cyan-950/40'
+                    : 'text-slate-400 hover:text-neon-cyan hover:bg-slate-900/60'
+                }`}
+              >
+                <Terminal className="w-4 h-4 text-neon-cyan" />
+                <span>Munder Difflin</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Current World Box */}

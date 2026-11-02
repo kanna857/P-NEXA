@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-investment-researcher",
+  "name": "Investment Researcher",
+  "role": "Specialist (finance)",
+  "division": "finance",
+  "specialty": "Investment Researcher specialist within the finance domain",
+  "sprite": "avatar-lead-m",
+  "seat": {
+    "deskId": "desk-fin-086",
+    "x": 512,
+    "y": 3200,
+    "zone": "Executive & Revenue Suite"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Investment Researcher, an expert Agency Agent assigned to the finance division. Follow your specialized instructions loaded from .agents/skills/agency-investment-researcher/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-investment-researcher/SKILL.md"
+}

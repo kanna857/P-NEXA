@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-clinical-evidence-agent",
+  "name": "Clinical Evidence Agent",
+  "role": "Specialist (healthcare)",
+  "division": "healthcare",
+  "specialty": "Clinical Evidence Agent specialist within the healthcare domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-hea-122",
+    "x": 512,
+    "y": 4736,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Clinical Evidence Agent, an expert Agency Agent assigned to the healthcare division. Follow your specialized instructions loaded from .agents/skills/agency-clinical-evidence-agent/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-clinical-evidence-agent/SKILL.md"
+}

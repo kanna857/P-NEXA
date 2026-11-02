@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-discovery-coach",
+  "name": "Discovery Coach",
+  "role": "Specialist (sales)",
+  "division": "sales",
+  "specialty": "Discovery Coach specialist within the sales domain",
+  "sprite": "avatar-lead-m",
+  "seat": {
+    "deskId": "desk-sal-186",
+    "x": 512,
+    "y": 6400,
+    "zone": "Executive & Revenue Suite"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Discovery Coach, an expert Agency Agent assigned to the sales division. Follow your specialized instructions loaded from .agents/skills/agency-discovery-coach/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-discovery-coach/SKILL.md"
+}

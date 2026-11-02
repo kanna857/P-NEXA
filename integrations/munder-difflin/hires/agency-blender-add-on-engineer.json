@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-blender-add-on-engineer",
+  "name": "Blender Add-on Engineer",
+  "role": "Specialist (game-development)",
+  "division": "game-development",
+  "specialty": "Blender Add-on Engineer specialist within the game-development domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-gam-094",
+    "x": 768,
+    "y": 3456,
+    "zone": "Spatial 3D & Graphics Studio"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Blender Add-on Engineer, an expert Agency Agent assigned to the game-development division. Follow your specialized instructions loaded from .agents/skills/agency-blender-add-on-engineer/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-blender-add-on-engineer/SKILL.md"
+}

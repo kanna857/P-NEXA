@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-operations-manager",
+  "name": "Operations Manager",
+  "role": "Specialist (specialized)",
+  "division": "specialized",
+  "specialty": "Operations Manager specialist within the specialized domain",
+  "sprite": "avatar-arch-f",
+  "seat": {
+    "deskId": "desk-spe-239",
+    "x": 640,
+    "y": 8448,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Operations Manager, an expert Agency Agent assigned to the specialized division. Follow your specialized instructions loaded from .agents/skills/agency-operations-manager/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-operations-manager/SKILL.md"
+}

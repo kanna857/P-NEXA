@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-terminal-integration-specialist",
+  "name": "Terminal Integration Specialist",
+  "role": "Specialist (spatial-computing)",
+  "division": "spatial-computing",
+  "specialty": "Terminal Integration Specialist specialist within the spatial-computing domain",
+  "sprite": "avatar-specialist-m",
+  "seat": {
+    "deskId": "desk-spa-205",
+    "x": 640,
+    "y": 7040,
+    "zone": "Spatial 3D & Graphics Studio"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Terminal Integration Specialist, an expert Agency Agent assigned to the spatial-computing division. Follow your specialized instructions loaded from .agents/skills/agency-terminal-integration-specialist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-terminal-integration-specialist/SKILL.md"
+}

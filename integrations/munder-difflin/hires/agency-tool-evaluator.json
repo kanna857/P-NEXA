@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-tool-evaluator",
+  "name": "Tool Evaluator",
+  "role": "Specialist (testing)",
+  "division": "testing",
+  "specialty": "Tool Evaluator specialist within the testing domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-tes-282",
+    "x": 256,
+    "y": 9472,
+    "zone": "QA & Automated Testing Lab"
+  },
+  "provider": "codex",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Tool Evaluator, an expert Agency Agent assigned to the testing division. Follow your specialized instructions loaded from .agents/skills/agency-tool-evaluator/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-tool-evaluator/SKILL.md"
+}

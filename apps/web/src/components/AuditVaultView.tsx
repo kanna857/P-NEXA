@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ShieldCheck,
   ShieldAlert,
@@ -39,6 +39,13 @@ export const AuditVaultView: React.FC<AuditVaultViewProps> = ({ logs, tenantId, 
     isValid?: boolean;
     recordsCount?: number;
   }>({ tested: true, isValid: true, recordsCount: logs.length });
+
+  useEffect(() => {
+    setVerifyStatus((prev) => ({
+      ...prev,
+      recordsCount: logs.length
+    }));
+  }, [logs.length]);
 
   const [simulatedTamper, setSimulatedTamper] = useState<{
     detected: boolean;

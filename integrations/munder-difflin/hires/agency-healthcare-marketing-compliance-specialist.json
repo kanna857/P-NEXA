@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-healthcare-marketing-compliance-specialist",
+  "name": "Healthcare Marketing Compliance Specialist",
+  "role": "Specialist (specialized)",
+  "division": "specialized",
+  "specialty": "Healthcare Marketing Compliance Specialist specialist within the specialized domain",
+  "sprite": "avatar-coder-f",
+  "seat": {
+    "deskId": "desk-spe-227",
+    "x": 640,
+    "y": 8064,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Healthcare Marketing Compliance Specialist, an expert Agency Agent assigned to the specialized division. Follow your specialized instructions loaded from .agents/skills/agency-healthcare-marketing-compliance-specialist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-healthcare-marketing-compliance-specialist/SKILL.md"
+}

@@ -190,6 +190,12 @@ importers:
       '@nexus/agent-memory':
         specifier: workspace:*
         version: link:../../packages/agent-memory
+      '@nexus/agent-orchestrator':
+        specifier: workspace:*
+        version: link:../../packages/agent-orchestrator
+      '@nexus/agent-registry':
+        specifier: workspace:*
+        version: link:../../packages/agent-registry
       '@nexus/cyber-engine':
         specifier: workspace:*
         version: link:../../packages/cyber-engine
@@ -399,6 +405,15 @@ importers:
         specifier: ^5.7.2
         version: 5.9.3
 
+  integrations/munder-difflin:
+    dependencies:
+      '@nexus/agent-orchestrator':
+        specifier: workspace:*
+        version: link:../../packages/agent-orchestrator
+      '@nexus/agent-registry':
+        specifier: workspace:*
+        version: link:../../packages/agent-registry
+
   packages/agent-engine:
     dependencies:
       '@langchain/core':
@@ -433,6 +448,28 @@ importers:
         specifier: workspace:*
         version: link:../shared
     devDependencies:
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
+  packages/agent-orchestrator:
+    dependencies:
+      '@nexus/agent-registry':
+        specifier: workspace:*
+        version: link:../agent-registry
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.1
+        version: 22.20.5
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
+  packages/agent-registry:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.1
+        version: 22.20.5
       typescript:
         specifier: ^5.7.2
         version: 5.9.3

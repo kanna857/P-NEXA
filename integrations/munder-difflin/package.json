@@ -1,0 +1,17 @@
+{
+  "name": "@nexus/munder-difflin-integration",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Isolated Munder Difflin multi-agent desktop harness integration for P-NEXA",
+  "scripts": {
+    "sync": "node sync-hive.mjs",
+    "launch": "node launcher.mjs",
+    "status": "node launcher.mjs --status"
+  },
+  "dependencies": {
+    "@nexus/agent-registry": "workspace:*",
+    "@nexus/agent-orchestrator": "workspace:*"
+  }
+}
+

@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-douyin-strategist",
+  "name": "Douyin Strategist",
+  "role": "Specialist (marketing)",
+  "division": "marketing",
+  "specialty": "Douyin Strategist specialist within the marketing domain",
+  "sprite": "avatar-secops-m",
+  "seat": {
+    "deskId": "desk-mar-138",
+    "x": 512,
+    "y": 5248,
+    "zone": "Cross-Functional Specialist Atrium"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Douyin Strategist, an expert Agency Agent assigned to the marketing division. Follow your specialized instructions loaded from .agents/skills/agency-douyin-strategist/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-douyin-strategist/SKILL.md"
+}

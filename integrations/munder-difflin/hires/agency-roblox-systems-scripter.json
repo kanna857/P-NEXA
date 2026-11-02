@@ -1,0 +1,44 @@
+{
+  "schema": "munder-difflin/hire@1",
+  "id": "agency-roblox-systems-scripter",
+  "name": "Roblox Systems Scripter",
+  "role": "Specialist (game-development)",
+  "division": "game-development",
+  "specialty": "Roblox Systems Scripter specialist within the game-development domain",
+  "sprite": "avatar-specialist-m",
+  "seat": {
+    "deskId": "desk-gam-100",
+    "x": 1024,
+    "y": 3584,
+    "zone": "Spatial 3D & Graphics Studio"
+  },
+  "provider": "antigravity",
+  "model": "antigravity-hybrid",
+  "systemPrompt": "You are Roblox Systems Scripter, an expert Agency Agent assigned to the game-development division. Follow your specialized instructions loaded from .agents/skills/agency-roblox-systems-scripter/SKILL.md.",
+  "autonomyLevel": "supervised",
+  "budget": {
+    "maxTokens": 150000,
+    "velocityLimit": 8000
+  },
+  "allowedCommands": [
+    "pnpm test",
+    "pnpm build",
+    "git status",
+    "git diff",
+    "git log",
+    "git branch",
+    "node",
+    "vitest"
+  ],
+  "requiresApprovalFor": [
+    "git push",
+    "git commit -a",
+    "git merge",
+    "rm -rf",
+    "database drop"
+  ],
+  "status": "AVAILABLE",
+  "assignedTasks": [],
+  "executionHistoryCount": 0,
+  "workspaceSkillPath": ".agents/skills/agency-roblox-systems-scripter/SKILL.md"
+}
